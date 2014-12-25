@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 16, 2014 at 01:31 PM
+-- Generation Time: Dec 25, 2014 at 08:51 PM
 -- Server version: 5.6.11
 -- PHP Version: 5.5.1
 
@@ -29,12 +29,19 @@ USE `books`;
 --
 
 CREATE TABLE IF NOT EXISTS `confirmation` (
-  `OTP` varchar(10) NOT NULL,
+  `OTP` varchar(32) NOT NULL,
   `EMail` varchar(40) DEFAULT NULL,
-  `Password` varchar(20) DEFAULT NULL,
+  `Password` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`OTP`),
   UNIQUE KEY `Email` (`EMail`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `confirmation`
+--
+
+INSERT INTO `confirmation` (`OTP`, `EMail`, `Password`) VALUES
+('caae0b09994b2402126963ee7bd88615', 'sahibpreetsingh94@gmail.com', 'e90c6647830e603b4e761311d05238db');
 
 -- --------------------------------------------------------
 
@@ -43,10 +50,18 @@ CREATE TABLE IF NOT EXISTS `confirmation` (
 --
 
 CREATE TABLE IF NOT EXISTS `login` (
-  `Username` varchar(25) DEFAULT NULL,
-  `Password` varchar(20) DEFAULT NULL,
+  `Username` varchar(30) DEFAULT NULL,
+  `Password` varchar(32) DEFAULT NULL,
   KEY `fk_Username` (`Username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `login`
+--
+
+INSERT INTO `login` (`Username`, `Password`) VALUES
+('sahibpreetsingh94', 'e90c6647830e603b4e761311d05238db'),
+('harmandeepsinghkalsi9', 'e90c6647830e603b4e761311d05238db');
 
 -- --------------------------------------------------------
 
@@ -55,10 +70,10 @@ CREATE TABLE IF NOT EXISTS `login` (
 --
 
 CREATE TABLE IF NOT EXISTS `master` (
-  `Username` varchar(25) NOT NULL,
+  `Username` varchar(30) NOT NULL,
   `Name` varchar(30) NOT NULL,
-  `EMail` varchar(40) NOT NULL,
-  `ContactNo` int(12) DEFAULT NULL,
+  `EMail` varchar(50) NOT NULL,
+  `ContactNo` varchar(12) DEFAULT NULL,
   `Qualification` varchar(50) DEFAULT NULL,
   `Profession` varchar(30) DEFAULT NULL,
   `Link_Photo` varchar(100) DEFAULT NULL,
@@ -66,6 +81,14 @@ CREATE TABLE IF NOT EXISTS `master` (
   UNIQUE KEY `u_EMail` (`EMail`),
   UNIQUE KEY `u_ContactNo` (`ContactNo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `master`
+--
+
+INSERT INTO `master` (`Username`, `Name`, `EMail`, `ContactNo`, `Qualification`, `Profession`, `Link_Photo`) VALUES
+('harmandeepsinghkalsi9', 'Harmandeep Singh Kalsi', 'harmandeepsinghkalsi9@gmail.com', '9888518432', 'BTech', 'Student', NULL),
+('sahibpreetsingh94', 'Sahibpreet Singh', 'sahibpreetsingh94@gmail.com', '98885184332', 'BTech', 'Student', NULL);
 
 -- --------------------------------------------------------
 
@@ -82,6 +105,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `Original_Price` int(4) DEFAULT NULL,
   `Selling_Price` int(4) DEFAULT NULL,
   `Photo_Link` varchar(100) DEFAULT NULL,
+  `Username` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -92,12 +116,20 @@ CREATE TABLE IF NOT EXISTS `posts` (
 --
 
 CREATE TABLE IF NOT EXISTS `temp` (
-  `Username` varchar(25) DEFAULT NULL,
+  `Username` varchar(30) DEFAULT NULL,
   `Name` varchar(30) NOT NULL,
   `Email` varchar(40) NOT NULL,
-  `ContactNo` int(12) DEFAULT NULL,
+  `ContactNo` varchar(12) DEFAULT NULL,
+  `OTP` varchar(32) DEFAULT NULL,
   KEY `Email` (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `temp`
+--
+
+INSERT INTO `temp` (`Username`, `Name`, `Email`, `ContactNo`, `OTP`) VALUES
+('sahibpreetsingh94', 'Sahibpreet Singh', 'sahibpreetsingh94@gmail.com', '9888518432', 'caae0b09994b2402126963ee7bd88615');
 
 --
 -- Constraints for dumped tables
@@ -113,7 +145,7 @@ ALTER TABLE `login`
 -- Constraints for table `temp`
 --
 ALTER TABLE `temp`
-  ADD CONSTRAINT `fk_Email` FOREIGN KEY (`Email`) REFERENCES `confirmation` (`Email`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_Email` FOREIGN KEY (`Email`) REFERENCES `confirmation` (`EMail`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
