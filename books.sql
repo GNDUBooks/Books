@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 25, 2014 at 08:51 PM
+-- Generation Time: Dec 27, 2014 at 09:28 AM
 -- Server version: 5.6.11
 -- PHP Version: 5.5.1
 
@@ -30,18 +30,18 @@ USE `books`;
 
 CREATE TABLE IF NOT EXISTS `confirmation` (
   `OTP` varchar(32) NOT NULL,
-  `EMail` varchar(40) DEFAULT NULL,
+  `Email` varchar(40) DEFAULT NULL,
   `Password` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`OTP`),
-  UNIQUE KEY `Email` (`EMail`)
+  UNIQUE KEY `Email` (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `confirmation`
 --
 
-INSERT INTO `confirmation` (`OTP`, `EMail`, `Password`) VALUES
-('caae0b09994b2402126963ee7bd88615', 'sahibpreetsingh94@gmail.com', 'e90c6647830e603b4e761311d05238db');
+INSERT INTO `confirmation` (`OTP`, `Email`, `Password`) VALUES
+('c754089397bccdfc58443219ad594765', 'sahibpreetsingh94@gmail.com', 'e90c6647830e603b4e761311d05238db');
 
 -- --------------------------------------------------------
 
@@ -60,8 +60,8 @@ CREATE TABLE IF NOT EXISTS `login` (
 --
 
 INSERT INTO `login` (`Username`, `Password`) VALUES
-('sahibpreetsingh94', 'e90c6647830e603b4e761311d05238db'),
-('harmandeepsinghkalsi9', 'e90c6647830e603b4e761311d05238db');
+('harmandeepsinghkalsi9', 'e90c6647830e603b4e761311d05238db'),
+('sahibpreetsingh94', 'e90c6647830e603b4e761311d05238db');
 
 -- --------------------------------------------------------
 
@@ -72,13 +72,13 @@ INSERT INTO `login` (`Username`, `Password`) VALUES
 CREATE TABLE IF NOT EXISTS `master` (
   `Username` varchar(30) NOT NULL,
   `Name` varchar(30) NOT NULL,
-  `EMail` varchar(50) NOT NULL,
+  `Email` varchar(50) NOT NULL,
   `ContactNo` varchar(12) DEFAULT NULL,
   `Qualification` varchar(50) DEFAULT NULL,
   `Profession` varchar(30) DEFAULT NULL,
   `Link_Photo` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`Username`),
-  UNIQUE KEY `u_EMail` (`EMail`),
+  UNIQUE KEY `u_EMail` (`Email`),
   UNIQUE KEY `u_ContactNo` (`ContactNo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -86,9 +86,9 @@ CREATE TABLE IF NOT EXISTS `master` (
 -- Dumping data for table `master`
 --
 
-INSERT INTO `master` (`Username`, `Name`, `EMail`, `ContactNo`, `Qualification`, `Profession`, `Link_Photo`) VALUES
+INSERT INTO `master` (`Username`, `Name`, `Email`, `ContactNo`, `Qualification`, `Profession`, `Link_Photo`) VALUES
 ('harmandeepsinghkalsi9', 'Harmandeep Singh Kalsi', 'harmandeepsinghkalsi9@gmail.com', '9888518432', 'BTech', 'Student', NULL),
-('sahibpreetsingh94', 'Sahibpreet Singh', 'sahibpreetsingh94@gmail.com', '98885184332', 'BTech', 'Student', NULL);
+('sahibpreetsingh94', 'Sahibpreet Singh', 'sahibpreetsingh94@gmail.com', '9888518454', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -129,7 +129,7 @@ CREATE TABLE IF NOT EXISTS `temp` (
 --
 
 INSERT INTO `temp` (`Username`, `Name`, `Email`, `ContactNo`, `OTP`) VALUES
-('sahibpreetsingh94', 'Sahibpreet Singh', 'sahibpreetsingh94@gmail.com', '9888518432', 'caae0b09994b2402126963ee7bd88615');
+('sahibpreetsingh94', 'Sahibpreet Singh', 'sahibpreetsingh94@gmail.com', '9888518454', 'c754089397bccdfc58443219ad594765');
 
 --
 -- Constraints for dumped tables
