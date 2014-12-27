@@ -14,7 +14,7 @@ if(isset($_POST['username']) && isset($_POST['pass'])){
 			} else if($query_num_rows == 1) {
 				$user = mysql_result($query_run,0,'Username');
 				$_SESSION['user'] = $user;
-				header('Location: index.php');
+				header('Location: '.$current_file);
 			}
 		}	
 	} else {
@@ -26,7 +26,7 @@ if(isset($_POST['username']) && isset($_POST['pass'])){
 <form action = "<?php echo $current_file; ?>" method = "POST">
 <table>
 <tr>
-<td colspan = 2><h1 align = "center">Log In</h1></td>
+<td colspan = 2><h1 align = "center">LOG IN</h1></td>
 </tr>
 <tr>
 <td>Username</td>

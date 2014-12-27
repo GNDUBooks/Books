@@ -1,5 +1,11 @@
 <?php
 require_once 'core.inc.php';
+$query_run = getuserdata('*','master','Username',$_SESSION['user']);
+$name = $query_run['Name'];
+$email = $query_run['Email'];
+$contact = $query_run['ContactNo'];
+$qual = $query_run['Qualification'];
+$prof = $query_run['Profession'];
 ?>
 
 <!DOCTYPE html>
@@ -10,27 +16,27 @@ require_once 'core.inc.php';
 <body>
 <table>
 <tr>
-<td colspan = 2 align = "center"><h1>Profile</h1></td>
+<td colspan = 2 align = "center"><h1>PROFILE</h1></td>
 </tr>
 <tr>
 <td>Name: </td>
-<td><?php echo getuserfield('Name')?></td>
+<td><?php echo $name; ?></td>
 </tr>
 <tr>
 <td>Email: </td>
-<td><?php echo getuserfield('Email')?></td>
+<td><?php echo $email; ?></td>
 </tr>
 <tr>
 <td>ContactNo: </td>
-<td><?php echo getuserfield('ContactNo')?></td>
+<td><?php echo $contact; ?></td>
 </tr>
 <tr>
 <td>Qualification: </td>
-<td><?php echo getuserfield('Qualification')?></td>
+<td><?php echo $qual; ?></td>
 </tr>
 <tr>
 <td>Profession: </td>
-<td><?php echo getuserfield('Profession')?></td>
+<td><?php echo $prof; ?></td>
 </tr>
 </table>
 <table cellspacing = 10 cellpadding = 10>

@@ -1,10 +1,9 @@
 <?php
-require 'core.inc.php';
-require 'dbconnect.inc.php';
+require_once 'core.inc.php';
+require_once 'dbconnect.inc.php';
 if(loggedin()){
-	include 'profile.inc.php';
+	require_once 'profile.inc.php';
 } else {
-	include 'LogInForm.inc.php';
+	require_once 'LogInForm.inc.php';
 }
-
 ?>

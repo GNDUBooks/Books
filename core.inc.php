@@ -15,12 +15,13 @@ function loggedin() {
 	}
 }
 
-function getuserfield($field){
-	$query = "select ".$field." from master where username = '".$_SESSION['user']."'";
+function getuserdata($field,$table,$column,$key){
+	$query = "select ".$field." from ".$table." where ".$column." = '".$key."'";
 	if($query_run = mysql_query($query)){
-		return mysql_result($query_run, 0, $field);
+		return mysql_fetch_assoc($query_run);
 	}
 }
+
 
 function test_input($data) {
 	$data = trim($data);
