@@ -43,7 +43,7 @@ if(loggedin()){
 			$otp = test_input($_POST["otp"]);
 			// check if password only contains letters and numbers
 			if (!preg_match("/^[0-9]{1,5}$/",$otp)) {
-				$otpErr = "Only numbers are allowed and length 5";
+				$otpErr = "Only numbers are allowed and upto length 5";
 				$flag = false;
 			}
 		}
@@ -58,7 +58,7 @@ if(loggedin()){
 					$query_result = getuserdata('*','temp','OTP',$otp_hash);
 					$query1 = "insert into master (Username,Name,Email,ContactNo) values('".$query_result['Username']."','".$query_result['Name']."','".$query_result['Email']."','".$query_result['ContactNo']."')";
 					$query2 = "insert into login values ('".$query_result['Username']."','".$pass_hash."')";
-					$query3 = "delete from confirmation where OTP = '".$otp."'";
+					$query3 = "delete from confirmation where OTP = '".$otp_hash."'";
 					if(mysql_query($query1) && mysql_query($query2) && mysql_query($query3)){
 						header('Location: index.php');
 					} else {
