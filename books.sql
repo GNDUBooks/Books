@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 27, 2014 at 09:28 AM
+-- Generation Time: Dec 28, 2014 at 10:19 AM
 -- Server version: 5.6.11
 -- PHP Version: 5.5.1
 
@@ -36,13 +36,6 @@ CREATE TABLE IF NOT EXISTS `confirmation` (
   UNIQUE KEY `Email` (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `confirmation`
---
-
-INSERT INTO `confirmation` (`OTP`, `Email`, `Password`) VALUES
-('c754089397bccdfc58443219ad594765', 'sahibpreetsingh94@gmail.com', 'e90c6647830e603b4e761311d05238db');
-
 -- --------------------------------------------------------
 
 --
@@ -61,6 +54,7 @@ CREATE TABLE IF NOT EXISTS `login` (
 
 INSERT INTO `login` (`Username`, `Password`) VALUES
 ('harmandeepsinghkalsi9', 'e90c6647830e603b4e761311d05238db'),
+('bhavyamehra', 'e90c6647830e603b4e761311d05238db'),
 ('sahibpreetsingh94', 'e90c6647830e603b4e761311d05238db');
 
 -- --------------------------------------------------------
@@ -76,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `master` (
   `ContactNo` varchar(12) DEFAULT NULL,
   `Qualification` varchar(50) DEFAULT NULL,
   `Profession` varchar(30) DEFAULT NULL,
-  `Link_Photo` varchar(100) DEFAULT NULL,
+  `Link_Photo` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`Username`),
   UNIQUE KEY `u_EMail` (`Email`),
   UNIQUE KEY `u_ContactNo` (`ContactNo`)
@@ -87,8 +81,9 @@ CREATE TABLE IF NOT EXISTS `master` (
 --
 
 INSERT INTO `master` (`Username`, `Name`, `Email`, `ContactNo`, `Qualification`, `Profession`, `Link_Photo`) VALUES
-('harmandeepsinghkalsi9', 'Harmandeep Singh Kalsi', 'harmandeepsinghkalsi9@gmail.com', '9888518432', 'BTech', 'Student', NULL),
-('sahibpreetsingh94', 'Sahibpreet Singh', 'sahibpreetsingh94@gmail.com', '9888518454', NULL, NULL, NULL);
+('bhavyamehra', 'Bhavya Mehra', 'buddymehra@yahoo.com', '8789544650', NULL, NULL, NULL),
+('harmandeepsinghkalsi9', 'Harmandeep Singh Kalsi', 'harmandeepsinghkalsi9@gmail.com', '9888518432', 'BTech', 'Student', 1),
+('sahibpreetsingh94', 'Sahibpreet Singh', 'sahibpreetsingh94@gmail.com', '9888518430', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -106,6 +101,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `Selling_Price` int(4) DEFAULT NULL,
   `Photo_Link` varchar(100) DEFAULT NULL,
   `Username` varchar(30) DEFAULT NULL,
+  `dateofpost` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -123,13 +119,6 @@ CREATE TABLE IF NOT EXISTS `temp` (
   `OTP` varchar(32) DEFAULT NULL,
   KEY `Email` (`Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `temp`
---
-
-INSERT INTO `temp` (`Username`, `Name`, `Email`, `ContactNo`, `OTP`) VALUES
-('sahibpreetsingh94', 'Sahibpreet Singh', 'sahibpreetsingh94@gmail.com', '9888518454', 'c754089397bccdfc58443219ad594765');
 
 --
 -- Constraints for dumped tables
