@@ -40,8 +40,8 @@ function checkusername($username) {
 			$value['usernameErr'] = "Only letters and numbers allowed and length between 6 and 30";
 			$value['flag'] = false;
 		} else {
-			$query = "select username from temp where username = '".$username."'";
-			$query1 = "select username from master where username = '".$username."'";
+			$query = "select Username from master where Username = '".$value['username']."'";
+			$query1 = "select Username from temp where Username = '".$value['username']."'";
 			if($query_run = mysql_query($query)) {
 				if($query_run1 = mysql_query($query1)) {
 					if(mysql_num_rows($query_run) != 0 || mysql_num_rows($query_run1) != 0) {
@@ -50,7 +50,7 @@ function checkusername($username) {
 					}
 				}
 			} else {
-				$value['usernameErr'] = 'Unable to validate to your username';
+				$value['usernameErr'] = 'Unable to validate your username';
 				$value['flag'] = false;
 			}
 		}
@@ -111,6 +111,7 @@ function checkemail($email){
 				}
 			} else {
 				$value['emailErr']= 'Unable to validate your Email';
+				$value['flag'] = false;
 			}
 		}
 	}
