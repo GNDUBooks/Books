@@ -37,7 +37,9 @@ if(isset($_POST['username']) && isset($_POST['pass'])){
 <td><input type = "password" name = "pass" /></td>
 </tr>
 <tr>
-<td colspan = 2 align = "center"><input type = "submit" value = "LogIn" /> / <a href = "SignUp.php">SignUp</a></td>
+<td colspan = 2 align = "center"><input type = "submit" value = "LogIn" /> / <a href = "SignUp.php">SignUp</a><br/>
+<a href = "recover.php">Forgot Password?</a>
+</td>
 </tr>
 <?php echo $error; ?>
 </table>
