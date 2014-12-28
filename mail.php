@@ -1,7 +1,7 @@
 <?php
 require_once 'core.inc.php';
 $to      = $email;
-$subject = 'Verification Mail from GNDUBooks';
+$subject = 'Verification Mail';
 $message = 'One time password for verification of your account is '.$otp;
 $headers = 'From: GNDUBooks <agndubooks@gmail.com>' . "\r\n" .
            'Reply-To: agndubooks@gmail.com' . "\r\n" .

@@ -2,7 +2,7 @@
 require_once 'core.inc.php';
 $username = $name = $email = $pass = $cpass = $contact = "";
 $usernameErr = $nameErr = $emailErr = $passErr = $cpassErr = $contactErr = "";
-$flag = $flag1 = $flag2 = $flag3 = $flag4 = $flag5 =true;
+$flag = $flag1 = $flag2 = $flag3 = $flag4 = $flag5 = true;
 if(loggedin()){
 	header('Location: index.php');
 } else {

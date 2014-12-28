@@ -28,8 +28,8 @@ if(loggedin()){
 					$query = "update login set password = '".$pass_hash."' where Username = '".$username."'";
 					if(mysql_query($query)){
 						$to      = $email;
-						$subject = 'Password Recovery from GNDUBooks';
-						$message = 'The new password for your GNDUBooks account is set to'.$pass;
+						$subject = 'Password Recovery';
+						$message = 'The new password for your GNDUBooks account is set to '.$pass;
 						$headers = 'From: GNDUBooks <agndubooks@gndu.ac.in>' . "\r\n" .
 								   'X-Mailer: PHP/' . phpversion();
 						if(mail($to,$subject,$message,$headers)){

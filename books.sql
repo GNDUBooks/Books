@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 28, 2014 at 10:19 AM
+-- Generation Time: Dec 28, 2014 at 09:31 PM
 -- Server version: 5.6.11
 -- PHP Version: 5.5.1
 
@@ -53,9 +53,9 @@ CREATE TABLE IF NOT EXISTS `login` (
 --
 
 INSERT INTO `login` (`Username`, `Password`) VALUES
-('harmandeepsinghkalsi9', 'e90c6647830e603b4e761311d05238db'),
+('harmandeepsinghkalsi9', '99d0556a10eee503a341bac59a272903'),
 ('bhavyamehra', 'e90c6647830e603b4e761311d05238db'),
-('sahibpreetsingh94', 'e90c6647830e603b4e761311d05238db');
+('sahibpreetsingh94', '916500776cd78fb74ffc7dd530e27016');
 
 -- --------------------------------------------------------
 
