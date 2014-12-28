@@ -1,5 +1,6 @@
 <?php
-require_once 'core.inc.php';
+include 'core.inc.php';
+include 'header.php';
 $photoErr = '';
 if(isset($_POST['change']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
 	$photo_name = $_FILES['photo']['name'];
@@ -11,7 +12,7 @@ if(isset($_POST['change']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
 		if(($photo_type == 'image/jpeg' || $photo_type == 'image/png') && $photo_size < $max_size){
 			$location = 'pro_photos/';
 			if(move_uploaded_file($tmp_name,$location.$_SESSION['user'].'.jpg')){
-				require_once 'dbconnect.inc.php';
+				require 'dbconnect.inc.php';
 				$query = "update master set Link_Photo = 1 where Username = '".$_SESSION['user']."'";
 				if(!mysql_query($query)){
 					$photoErr = 'upload failed';
@@ -27,12 +28,18 @@ if(isset($_POST['change']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
 	}
 	
 }
-$query_run = getuserdata('*','master','Username',$_SESSION['user']);
+if($query_run = getuserdata('*','master','Username',$_SESSION['user']))
+echo "done";
 $name = $query_run['Name'];
 $email = $query_run['Email'];
 $contact = $query_run['ContactNo'];
 $qual = $query_run['Qualification'];
-$prof = $query_run['Profession'];
+$prof = $query_run['Profession'];	
+$link = '';
+if($query_run['Link_Photo']){
+	$link = $_SESSION['user'].'.jpg';
+	}
+	
 
 $link = '';
 if($query_run['Link_Photo']){
@@ -47,9 +54,9 @@ if($query_run['Link_Photo']){
 <title>Profile</title>
 </head>
 <body>
-<table cellpadding =10 border = 5>
+<table cellpadding =10 >
 <tr>
-<td colspan = 3 align = "center"><h1>PROFILE</h1></td>
+<td colspan = 3 align = "center"><h1><?php echo $_SESSION['user']."'s" ;?> Profile</h1></td>
 </tr>
 <tr>
 <td>Name: </td>
