@@ -1,4 +1,5 @@
 <?php
+include 'header.php';
 $error = '';
 if(isset($_POST['username']) && isset($_POST['pass'])){
 	$username = test_input($_POST['username']);
