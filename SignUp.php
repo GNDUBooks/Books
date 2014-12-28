@@ -2,17 +2,26 @@
 require_once 'core.inc.php';
 $username = $name = $email = $pass = $cpass = $contact = "";
 $usernameErr = $nameErr = $emailErr = $passErr = $cpassErr = $contactErr = "";
+<<<<<<< HEAD
 $flag = true;
+=======
+$flag = $flag1 = $flag2 = $flag3 = $flag4 = $flag5 =true;
+>>>>>>> origin/master
 if(loggedin()){
 	header('Location: index.php');
 } else {
 	if(isset($_POST['submit']) && $_SERVER["REQUEST_METHOD"] == "POST"){
 		require_once 'dbconnect.inc.php';
+<<<<<<< HEAD
+=======
+		$value = array('username' => "",'usernameErr' => "",'flag' => "true");
+>>>>>>> origin/master
 		$value = checkusername($_POST['username']);
 		$username = $value['username'];
 		$usernameErr = $value['usernameErr'];
 		$flag = $value['flag'];
 		
+<<<<<<< HEAD
 		$value = checkname($_POST['name']);
 		$name = $value['name'];
 		$nameErr = $value['nameErr'];
@@ -22,15 +31,29 @@ if(loggedin()){
 		$pass = $value['pass'];
 		$passErr = $value['passErr'];
 		$flag = $value['flag'];
+=======
+		$value1 = array('name' => "",'nameErr' => "",'flag' => "true");
+		$value1 = checkname($_POST['name']);
+		$name = $value1['name'];
+		$nameErr = $value1['nameErr'];
+		$flag1 = $value1['flag'];
+		
+		$value2 = array('pass' => "",'passErr' => "",'flag' => "true");
+		$value2 = checkpass($_POST['pass']);
+		$pass = $value2['pass'];
+		$passErr = $value2['passErr'];
+		$flag2 = $value2['flag'];
+>>>>>>> origin/master
 		
 		if (empty($_POST["cpass"])) {
 			$cpassErr = "Confirmation password is required";
-			$flag = false;
+			$flag3 = false;
 		} else {
 			$cpass = test_input($_POST["cpass"]);
 			// check if password match
 			if ($pass != $cpass) {
 				$cpassErr = "Passwords must match";
+<<<<<<< HEAD
 				$flag = false;
 			}
 		}
@@ -46,6 +69,25 @@ if(loggedin()){
 		$flag = $value['flag'];	
 	
 		if($flag){
+=======
+				$flag3 = false;
+			}
+		}
+		
+		$value3 = array('email' => "",'emailErr' => "",'flag' => "true");
+		$value3 = checkemail($_POST['email']);
+		$email = $value3['email'];
+		$emailErr = $value3['emailErr'];
+		$flag4 = $value3['flag'];
+		
+		$value4 = array('contact' => "",'contactErr' => "",'flag' => "true");
+		$value4 = checkcontact($_POST['contact']);
+		$contact = $value4['contact'];
+		$contactErr = $value4['contactErr'];
+		$flag5 = $value4['flag'];	
+		
+		if($flag && $flag1 && $flag2 && $flag3 && $flag4 && $flag5){
+>>>>>>> origin/master
 			while($flag) {
 				$otp = rand(1,99999);
 				$otp_hash = md5($otp);
@@ -90,6 +132,7 @@ Sign Up
 </tr>
 <tr>
 <td>Password</td>
+<<<<<<< HEAD
 <td><input type = "password" name = "pass" value = "<?php echo $pass;?>"/><span class="error"> <?php echo $passErr;?></span></td>
 </tr>
 <tr>
@@ -99,6 +142,17 @@ Sign Up
 <tr>
 <td>Email</td>
 <td><input type = "email" name = "email" value = "<?php echo $email;?>"/><span class="error"> <?php echo $emailErr;?></span></td>
+=======
+<td><input type = "password" name = "pass" value = "<?php echo $pass;?>"/><span class="error">* <?php echo $passErr;?></span></td>
+</tr>
+<tr>
+<td>Confirm Password</td>
+<td><input type = "password" name = "cpass" value = "<?php echo $cpass;?>"/><span class="error">* <?php echo $cpassErr;?></span></td>
+</tr>
+<tr>
+<td>Email</td>
+<td><input type = "email" name = "email" value = "<?php echo $email;?>"/><span class="error">* <?php echo $emailErr;?></span></td>
+>>>>>>> origin/master
 </tr>
 <tr>
 <td>Contact No</td>
