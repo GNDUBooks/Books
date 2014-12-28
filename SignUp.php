@@ -2,50 +2,55 @@
 require_once 'core.inc.php';
 $username = $name = $email = $pass = $cpass = $contact = "";
 $usernameErr = $nameErr = $emailErr = $passErr = $cpassErr = $contactErr = "";
-$flag = true;
+$flag = $flag1 = $flag2 = $flag3 = $flag4 = $flag5 =true;
 if(loggedin()){
 	header('Location: index.php');
 } else {
 	if(isset($_POST['submit']) && $_SERVER["REQUEST_METHOD"] == "POST"){
 		require_once 'dbconnect.inc.php';
+		$value = array('username' => "",'usernameErr' => "",'flag' => "true");
 		$value = checkusername($_POST['username']);
 		$username = $value['username'];
 		$usernameErr = $value['usernameErr'];
 		$flag = $value['flag'];
 		
-		$value = checkname($_POST['name']);
-		$name = $value['name'];
-		$nameErr = $value['nameErr'];
-		$flag = $value['flag'];
+		$value1 = array('name' => "",'nameErr' => "",'flag' => "true");
+		$value1 = checkname($_POST['name']);
+		$name = $value1['name'];
+		$nameErr = $value1['nameErr'];
+		$flag1 = $value1['flag'];
 		
-		$value = checkpass($_POST['pass']);
-		$pass = $value['pass'];
-		$passErr = $value['passErr'];
-		$flag = $value['flag'];
+		$value2 = array('pass' => "",'passErr' => "",'flag' => "true");
+		$value2 = checkpass($_POST['pass']);
+		$pass = $value2['pass'];
+		$passErr = $value2['passErr'];
+		$flag2 = $value2['flag'];
 		
 		if (empty($_POST["cpass"])) {
 			$cpassErr = "Confirmation password is required";
-			$flag = false;
+			$flag3 = false;
 		} else {
 			$cpass = test_input($_POST["cpass"]);
 			// check if password match
 			if ($pass != $cpass) {
 				$cpassErr = "Passwords must match";
-				$flag = false;
+				$flag3 = false;
 			}
 		}
 		
-		$value = checkemail($_POST['email']);
-		$email = $value['email'];
-		$emailErr = $value['emailErr'];
-		$flag = $value['flag'];
+		$value3 = array('email' => "",'emailErr' => "",'flag' => "true");
+		$value3 = checkemail($_POST['email']);
+		$email = $value3['email'];
+		$emailErr = $value3['emailErr'];
+		$flag4 = $value3['flag'];
 		
-		$value = checkcontact($_POST['contact']);
-		$contact = $value['contact'];
-		$contactErr = $value['contactErr'];
-		$flag = $value['flag'];	
-	
-		if($flag){
+		$value4 = array('contact' => "",'contactErr' => "",'flag' => "true");
+		$value4 = checkcontact($_POST['contact']);
+		$contact = $value4['contact'];
+		$contactErr = $value4['contactErr'];
+		$flag5 = $value4['flag'];	
+		
+		if($flag && $flag1 && $flag2 && $flag3 && $flag4 && $flag5){
 			while($flag) {
 				$otp = rand(1,99999);
 				$otp_hash = md5($otp);
