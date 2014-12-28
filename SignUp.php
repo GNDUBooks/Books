@@ -3,10 +3,9 @@ require_once 'core.inc.php';
 $username = $name = $email = $pass = $cpass = $contact = "";
 $usernameErr = $nameErr = $emailErr = $passErr = $cpassErr = $contactErr = "";
 $flag = true;
-
 if(loggedin()){
 	header('Location: index.php');
-} else { 
+} else {
 	if(isset($_POST['submit']) && $_SERVER["REQUEST_METHOD"] == "POST"){
 		require_once 'dbconnect.inc.php';
 		if (empty($_POST["username"])) {
@@ -21,18 +20,18 @@ if(loggedin()){
 			} else {
 				$query = "select username from temp where username = '".$username."'";
 				$query1 = "select username from master where username = '".$username."'";
-				if($query_run = mysql_query($query) && $query_run1 = mysql_query($query1)) {
-										
-					if(mysql_num_rows($query_run) != 0 || mysql_num_rows($query_run1) != 0) {
-						$usernameErr = 'Username already exists';
-						$flag = false;
+				if($query_run = mysql_query($query)) {
+					if($query_run1 = mysql_query($query1)) {
+						if(mysql_num_rows($query_run) != 0 || mysql_num_rows($query_run1) != 0) {
+							$usernameErr = 'Username already exists';
+							$flag = false;
+						}
 					}
 				} else {
 					$usernameErr = 'Unable to validate to your username';
 				}
 			}
 		}
-
 		if (empty($_POST["name"])) {
 			$nameErr = "Name is required";
 			$flag = false;
@@ -44,7 +43,6 @@ if(loggedin()){
 				$flag = false;
 			}
 		}
-	  
 		if (empty($_POST["pass"])) {
 			$passErr = "Password is required";
 			$flag = false;
@@ -56,7 +54,6 @@ if(loggedin()){
 				$flag = false;
 			}
 		}
-
 		if (empty($_POST["cpass"])) {
 			$cpassErr = "Confirmation password is required";
 			$flag = false;
@@ -68,7 +65,6 @@ if(loggedin()){
 				$flag = false;
 			}
 		}
-		  
 		if (empty($_POST["email"])) {
 			$emailErr = "Email is required";
 			$flag = false;
@@ -83,17 +79,18 @@ if(loggedin()){
 			} else {
 				$query = "select Email from master where Email = '".$email."'";
 				$query1 = "select Email from temp where Email = '".$email."'";
-				if($query_run = mysql_query($query) && $query_run1 = mysql_query($query1)){
-					if(mysql_num_rows($query_run) != 0 || mysql_num_rows($query_run1) != 0){
-						$emailErr = 'Email Already Registered';
-						$flag = false;
+				if($query_run = mysql_query($query)) {
+					if($query_run1 = mysql_query($query1)) {
+						if(mysql_num_rows($query_run) != 0 || mysql_num_rows($query_run1) != 0){
+							$emailErr = 'Email Already Registered';
+							$flag = false;
+						}
 					}
-				} else{
+				} else {
 					$emailErr = 'Unable to validate your Email';
 				}
 			}
 		}
-		  
 		if(!empty($_POST["contact"])) {
 			$contact = test_input($_POST["contact"]);
 			// check if contact only contains numbers
@@ -103,18 +100,19 @@ if(loggedin()){
 			} else {
 				$query = "select ContactNo from master where ContactNo = '".$contact."'";
 				$query1 = "select ContactNo from temp where ContactNo = '".$contact."'";
-				if($query_run = mysql_query($query) && $query_run1 = mysql_query($query1)){
-					if(mysql_num_rows($query_run) != 0 || mysql_num_rows($query_run1) != 0){
-						$contactErr = 'ContactNo entered already exists in database';
-						$flag = false;
-					}					
+				if($query_run = mysql_query($query)) {
+					if($query_run1 = mysql_query($query1)){
+						if(mysql_num_rows($query_run) != 0 || mysql_num_rows($query_run1) != 0){
+							$contactErr = 'ContactNo entered already exists in database';
+							$flag = false;
+						}
+					}
 				} else {
 					$contactErr = 'Unable to validate your ContactNo';
 					$flag = false;
 				}
 			}
-		}
-		
+		}	
 		if($flag){
 			while($flag) {
 				$otp = rand(1,99999);
@@ -123,7 +121,7 @@ if(loggedin()){
 				if($query_run = mysql_query($query)) {
 					if(mysql_num_rows($query_run) == 0) {
 						$flag = false;
-					}						
+					}
 				}
 			}
 			$pass_hash = md5($pass);
@@ -134,13 +132,10 @@ if(loggedin()){
 			} else {
 				echo 'retry after sometime as some error occured';
 			}
-			
 		}
 	}
 }
 ?>
-
-
 <!DOCTYPE html>
 <head>
 <title>
@@ -163,19 +158,19 @@ Sign Up
 </tr>
 <tr>
 <td>Password</td>
-<td><input type = "password" name = "pass"  value = "<?php echo $pass;?>"/><span class="error">* <?php echo $passErr;?></span></td>
+<td><input type = "password" name = "pass" value = "<?php echo $pass;?>"/><span class="error">* <?php echo $passErr;?></span></td>
 </tr>
 <tr>
 <td>Confirm Password</td>
-<td><input type = "password" name = "cpass"  value = "<?php echo $cpass;?>"/><span class="error">* <?php echo $cpassErr;?></span></td>
+<td><input type = "password" name = "cpass" value = "<?php echo $cpass;?>"/><span class="error">* <?php echo $cpassErr;?></span></td>
 </tr>
 <tr>
 <td>Email</td>
-<td><input type = "email" name = "email"  value = "<?php echo $email;?>"/><span class="error">* <?php echo $emailErr;?></span></td>
+<td><input type = "email" name = "email" value = "<?php echo $email;?>"/><span class="error">* <?php echo $emailErr;?></span></td>
 </tr>
 <tr>
 <td>Contact No</td>
-<td><input type = "text" name = "contact"  value = "<?php echo $contact;?>"/><span class="error"><?php echo $contactErr;?></span></td>
+<td><input type = "text" name = "contact" value = "<?php echo $contact;?>"/><span class="error"><?php echo $contactErr;?></span></td>
 </tr>
 <tr>
 <td colspan = 2 align = "center"><input type = "submit" name = "submit" value = "Register" />/ <a href = "index.php">Already Member?</a></td>
