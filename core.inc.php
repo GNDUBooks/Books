@@ -63,87 +63,92 @@ function checkusername($username) {
 
 function checkname($name){
 
+	$value1 = array('name' => "",'nameErr' => "",'flag' => "true");
 	if (empty($name)) {
-		$value['nameErr'] = "Name is required";
-		$value['flag'] = false;
+		$value1['nameErr'] = "Name is required";
+		$value1['flag'] = false;
 	} else {
-		$value['name']= test_input($name);
+		$value1['name']= test_input($name);
 		// check if name only contains letters and whitespace
-		if (!preg_match("/^[a-zA-Z ]{3,30}$/",$value['name'])) {
-			$value['nameErr'] = "Only letters and white space allowed and length between 3 and 30";
-			$value['flag'] = false;
+		if (!preg_match("/^[a-zA-Z ]{3,30}$/",$value1['name'])) {
+			$value1['nameErr'] = "Only letters and white space allowed and length between 3 and 30";
+			$value1['flag'] = false;
 		}
 	}
-	return $value;
+	return $value1;
 }
 
 function checkpass($pass) {
+	$value2 = array('pass' => "",'passErr' => "",'flag' => "true");
 	if (empty($pass)) {
-		$value['passErr'] = "Password is required";
-		$value['flag'] = false;
+		$value2['passErr'] = "Password is required";
+		$value2['flag'] = false;
 	} else {
-		$value['pass'] = test_input($pass);
+		$value2['pass'] = test_input($pass);
 		// check if password only contains letters and numbers
-		if (!preg_match("/^[a-zA-Z0-9]{6,20}$/",$value['pass'])) {
-			$value['passErr'] = "Only letters and numbers are allowed and length between 6 and 20";
-			$value['flag'] = false;
+		if (!preg_match("/^[a-zA-Z0-9]{6,20}$/",$value2['pass'])) {
+			$value2['passErr'] = "Only letters and numbers are allowed and length between 6 and 20";
+			$value2['flag'] = false;
 		}
 	}
-	return $value;
+	return $value2;
 }
 
 function checkemail($email){
+	$value3 = array('email' => "",'emailErr' => "",'flag' => "true");
 	if (empty($email)) {
-		$value['emailErr'] = "Email is required";
-		$value['flag'] = false;
+		$value3['emailErr'] = "Email is required";
+		$value3['flag'] = false;
 	} else {
-		$value['email'] = test_input($email);
+		$value3['email'] = test_input($email);
 		// check if e-mail address is well-formed
-		if(strlen($value['email'])>50) {
-			$value['emailErr'] = "Email length exceeds 50 character limit";
-			$value['flag'] = false;
+		if(strlen($value3['email'])>50) {
+			$value3['emailErr'] = "Email length exceeds 50 character limit";
+			$value3['flag'] = false;
 		} else {
-			$query = "select Email from master where Email = '".$value['email']."'";
-			$query1 = "select Email from temp where Email = '".$value['email']."'";
+			$query = "select Email from master where Email = '".$value3['email']."'";
+			$query1 = "select Email from temp where Email = '".$value3['email']."'";
 			if($query_run = mysql_query($query)) {
 				if($query_run1 = mysql_query($query1)) {
 					if(mysql_num_rows($query_run) != 0 || mysql_num_rows($query_run1) != 0){
-						$value['emailErr'] = 'Email Already Registered';
-						$value['flag'] = false;
+						$value3['emailErr'] = 'Email Already Registered';
+						$value3['flag'] = false;
 					}
 				}
 			} else {
-				$value['emailErr']= 'Unable to validate your Email';
-				$value['flag'] = false;
+				$value3['emailErr']= 'Unable to validate your Email';
+				$value3['flag'] = false;
 			}
 		}
 	}
-	return $value;
+	return $value3;
 }
 
 function checkcontact($contact){
+	$value4 = array('contact' => "",'contactErr' => "",'flag' => "true");
 	if(!empty($contact)) {
-		$value['contact'] = test_input($contact);
+		$value4['contact'] = test_input($contact);
 		// check if contact only contains numbers
-		if (!preg_match("/^[0-9]{10,12}$/",$value['contact'])) {
-			$value['contactErr'] = "Only numbers are allowed and length between 10-12";
-			$value['flag'] = false;
+		if (!preg_match("/^[0-9]{10,12}$/",$value4['contact'])) {
+			$value4['contactErr'] = "Only numbers are allowed and length between 10-12";
+			$value4['flag'] = false;
 		} else {
-			$query = "select ContactNo from master where ContactNo = '".$value['contact']."'";
-			$query1 = "select ContactNo from temp where ContactNo = '".$value['contact']."'";
+			$query = "select ContactNo from master where ContactNo = '".$value4['contact']."'";
+			$query1 = "select ContactNo from temp where ContactNo = '".$value4['contact']."'";
 			if($query_run = mysql_query($query)) {
 				if($query_run1 = mysql_query($query1)){
 					if(mysql_num_rows($query_run) != 0 || mysql_num_rows($query_run1) != 0){
-						$value['contactErr'] = 'ContactNo entered already exists in database';
-						$value['flag'] = false;
+						$value4['contactErr'] = 'ContactNo entered already exists in database';
+						$value4['flag'] = false;
 					}
 				}
 			} else {
-				$value['contactErr'] = 'Unable to validate your ContactNo';
-				$value['flag'] = false;
+				$value4['contactErr'] = 'Unable to validate your ContactNo';
+				$value4['flag'] = false;
 			}
 		}
 	}
-	return $value;
+	return $value4;
 }
 ?>
+
