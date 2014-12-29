@@ -1,7 +1,7 @@
 <?php
 $email = $pass = $otp = '';
 $emailErr = $passErr = $otpErr = $error ="";
-$flag1 = $flag2 = $flag3 = true;
+$flag = true;
 require_once 'core.inc.php';
 if(loggedin()){
 	header('Location: index.php');
@@ -10,45 +10,45 @@ if(loggedin()){
 		require_once 'core.inc.php';
 		if (empty($_POST['email'])) {
 			$emailErr = "Email is required";
-			$flag1 = false;
+			$flag = false;
 		} else {
 			$email = test_input($_POST["email"]);
 			// check if e-mail address is well-formed
 			if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 				$emailErr = "Invalid email format";
-				$flag1 = false;
+				$flag = false;
 			}
 			if(strlen($email)>50){
 				$emailErr = "Email length exceeds 50 character limit";
-				$flag1 = false;
+				$flag = false;
 			}
 		}
 		
 		if (empty($_POST['pass'])) {
 			$passErr = "Password is required";
-			$flag2 = false;
+			$flag = false;
 		} else {
 			$pass = test_input($_POST['pass']);
 			// check if password only contains letters and numbers
 			if (!preg_match("/^[a-zA-Z0-9]{6,20}$/",$pass)) {
 				$passErr = "Only letters and numbers are allowed and length between 6 and 20";
-				$flag2 = false;
+				$flag = false;
 			}
 		}
 		
 		if (empty($_POST["otp"])) {
 			$otpErr = "One Time Password is required";
-			$flag3 = false;
+			$flag = false;
 		} else {
 			$otp = test_input($_POST["otp"]);
 			// check if password only contains letters and numbers
 			if (!preg_match("/^[0-9]{1,5}$/",$otp)) {
 				$otpErr = "Only numbers are allowed and upto length 5";
-				$flag3 = false;
+				$flag = false;
 			}
 		}
 		
-		if($flag1 && $flag2 && $flag3){
+		if($flag){
 			require_once 'dbconnect.inc.php';
 			$otp_hash = md5($otp);
 			$pass_hash = md5($pass);
