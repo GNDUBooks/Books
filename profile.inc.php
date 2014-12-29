@@ -1,6 +1,6 @@
 <?php
-include 'core.inc.php';
-include 'header.php';
+require_once 'core.inc.php';
+require_once 'header.php';
 $photoErr = '';
 if(isset($_POST['change']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
 	$photo_name = $_FILES['photo']['name'];
@@ -28,24 +28,17 @@ if(isset($_POST['change']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
 	}
 	
 }
-if($query_run = getuserdata('*','master','Username',$_SESSION['user']))
+$query_result = getuserdata('*','master','Username',$_SESSION['user']);
 echo "done";
-$name = $query_run['Name'];
-$email = $query_run['Email'];
-$contact = $query_run['ContactNo'];
-$qual = $query_run['Qualification'];
-$prof = $query_run['Profession'];	
+$name = $query_result['Name'];
+$email = $query_result['Email'];
+$contact = $query_result['ContactNo'];
+$qual = $query_result['Qualification'];
+$prof = $query_result['Profession'];	
 $link = '';
-if($query_run['Link_Photo']){
-	$link = $_SESSION['user'].'.jpg';
-	}
-	
-
-$link = '';
-if($query_run['Link_Photo']){
+if($query_result['Link_Photo']){
 	$link = $_SESSION['user'].'.jpg';
 }
-
 ?>
 
 <!DOCTYPE html>

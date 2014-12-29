@@ -1,5 +1,5 @@
 <?php
-include 'header.php';
+require_once 'header.php';
 $error = '';
 if(isset($_POST['username']) && isset($_POST['pass'])){
 	$username = test_input($_POST['username']);
@@ -23,7 +23,12 @@ if(isset($_POST['username']) && isset($_POST['pass'])){
 	}
 }
 ?>
-
+<!DOCTYPE html>
+<html>
+<head>
+<title>Log In</title>
+</head>
+<body>
 <form action = "<?php echo $current_file; ?>" method = "POST">
 <table>
 <tr>
@@ -44,4 +49,6 @@ if(isset($_POST['username']) && isset($_POST['pass'])){
 </tr>
 <?php echo $error; ?>
 </table>
+</body>
 </form>
+</html>
