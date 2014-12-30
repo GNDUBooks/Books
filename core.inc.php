@@ -2,7 +2,8 @@
 ob_start();
 session_start();
 $current_file = $_SERVER['SCRIPT_NAME'];
-
+define('GW_UPLOADPATH','pro_photos/');
+define('GW_MAXFILESIZE',524288);
 if(isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])){
 	$http_referer = $_SERVER['HTTP_REFERER'];
 }

@@ -1,5 +1,6 @@
 <?php
 require_once 'core.inc.php';
+require_once  'header.php';
 $username = $name = $email = $pass = $cpass = $contact = "";
 $usernameErr = $nameErr = $emailErr = $passErr = $cpassErr = $contactErr = "";
 
@@ -102,21 +103,10 @@ Sign Up
 </tr>
 <tr>
 <td>Password</td>
-<<<<<<< HEAD
 
-=======
 <td><input type = "password" name = "pass" value = "<?php echo $pass;?>"/><span class="error"> <?php echo $passErr;?></span></td>
 </tr>
-<tr>
-<td>Confirm Password</td>
-<td><input type = "password" name = "cpass" value = "<?php echo $cpass;?>"/><span class="error"> <?php echo $cpassErr;?></span></td>
-</tr>
-<tr>
-<td>Email</td>
-<td><input type = "email" name = "email" value = "<?php echo $email;?>"/><span class="error"> <?php echo $emailErr;?></span></td>
->>>>>>> origin/master
-<td><input type = "password" name = "pass" value = "<?php echo $pass;?>"/><span class="error">* <?php echo $passErr;?></span></td>
-</tr>
+
 <tr>
 <td>Confirm Password</td>
 <td><input type = "password" name = "cpass" value = "<?php echo $cpass;?>"/><span class="error">* <?php echo $cpassErr;?></span></td>
