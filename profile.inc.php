@@ -83,7 +83,7 @@ if($query_result['Link_Photo']){
 <table cellspacing = 10 cellpadding = 10>
 <tr>
 <td align = "center"><a href = "search.php">Search </a></td>
-<td align = "center"><a href = "post.php"> Post Ads </a></td>
+<td align = "center"><a href = "postadd.php"> Post Ads </a></td>
 <td align = "center"><a href = "history.php">History</a></td>
 </tr>
 <tr>
