@@ -31,8 +31,7 @@ function test_input($data) {
 	return $data;
 }
 function checkusername($username) {
-
-	$value = array('username' => "",'usernameErr' => "",'flag' => "true");
+	$value = array('username' => "",'usernameErr' => "",'flag' => true);
 	if (empty($username)) {
 		$value['usernameErr'] = "Username is required";
 		$value['flag'] = false;
@@ -58,13 +57,11 @@ function checkusername($username) {
 			}
 		}
 	}
-
 	return $value;
 }
 
 function checkname($name){
-
-	$value1 = array('name' => "",'nameErr' => "",'flag' => "true");
+	$value1 = array('name' => "",'nameErr' => "",'flag' => true);
 	if (empty($name)) {
 		$value1['nameErr'] = "Name is required";
 		$value1['flag'] = false;
@@ -80,7 +77,7 @@ function checkname($name){
 }
 
 function checkpass($pass) {
-	$value2 = array('pass' => "",'passErr' => "",'flag' => "true");
+	$value2 = array('pass' => "",'passErr' => "",'flag' => true);
 	if (empty($pass)) {
 		$value2['passErr'] = "Password is required";
 		$value2['flag'] = false;
@@ -96,7 +93,7 @@ function checkpass($pass) {
 }
 
 function checkemail($email){
-	$value3 = array('email' => "",'emailErr' => "",'flag' => "true");
+	$value3 = array('email' => "",'emailErr' => "",'flag' => true);
 	if (empty($email)) {
 		$value3['emailErr'] = "Email is required";
 		$value3['flag'] = false;
@@ -126,30 +123,5 @@ function checkemail($email){
 }
 
 function checkcontact($contact){
-	$value4 = array('contact' => "",'contactErr' => "",'flag' => "true");
-	if(!empty($contact)) {
-		$value4['contact'] = test_input($contact);
-		// check if contact only contains numbers
-		if (!preg_match("/^[0-9]{10,12}$/",$value4['contact'])) {
-			$value4['contactErr'] = "Only numbers are allowed and length between 10-12";
-			$value4['flag'] = false;
-		} else {
-			$query = "select ContactNo from master where ContactNo = '".$value4['contact']."'";
-			$query1 = "select ContactNo from temp where ContactNo = '".$value4['contact']."'";
-			if($query_run = mysql_query($query)) {
-				if($query_run1 = mysql_query($query1)){
-					if(mysql_num_rows($query_run) != 0 || mysql_num_rows($query_run1) != 0){
-						$value4['contactErr'] = 'ContactNo entered already exists in database';
-						$value4['flag'] = false;
-					}
-				}
-			} else {
-				$value4['contactErr'] = 'Unable to validate your ContactNo';
-				$value4['flag'] = false;
-			}
-		}
-	}
-	return $value4;
-}
 ?>
 
