@@ -44,13 +44,13 @@ if(isset($_POST['submit']) && $_SERVER["REQUEST_METHOD"] == "POST") {
 			$flag3 = false;
 		}
 	}
-/* if( )
-{
-$editionErr= "edition of book is required";
-}
-*/	//else{
+    if($_POST['edition']=="0" )
+   {
+     $editionErr= "edition of book is required";
+    }
+     else{
 	$edition = test_input($_POST["edition"]);
-//}
+    }
 
 	if(empty($_POST["sellprice"])) {
 		$sellpriceErr= "selling price of book is required";
@@ -158,22 +158,22 @@ $editionErr= "edition of book is required";
 <tr>
 <td>EDITION : </td>
 <td> <select name="edition">
-<option value = 0>Select edition</option>
-<option value = 1>first edition</option>
-<option value = 2>second edition</option>
-<option value = 3>third edition</option>
-<option value = 4>fourth edition</option>
-<option value = 5>5th edition</option>
-<option value = 6>6th edition</option>
-<option value = 7>7th edition</option>
-<option value = 8>8th edition</option>
-<option value = 9>9th edition</option>
-<option value = 10>10th edition</option>
-<option value = 11>11th edition</option>
-<option value = 12>12th edition</option>
-<option value = 13>13th edition</option>
-<option value = 14>14th edition</option>
-<option value = 15>15th edition</option>
+<option value = "0">Select edition</option>
+<option value = "1">first edition</option>
+<option value = "2">second edition</option>
+<option value = "3">third edition</option>
+<option value = "4">fourth edition</option>
+<option value = "5">5th edition</option>
+<option value = "6">6th edition</option>
+<option value = "7">7th edition</option>
+<option value = "8">8th edition</option>
+<option value = "9">9th edition</option>
+<option value = "10">10th edition</option>
+<option value = "11">11th edition</option>
+<option value = "12">12th edition</option>
+<option value = "13">13th edition</option>
+<option value = "14">14th edition</option>
+<option value = "15">15th edition</option>
 </select>
 </td>
 <td><span class = "error" >* <?php echo $editionErr; ?></span></td>
