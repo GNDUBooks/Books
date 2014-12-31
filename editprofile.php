@@ -55,7 +55,7 @@ $done=false;
     $picsize = $_FILES['files']['size'];
     if(!empty($picname))
     {
-      $link=GW_UPLOADPATH.$_SESSION['user'].'.jpg';
+      $link=GW_UPLOADPATH.$picname;
       if(($pictype== 'image/jpeg' || $pictype == 'image/png') && $picsize < GW_MAXFILESIZE)
       {
        if(move_uploaded_file($_FILES['files']['tmp_name'], $link))

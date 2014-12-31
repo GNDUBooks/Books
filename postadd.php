@@ -1,19 +1,16 @@
-<!DOCTYPE>
-<html>
-<head>
-<title>ADD POST</title> 
-</head>
 
-<body>
 <?php
-
+include "header.php";
+ require_once 'dbconnect.inc.php';
 require_once 'core.inc.php';
+$picerr='';
+$path="pro_book_pic/";
+
 $bookname=$author=$subject=$edition=$sellprice=$origprice=$image="";	
 $booknameErr=$authorErr=$subjectErr=$editionErr=$sellpriceErr=$origpriceErr="";	
+if( (isset($_POST['submit']) && !empty($_POST['submit'])) &&  $_SERVER['REQUEST_METHOD'] == 'POST')
+  {
 
-if($_SERVER["REQUEST_METHOD"]=="POST")
-{
- require_once 'dbconnect.inc.php';
 	 if(empty($_POST["bookname"]))
 	{
 		 $booknameErr= "name of book is required";
@@ -66,98 +63,79 @@ if($_SERVER["REQUEST_METHOD"]=="POST")
 			}
 
   
-   $target_file =$_FILES["image"]["name"]; 
-   $uploadOk = 1;
-   $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-// Check if image file is a actual image or fake image
-    if(isset($_POST["submit"])) {
-     $check = getimagesize($_FILES["image"]["tmp_name"]);
-       if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
-        $uploadOk = 1;
-    } else {
-        echo "File is not an image.";
-        $uploadOk = 0;
-    }
-}
-// Check if file already exists
-if (file_exists($target_file)) {
-    echo "Sorry, file already exists.";
-    $uploadOk = 0;
-}
-// Check file size
-if ($_FILES["image"]["size"] > 50000) {
-    echo "Sorry, your file is too large.";
-    $uploadOk = 0;
-}
-// Allow certain file formats
-if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-&& $imageFileType != "gif" ) {
-    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-    $uploadOk = 0;
-}
-// Check if $uploadOk is set to 0 by an error
-if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.";
-// if everything is ok, try to upload file
-} //else {
-  //  if (move_uploaded_file(, $target_file)) {
-    //    echo "The file ". basename( $_FILES["image"]["name"]). " has been uploaded.";
-    //} else {
-     //   echo "Sorry, there was an error uploading your file.";
-    //}
 
+     
 
-       /*  
-	    if(loggedin()){
-		$query1="SELECT 'Username' FROM  'login'";  
-         if( $query_run1=mysql_query($query1))
-    	{
-             $query_result=getuserdata1('Username','login');
-		}
-        }
-   */
-          $query="Insert into 'posts' values ( ' ' , " . mysql_real_escape_string ($bookname) ." ' , ' " . mysql_real_escape_string ($subject) . " '  , '".mysql_real_escape_string($author)."','".mysql_real_escape_string($edition)."','".mysql_real_escape_string($origprice)."','".mysql_real_escape_string($sellprice)."','','".$query_result['Username']."";
-        
+  
+   
+$username=$_SESSION['user'];
+//echo isset($_POST['image']);
+//echo empty($_POST['image']);
+if(  empty($_POST['image']) )
+  {
+ $picname= $_FILES['image']['name'];
+    $pictype = $_FILES['image']['type'];
+    $picsize = $_FILES['image']['size'];
+    if(!empty($picname))
+    {
+      $link=$path.$picname;
+	  echo $link;
+      if(($pictype== 'image/jpeg' || $pictype == 'image/png') && $picsize < GW_MAXFILESIZE)
+      {
+       if(move_uploaded_file($_FILES['image']['tmp_name'], $link))
+       { 		 
+		 if($bookname!="" && $author!="" && $subject!="" && $edition!="" && $sellprice!="" && $origprice!="" ){
+          $query="Insert into posts(ID,Title,Subject,Author,Edition,Original_Price,Selling_Price,Photo_Link, Username, status) values ( '0' , '$bookname' ,'$subject', '$author', '$edition', '$origprice', '$sellprice', '$link', '$username', '0')";
+          echo $query;
 		  if($query_run=mysql_query($query))
 	      { 
-		     header('Location: logout.php');
+		   echo "query done";
 		  }
            else{
-			   echo "can not be posted";
-			   }
-
+			   echo "can not be posted";}
+	  }
+      }
+      else echo "Some error occured while uploading. Please try again!";
+    }
+	else echo $picerr= "The picture should be of jpg or png format and 512kb or less!!";
+  }else echo "Please insert an Image of your book for authentication!!"; }
 }
- 
-
-
 ?>
 
+
+
+<!DOCTYPE>
+<html>
+<head>
+<title>ADD POST</title> 
+</head>
+
+<body>
 <form input="name" method="post" action= " <?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?> " enctype="multipart/form-data" >
 <table>
 <tr>
 <td colspan = 2><h1 align = "center">ADD POST</h1></td>
 </tr>
 <tr>
-<td>BOOK NAME : </td>
-<td><input type="text" name="bookname" value="<?php echo $bookname ?>"> </td>
-<td>  <span class ="error" >* <?php echo $booknameErr; ?> </span></td>  
+<td>* BOOK NAME : </td>
+<td><input type="text" name="bookname" value="<?php echo $bookname; ?>"> </td>
+<td>  <span class ="error" ><?php echo $booknameErr; ?> </span></td>  
 </tr>
 
 <tr>
-<td>SUBJECT : </td>
-<td><input type="text" name="subject" value="<?php echo $subject ?>"> </td> 
-<td>  <span class ="error" >* <?php echo $subjectErr; ?> </span></td>
+<td>* SUBJECT : </td>
+<td><input type="text" name="subject" value="<?php echo $subject ;?>"> </td> 
+<td>  <span class ="error" > <?php echo $subjectErr; ?> </span></td>
 </tr>
 
 <tr>
-<td>AUTHOR NAME : </td>
-<td><input type="text" name="author" value="<?php echo $author ?>"> </td> 
-<td>  <span class ="error" >* <?php echo $authorErr; ?> </span></td>
+<td>* AUTHOR NAME : </td>
+<td><input type="text" name="author" value="<?php echo $author; ?>"> </td> 
+<td>  <span class ="error" > <?php echo $authorErr; ?> </span></td>
 </tr>
  
  <tr> 
-<td>EDITION : </td>
+<td>* EDITION : </td>
 <td> <select name="edition">
 <option value ="0">Select edition</option>
 <option value ="1">first edition</option>
@@ -179,30 +157,39 @@ if ($uploadOk == 0) {
 </select>
 
 </td> 
-<td>  <span class ="error" >* <?php echo $editionErr; ?> </span></td>
+<td>  <span class ="error" > <?php echo $editionErr; ?> </span></td>
 </tr>
 
 <tr>
-<td>ORIGINAL PRICE : </td>
-<td><input type="text" name="sellprice" value="<?php echo "$origprice" ?>"> </td> 
-<td>  <span class ="error" >* <?php echo $origpriceErr; ?> </span></td>
+<td>* ORIGINAL PRICE : </td>
+<td><input type="text" name="origprice" value="<?php echo "$origprice" ;?>"> </td> 
+<td>  <span class ="error" > <?php echo $origpriceErr; ?> </span></td>
 </tr>
 
 <tr>
-<td>SELLING PRICE : </td>
-<td><input type="text" name="origprice" value="<?php echo "$sellprice" ?>"> </td> 
-<td>  <span class ="error" >* <?php echo $sellpriceErr; ?> </span></td>
+<td>* SELLING PRICE : </td>
+<td><input type="text" name="sellprice" value="<?php echo "$sellprice" ;?>"> </td> 
+<td>  <span class ="error" > <?php echo $sellpriceErr; ?> </span></td>
 </tr>
-
-<tr><td>Select image of book to upload:
+<tr><?php if(empty($picname))
+       $link="pro_book_pic/edit.jpg";?>
+    <td rowspan=5 valign = "top">
+    <img src="<?php echo $link ;?>" style="width:220px;height:220px" alt = "<?php echo $picerr; ?>"></img><br /><br><br>
+    <?php echo $picerr; ?>
+</tr><br>
+<tr>
+    <td>Select image of book to upload:<br>
     <input type="file" name="image" id="fileToUpload"> </td>
 </tr>
 
+<br><br>
 <tr>
 <td colspan = 2 align = "center">
-<input type="submit"  value="SUBMIT" </td> 
-</tr>
+<input type="submit" name="submit" value="SUBMIT" </td> 
 
-</table>
+<td colspan = 10 align = "right"><a href="profile.inc.php" >Exit</td></tr>
+
+
+</table></form>
 </body>
 </html>
