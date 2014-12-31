@@ -34,17 +34,37 @@ if( (isset($_POST['submit']) && !empty($_POST['submit'])) &&  $_SERVER['REQUEST_
 		$subject= test_input($_POST["subject"]);
      }
   
-/*	if(  )
-	{
-		 $editionErr= "edition of book is required";
+
+    if($_POST['edition']=="0" )
+   {
+     $editionErr= "edition of book is required";
+    }
+     else{
+	$edition = test_input($_POST["edition"]);
+    }
+
+	if(empty($_POST["sellprice"])) {
+		$sellpriceErr= "selling price of book is required";
+		$flag4 = false;
+	} else {
+		$sellprice= test_input($_POST["sellprice"]);
+		if (!preg_match("/^[0-9]{2,4}$/", $sellprice)) {
+			$sellpriceErr = "Only numbers are allowed.";
+			$flag4 = false;
+		}
 	}
-*/	//else{
-	$edition= test_input($_POST["edition"]);
-     //}
-  
-	 if(empty($_POST["sellprice"]))
-	{
-		 $sellpriceErr= "selling price of book is required";
+	
+	
+	if(empty($_POST["origprice"])) {
+		$origpriceErr= "Original price of book is required";
+		$flag5 = false;
+	} else {
+		$origprice = test_input($_POST["origprice"]);
+		if(!preg_match("/^[0-9]{2,4}$/",$origprice)){
+			$origpriceErr="Only Numbers are allowed and length between 2-4";
+			$flag5 = false;
+		}
+
 	}
 	else
 		$sellprice= test_input($_POST["sellprice"]);
