@@ -1,6 +1,5 @@
 <?php
 require 'core.inc.php';
 session_destroy();
-header('Location: '."LogInForm.inc.php");
-
+header('Location: index.php');
 ?>

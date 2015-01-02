@@ -4,6 +4,7 @@ $usernamemsg = $emailmsg = '';
 $flag1 = $flag2 = true;
 require_once 'core.inc.php';
 require_once 'dbconnect.inc.php';
+require_once 'header.php';
 if(loggedin()){
 	header('Location: index.php');
 } else {

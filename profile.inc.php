@@ -1,22 +1,24 @@
 <?php
-require ('dbconnect.inc.php');
 require_once 'core.inc.php';
-require_once 'header.php';
-
-$photoErr = '';
-$query_result = getuserdata('*','master','Username',$_SESSION['user']);
-$name = $query_result['Name'];
-$email = $query_result['Email'];
-$contact = $query_result['ContactNo'];
-$qual = $query_result['Qualification'];
-$prof = $query_result['Profession'];	
-
-if(is_file($query_result['Link_Photo']) && filesize($query_result['Link_Photo'])>0)
-$link= $query_result['Link_Photo'];
-else
-$link=GW_UPLOADPATH."edit.jpg";
-
-
+if(loggedin()){
+	require_once 'header.php';
+	require_once 'dbconnect.inc.php';
+	$photoErr = '';
+	$query_result = getuserdata('*','master','Username',$_SESSION['user']);
+	$name = $query_result['Name'];
+	$email = $query_result['Email'];
+	$contact = $query_result['ContactNo'];
+	$qual = $query_result['Qualification'];
+	$prof = $query_result['Profession'];	
+	
+	if($query_result['Link_Photo'] && is_file(GW_UPLOADPATH.$_SESSION['user'].'.jpg') && filesize(GW_UPLOADPATH.$_SESSION['user'].'.jpg') > 0) {
+		$link = GW_UPLOADPATH.$_SESSION['user'].'.jpg';
+	} else {
+		$link = GW_UPLOADPATH."edit.jpg";
+	}
+} else {
+	header('Location: index.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -34,8 +36,6 @@ $link=GW_UPLOADPATH."edit.jpg";
 <td><?php echo $name; ?></td>
 <td rowspan=5 valign = "top">
 <img src="<?php echo $link; ?>" style="width:220px;height:220px" alt = "<?php echo $photoErr; ?>"></img><br />
-
-
 </td>
 </tr>
 <tr>
@@ -57,8 +57,8 @@ $link=GW_UPLOADPATH."edit.jpg";
 </table>
 <table cellspacing = 10 cellpadding = 10>
 <tr>
-<td align = "center"><a href = "search.php">Search </a></td>
-<td align = "center"><a href = "postadd.php"> Post Ads </a></td>
+<td align = "center"><a href = "search.php">Search</a></td>
+<td align = "center"><a href = "postadd.php">Post Ads</a></td>
 <td align = "center"><a href = "history.php">History</a></td>
 </tr>
 <tr>

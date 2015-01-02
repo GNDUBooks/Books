@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 30, 2014 at 08:28 PM
+-- Generation Time: Jan 02, 2015 at 03:39 PM
 -- Server version: 5.6.11
 -- PHP Version: 5.5.1
 
@@ -53,7 +53,6 @@ CREATE TABLE IF NOT EXISTS `login` (
 --
 
 INSERT INTO `login` (`Username`, `Password`) VALUES
-('harmandeepsinghkalsi9', '99d0556a10eee503a341bac59a272903'),
 ('bhavyamehra', 'e90c6647830e603b4e761311d05238db'),
 ('sahibpreetsingh94', 'e90c6647830e603b4e761311d05238db');
 
@@ -82,8 +81,7 @@ CREATE TABLE IF NOT EXISTS `master` (
 
 INSERT INTO `master` (`Username`, `Name`, `Email`, `ContactNo`, `Qualification`, `Profession`, `Link_Photo`) VALUES
 ('bhavyamehra', 'Bhavya Mehra', 'buddymehra@yahoo.com', '8789544650', NULL, NULL, NULL),
-('harmandeepsinghkalsi9', 'Harmandeep Singh Kalsi', 'harmandeepsinghkalsi9@gmail.com', '9888518432', 'BTech', 'Student', 1),
-('sahibpreetsingh94', 'Sahibpreet Singh', 'jsbhalla52@gmail.com', '', '', '', 0);
+('sahibpreetsingh94', 'Sahibpreet Singh', 'sahibpreetsingh94@gmail.com', '9888518432', 'BTech', 'Student', 1);
 
 -- --------------------------------------------------------
 
@@ -96,13 +94,14 @@ CREATE TABLE IF NOT EXISTS `posts` (
   `Title` varchar(50) DEFAULT NULL,
   `Subject` varchar(30) DEFAULT NULL,
   `Author` varchar(50) DEFAULT NULL,
-  `Edition` int(3) DEFAULT NULL,
+  `Edition` varchar(2) DEFAULT NULL,
   `Original_Price` int(4) DEFAULT NULL,
   `Selling_Price` int(4) DEFAULT NULL,
   `Photo` tinyint(1) DEFAULT NULL,
   `Username` varchar(30) DEFAULT NULL,
   `dateofpost` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`ID`)
+  PRIMARY KEY (`ID`),
+  KEY `fk_Usename` (`Username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -110,8 +109,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
 --
 
 INSERT INTO `posts` (`ID`, `Title`, `Subject`, `Author`, `Edition`, `Original_Price`, `Selling_Price`, `Photo`, `Username`, `dateofpost`) VALUES
-(0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2014-12-31 00:14:39'),
-(1, 'test1', 'subject1', 'Admin', 1, 456, 985, 1, 'sahibpreetsingh94', '2014-12-31 00:31:16');
+(0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2014-12-31 00:14:39');
 
 -- --------------------------------------------------------
 
@@ -139,10 +137,16 @@ ALTER TABLE `login`
   ADD CONSTRAINT `fk_Username` FOREIGN KEY (`Username`) REFERENCES `master` (`Username`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `posts`
+--
+ALTER TABLE `posts`
+  ADD CONSTRAINT `fk_Usename` FOREIGN KEY (`Username`) REFERENCES `master` (`Username`);
+
+--
 -- Constraints for table `temp`
 --
 ALTER TABLE `temp`
-  ADD CONSTRAINT `fk_Email` FOREIGN KEY (`Email`) REFERENCES `confirmation` (`EMail`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_Email` FOREIGN KEY (`Email`) REFERENCES `confirmation` (`Email`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

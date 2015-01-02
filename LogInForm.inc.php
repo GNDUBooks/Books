@@ -15,7 +15,7 @@ if(isset($_POST['username']) && isset($_POST['pass'])){
 			} else if($query_num_rows == 1) {
 				$user = mysql_result($query_run,0,'Username');
 				$_SESSION['user'] = $user;
-				header('Location: '.$current_file);
+				header('Location: index.php');
 			}
 		}	
 	} else {

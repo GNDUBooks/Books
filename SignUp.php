@@ -60,7 +60,7 @@ if(loggedin()){
 		if($flag && $flag1 && $flag2 && $flag3 && $flag4 && $flag5){
 
 			while($flag) {
-				$otp = rand(1,99999);
+				$otp = rand(10000,50000);
 				$otp_hash = md5($otp);
 				$query = "select otp from confirmation where otp = '".$otp_hash."'";
 				if($query_run = mysql_query($query)) {
@@ -95,29 +95,33 @@ Sign Up
 </tr>
 <tr>
 <td>Username</td>
-<td><input type = "text" name = "username" value = "<?php echo $username;?>" /><span class="error"> <?php echo $usernameErr;?></span></td>
+<td><input type = "text" name = "username" value = "<?php echo $username;?>" /></td>
+<td><span class="error">* <?php echo $usernameErr;?></span></td>
 </tr>
 <tr>
 <td>Name</td>
-<td><input type = "text" name = "name" value = "<?php echo $name;?>" /><span class="error"> <?php echo $nameErr;?></span></td>
+<td><input type = "text" name = "name" value = "<?php echo $name;?>" /></td>
+<td><span class="error">* <?php echo $nameErr;?></span></td>
 </tr>
 <tr>
 <td>Password</td>
-
-<td><input type = "password" name = "pass" value = "<?php echo $pass;?>"/><span class="error"> <?php echo $passErr;?></span></td>
+<td><input type = "password" name = "pass" value = "<?php echo $pass;?>"/></td>
+<td><span class="error">* <?php echo $passErr;?></span></td>
 </tr>
-
 <tr>
 <td>Confirm Password</td>
-<td><input type = "password" name = "cpass" value = "<?php echo $cpass;?>"/><span class="error">* <?php echo $cpassErr;?></span></td>
+<td><input type = "password" name = "cpass" value = "<?php echo $cpass;?>"/></td>
+<td><span class="error">* <?php echo $cpassErr;?></span></td>
 </tr>
 <tr>
 <td>Email</td>
-<td><input type = "email" name = "email" value = "<?php echo $email;?>"/><span class="error">* <?php echo $emailErr;?></span></td>
+<td><input type = "email" name = "email" value = "<?php echo $email;?>"/></td>
+<td><span class="error">* <?php echo $emailErr;?></span></td>
 </tr>
 <tr>
 <td>Contact No</td>
-<td><input type = "text" name = "contact" value = "<?php echo $contact;?>"/><span class="error"><?php echo $contactErr;?></span></td>
+<td><input type = "text" name = "contact" value = "<?php echo $contact;?>"/></td>
+<td><span class="error"><?php echo $contactErr;?></span></td>
 </tr>
 <tr>
 <td colspan = 2 align = "center"><input type = "submit" name = "submit" value = "Register" />/ <a href = "index.php">Already Member?</a></td>

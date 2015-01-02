@@ -3,7 +3,7 @@ ob_start();
 session_start();
 $current_file = $_SERVER['SCRIPT_NAME'];
 define('GW_UPLOADPATH','pro_photos/');
-define('GW_MAXFILESIZE',524288);
+define('GW_MAXFILESIZE',204800);
 if(isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])){
 	$http_referer = $_SERVER['HTTP_REFERER'];
 }
@@ -25,7 +25,7 @@ function getuserdata($field,$table,$column,$key){
 
 
 function test_input($data) {
-	$data = trim($data);
+	$data = trim($data);	
 	$data = stripslashes($data);
 	$data = htmlspecialchars($data);
 	return $data;
@@ -123,5 +123,32 @@ function checkemail($email){
 }
 
 function checkcontact($contact){
+	$value4 = array('contact' => "",'contactErr' => "",'flag' => true);
+	if(!empty($contact)) {
+		$value4['contact'] = test_input($contact);
+		// check if contact only contains numbers
+		if (!preg_match("/^[0-9]{10,12}$/",$value4['contact'])) {
+			$value4['contactErr'] = "Only numbers are allowed and length between 10-12";
+			$value4['flag'] = false;
+		} else {
+			$query = "select ContactNo from master where ContactNo = '".$value4['contact']."'";
+			$query1 = "select ContactNo from temp where ContactNo = '".$value4['contact']."'";
+			if($query_run = mysql_query($query)) {
+				if($query_run1 = mysql_query($query1)){
+					if(mysql_num_rows($query_run) != 0 || mysql_num_rows($query_run1) != 0){
+						$value4['contactErr'] = 'ContactNo entered already exists in database';
+						$value4['flag'] = false;
+					}
+				}
+			} else {
+				$value4['contactErr'] = 'Unable to validate your ContactNo';
+				$value4['flag'] = false;
+			}
+		}
+	}
+	return $value4;
+}
+
+ob_end_flush();
 ?>
 

@@ -1,4 +1,5 @@
 <?php
+require_once 'header.php';
 require_once 'core.inc.php';
 $curpass = $newpass = $conpass = "";
 $curpassErr = $newpassErr = $conpassErr = "";
@@ -89,7 +90,7 @@ if(loggedin()){
 </tr>
 <tr>
 <td colspan = 2 align = "center">
-<input type = "submit" name = "changepass" value = "Change Password"> / <a href = "index.php">GO Back</a></td>
+<input type = "submit" name = "changepass" value = "Change Password"></td>
 </tr>
 </table>
 </form>
