@@ -65,12 +65,16 @@ if(loggedin()) {
 				} else {
 					$picerr = "The picture should be of jpg or png format and 512kb or less!!";
 				}
+			} else {
+				$link = $query_run['Link_Photo'];
 			}
 			
 			$up_query = "update master set Name = '".$name."', ContactNo = '".$contact."', Qualification = '".$qual."', Profession = '".$prof."', Link_Photo = ".$link." where Username = '".$username."'";
 			
 			mysql_query($up_query);
-			header('Location: index.php');			
+			header('Location: index.php');
+			
+			
 		}
 	}
 } else {
