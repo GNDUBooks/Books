@@ -64,6 +64,7 @@ if(loggedin()) {
 					}
 				} else {
 					$picerr = "The picture should be of jpg or png format and 512kb or less!!";
+					die($picerr);
 				}
 			} else {
 				$link = $query_run['Link_Photo'];
@@ -73,8 +74,6 @@ if(loggedin()) {
 			
 			mysql_query($up_query);
 			header('Location: index.php');
-			
-			
 		}
 	}
 } else {
