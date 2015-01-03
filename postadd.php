@@ -54,18 +54,6 @@ if(loggedin()) {
 			$edition = test_input($_POST["edition"]);
 		}
 		
-		if(empty($_POST["sellprice"])) {
-			$sellpriceErr= "selling price of book is required";
-			$flag5 = false;
-		} else {
-			$sellprice= test_input($_POST["sellprice"]);
-			if (!preg_match("/^[0-9]{2,4}$/", $sellprice)) {
-				$sellpriceErr = "Only numbers are allowed.";
-				$flag5 = false;
-			}
-		}
-		
-		
 		if(empty($_POST["origprice"])) {
 			$origpriceErr= "Original price of book is required";
 			$flag6 = false;
@@ -74,6 +62,20 @@ if(loggedin()) {
 			if(!preg_match("/^[0-9]{2,4}$/",$origprice)){
 				$origpriceErr="Only Numbers are allowed and length between 2-4";
 				$flag6 = false;
+			}
+		}
+		
+		if(empty($_POST["sellprice"])) {
+			$sellpriceErr= "selling price of book is required";
+			$flag5 = false;
+		} else {
+			$sellprice= test_input($_POST["sellprice"]);
+			if (!preg_match("/^[0-9]{2,4}$/", $sellprice)) {
+				$sellpriceErr = "Only numbers are allowed.";
+				$flag5 = false;
+			} else if($sellprice >= ($origprice / 2) || $sellprice <= ($origprice / 3)) {
+				$sellpriceErr = "selling price must lie between one third of original and half of original price";
+				$flag5 = false;
 			}
 		}
 		
@@ -87,10 +89,10 @@ if(loggedin()) {
 				// Check if image file is a actual image or fake image
 				$check = getimagesize($_FILES["image"]["tmp_name"]);
 				if($check !== false) {
-					echo "File is an image - " . $check["mime"];
+					$imageErr = "File is an image - " . $check["mime"];
 					$uploadOk = 1;
 				} else {
-					echo "File is not an image.";
+					$imageErr = "File is not an image.";
 					$uploadOk = 0;
 				}
 				
@@ -102,22 +104,19 @@ if(loggedin()) {
 				
 				// Check file size
 				if ($_FILES["image"]["size"] > 524288) {
-					echo "Sorry, your file is too large.";
+					$imageErr = "Sorry, your file is too large.";
 					$uploadOk = 0;
 				}
 
 				// Allow certain file formats
 				if(!($imageFileType != "jpg" || $imageFileType != "png" || $imageFileType != "jpeg" || $imageFileType != "gif" )) {
-					echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+					$imageErr = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
 					$uploadOk = 0;
 				}
 
-				echo $edition;
 				// Check if $uploadOk is set to 0 by an error
-				if ($uploadOk == 0) {
-					echo "Sorry, your file was not uploaded.";
+				if (!$uploadOk == 0) {
 				// if everything is ok, try to upload file
-				} else {
 					$query1 = "select max(id)+1 as id from posts"; 
 					if($query_run = mysql_query($query1)){
 						echo $id = mysql_result($query_run,0,'id');

@@ -49,7 +49,8 @@ if(loggedin()){
 				echo 'Unable to process your request';
 			}
 		} else {
-			echo 'Username/Email doesn\'t exist in database';
+			$emailmsg = 'Username/Email doesn\'t exist in database';
+			$usernamemsg = '';
 		}
 	}
 }
