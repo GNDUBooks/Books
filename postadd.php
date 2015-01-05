@@ -11,6 +11,7 @@ if(loggedin()) {
 
 	$bookname = $author = $subject = $edition = $sellprice = $origprice = $image = "";
 	$booknameErr = $authorErr = $subjectErr = $editionErr = $sellpriceErr = $origpriceErr = $imageErr = "";
+	$sold="unsold";
 	$flag1 = $flag2 = $flag3 = $flag4 = $flag5 = $flag6 = true;
 	if(isset($_POST['submit']) && $_SERVER["REQUEST_METHOD"] == "POST") {
 		require_once 'dbconnect.inc.php';
@@ -54,17 +55,6 @@ if(loggedin()) {
 			$edition = test_input($_POST["edition"]);
 		}
 		
-		if(empty($_POST["origprice"])) {
-			$origpriceErr= "Original price of book is required";
-			$flag6 = false;
-		} else {
-			$origprice = test_input($_POST["origprice"]);
-			if(!preg_match("/^[0-9]{2,4}$/",$origprice)){
-				$origpriceErr="Only Numbers are allowed and length between 2-4";
-				$flag6 = false;
-			}
-		}
-		
 		if(empty($_POST["sellprice"])) {
 			$sellpriceErr= "selling price of book is required";
 			$flag5 = false;
@@ -73,9 +63,18 @@ if(loggedin()) {
 			if (!preg_match("/^[0-9]{2,4}$/", $sellprice)) {
 				$sellpriceErr = "Only numbers are allowed.";
 				$flag5 = false;
-			} else if($sellprice >= ($origprice / 2) || $sellprice <= ($origprice / 3)) {
-				$sellpriceErr = "selling price must lie between one third of original and half of original price";
-				$flag5 = false;
+			}
+		}
+		
+		
+		if(empty($_POST["origprice"])) {
+			$origpriceErr= "Original price of book is required";
+			$flag6 = false;
+		} else {
+			$origprice = test_input($_POST["origprice"]);
+			if(!preg_match("/^[0-9]{2,4}$/",$origprice)){
+				$origpriceErr="Only Numbers are allowed and length between 2-4";
+				$flag6 = false;
 			}
 		}
 		
@@ -89,10 +88,10 @@ if(loggedin()) {
 				// Check if image file is a actual image or fake image
 				$check = getimagesize($_FILES["image"]["tmp_name"]);
 				if($check !== false) {
-					$imageErr = "File is an image - " . $check["mime"];
+					echo "File is an image - " . $check["mime"];
 					$uploadOk = 1;
 				} else {
-					$imageErr = "File is not an image.";
+					echo "File is not an image.";
 					$uploadOk = 0;
 				}
 				
@@ -104,24 +103,27 @@ if(loggedin()) {
 				
 				// Check file size
 				if ($_FILES["image"]["size"] > 524288) {
-					$imageErr = "Sorry, your file is too large.";
+					echo "Sorry, your file is too large.";
 					$uploadOk = 0;
 				}
 
 				// Allow certain file formats
 				if(!($imageFileType != "jpg" || $imageFileType != "png" || $imageFileType != "jpeg" || $imageFileType != "gif" )) {
-					$imageErr = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+					echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
 					$uploadOk = 0;
 				}
 
+				echo $edition;
 				// Check if $uploadOk is set to 0 by an error
-				if (!$uploadOk == 0) {
+				if ($uploadOk == 0) {
+					echo "Sorry, your file was not uploaded.";
 				// if everything is ok, try to upload file
+				} else {
 					$query1 = "select max(id)+1 as id from posts"; 
 					if($query_run = mysql_query($query1)){
 						echo $id = mysql_result($query_run,0,'id');
-						$query = "insert into posts (ID,Title,Subject,Author,Edition,Original_Price,Selling_Price,Photo,Username) values (".$id.",'".$bookname."','".$subject."','".$author."','".$edition."',".$origprice.",".$sellprice.",0,'".$_SESSION['user']."')";
-						if($query_run = mysql_query($query)) {
+						$query = "insert into `posts` (`ID`,`Title`,`Subject`,`Author`,`Edition`,`Original_Price`,`Selling_Price`,`Photo`,`sold`,`Username`) values (".$id.",'".$bookname."','".$subject."','".$author."','".$edition."',".$origprice.",".$sellprice.",0,'".$sold."','".$_SESSION['user']."')";
+						if($query_run1 = mysql_query($query)) {
 							if (move_uploaded_file($_FILES["image"]["tmp_name"], 'posts/'.$id.'.jpg')) {
 								mysql_query("update posts set Photo = 1 where ID = '".$id."'");
 								header('Location: index.php');
@@ -140,7 +142,8 @@ if(loggedin()) {
 			}
 		}
 	}
-} else {
+}
+else {
 	header('Location: index.php');
 }
 ?>
