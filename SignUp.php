@@ -4,7 +4,7 @@ require_once  'header.php';
 $username = $name = $email = $pass = $cpass = $contact = "";
 $usernameErr = $nameErr = $emailErr = $passErr = $cpassErr = $contactErr = "";
 
-$flag = $flag1 = $flag2 = $flag3 = $flag4 = $flag5 =true;
+$flag = $flag1 = $flag2 = $flag3 = $flag4 = $flag5 = true;
 
 
 if(loggedin()){
@@ -41,7 +41,7 @@ if(loggedin()){
 			// check if password match
 			if ($pass != $cpass) {
 				$cpassErr = "Passwords must match";
-		$flag3 = false;
+				$flag3 = false;
 			}
 		}
 		

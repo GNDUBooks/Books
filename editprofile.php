@@ -5,7 +5,7 @@ if(loggedin()) {
 	require_once 'header.php';
 	$picerr = $error = '';
 	$flag1 = $flag2 = $flag3 = $flag4 = true;
-	$query_run = getuserdata('*','master','Username',$_SESSION['user']);
+	$query_run = mysql_fetch_assoc(getuserdata('*','master','Username',$_SESSION['user']));
 	$name = $query_run['Name'];
 	$contact = $query_run['ContactNo'];
 	$qual = $query_run['Qualification'];

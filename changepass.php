@@ -33,13 +33,13 @@ if(loggedin()){
 		
 		if($flag && $flag1 && $flag2){
 			require_once 'dbconnect.inc.php';
-			$query_result = getuserdata('Password','login','Username',$_SESSION['user']);
+			$query_result = mysql_fetch_assoc(getuserdata('Password','login','Username',$_SESSION['user']));
 			
 			if(md5($curpass) == $query_result['Password']){
 				
 				$query = "update login set Password = '".md5($newpass)."' where Username = '".$_SESSION['user']."'";
 				if(mysql_query($query)){
-					$query_result = getuserdata('Email','master','Username',$_SESSION['user']);
+					$query_result = mysql_fetch_assoc(getuserdata('Email','master','Username',$_SESSION['user']));
 					$email = $query_result['Email'];
 					$to      = $email;
 					$subject = 'Change of your Account Password';
