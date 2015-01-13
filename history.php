@@ -2,35 +2,34 @@
 require_once 'core.inc.php';
 if(loggedin()) {
 	require_once 'header.php';
-	$idd = "";
 	require_once 'dbconnect.inc.php';
+	$idd = "";
 	$username = $_SESSION['user'];
-	if(isset($_POST['submit'])) {
-		$idd = $_POST['idd'];
-		$query = "SELECT ID FROM posts WHERE Username ='".$username."'";
-		if($query_run = mysql_query($query)) {
-			while($query_row=mysql_fetch_assoc($query_run)) { 
-				$id = $query_row['ID'];
-				if($id == $idd) {
-					header('Location: editpost1.php');
-				}
+	
+	if((isset($_POST['sold']) || isset($_POST['delete'])) && $_SERVER['REQUEST_METHOD'] == 'POST') {
+		if(isset($_POST["check_list"])) {
+			$string = "";
+			foreach($_POST["check_list"] as $x) {
+				$string = $string.$x." OR ID = ";
+			}
+			$string = substr($string, 0, strlen($string) - 9);
+			if(isset($_POST['sold'])) {
+				$query = "update posts set sold = 1 where ID = $string";
+			} else if(isset($_POST['delete'])) {
+				$query = "delete from posts where ID = $string";
+			}
+			if(!mysql_query($query)) {
+				echo 'unable to process your request';
 			}
 		}
 	}
 	
-	if((isset($_POST['sold']) || isset($_POST['delete'])) && $_SERVER['REQUEST_METHOD'] == 'POST') {
-		$string = "";
-		foreach($_POST["check_list"] as $x) {
-			$string = $string.$x." OR ID = ";
-		}
-		$string = substr($string, 0, strlen($string) - 9);
-		if(isset($_POST['sold'])) {
-			$query = "update posts set sold = 1 where ID = $string";
-		} else if(isset($_POST['delete'])) {
-			$query = "delete from posts where ID = $string";
-		}
-		if(!mysql_query($query)) {
-			echo 'unable to process your request';
+	if(isset($_POST['edit']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
+		if(isset($_POST["check_list"])) {
+			foreach($_POST["check_list"] as $x) {
+				$_SESSION["id"][$x] = $x;
+				header('Location: editposts.php');
+			}
 		}
 	}
 	
@@ -40,6 +39,7 @@ if(loggedin()) {
 	} else {
 		echo mysql_error();
 	}
+	
 } else {
 	header('Location: index.php');
 }
@@ -101,19 +101,12 @@ if($count != 0) {
 	}
 	echo "</table><br/>
 	<input type = \"submit\" name = \"sold\" value = \"Marked have been Sold\">
-	<input type = \"submit\" name = \"delete\" value = \"Delete Selected\">";
+	<input type = \"submit\" name = \"delete\" value = \"Delete Selected\">
+	<input type = \"submit\" name = \"edit\" value = \"Edit Selected\">";
 }
 ?>
 
 </form>
-<form action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method = "post">
-<table>
-If you want to edit your post Type the id you want to edit
-<tr>
-<td><input type="text" name="idd" value="<?php echo $idd ?> "></td>
-</tr> 
-<tr><td><input type="submit" name="submit" value="SUBMIT" ></td></tr> 
-</table>
 <p align="right">
    <a href = "profile.inc.php" ><i> Go to your profile</i> </center></a>
 </p>
