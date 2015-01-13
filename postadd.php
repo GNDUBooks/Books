@@ -166,7 +166,7 @@ if(loggedin()) {
 </tr>
 <tr>
 <td>EDITION : </td>
-<td> <select name="edition">
+<td><select name="edition">
 <option value = "0">Select edition</option>
 <option value = "1">first edition</option>
 <option value = "2">second edition</option>

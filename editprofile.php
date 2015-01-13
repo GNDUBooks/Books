@@ -12,7 +12,7 @@ if(loggedin()) {
 	$prof = $query_run['Profession'];
 
 	if($query_run['Link_Photo'] && is_file(GW_UPLOADPATH.$_SESSION['user'].".jpg") && filesize(GW_UPLOADPATH.$_SESSION['user'].".jpg") > 0) {
-		$link= GW_UPLOADPATH.$_SESSION['user'].".jpg";
+		$link = GW_UPLOADPATH.$_SESSION['user'].".jpg";
 	} else {
 		$link = GW_UPLOADPATH."edit.jpg";
 	}
