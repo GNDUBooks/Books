@@ -4,7 +4,7 @@ if(loggedin()){
 	require_once 'header.php';
 	require_once 'dbconnect.inc.php';
 	$photoErr = '';
-	$query_result = getuserdata('*','master','Username',$_SESSION['user']);
+	$query_result = mysql_fetch_assoc(getuserdata('*','master','Username',$_SESSION['user']));
 	$name = $query_result['Name'];
 	$email = $query_result['Email'];
 	$contact = $query_result['ContactNo'];

@@ -22,7 +22,7 @@ function loggedin() {
 function getuserdata($field,$table,$column,$key){
 	$query = "select ".$field." from ".$table." where ".$column." = '".$key."'";
 	if($query_run = mysql_query($query)){
-		return mysql_fetch_assoc($query_run);
+		return $query_run;
 	}
 }
 

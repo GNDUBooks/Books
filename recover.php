@@ -49,7 +49,7 @@ if(loggedin()){
 				echo 'Unable to process your request';
 			}
 		} else {
-			$emailmsg = 'Username/Email doesn\'t exist in database';
+			$emailmsg = 'Username/Email doesn\'t match';
 			$usernamemsg = '';
 		}
 	}
