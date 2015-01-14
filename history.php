@@ -51,6 +51,7 @@ if(loggedin()) {
 <title>History</title>
 </head>
 <body>
+
 <h2>HISTORY OF POSTS ADDED BY <?php echo $username; ?></h2>
 No. of books posted by <?php echo $username;?> =  <?php echo $count;?>
 <form method = "POST" action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
@@ -110,5 +111,6 @@ if($count != 0) {
 <p align="right">
    <a href = "profile.inc.php" ><i> Go to your profile</i> </center></a>
 </p>
+
 </body>
 </html>
