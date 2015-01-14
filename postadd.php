@@ -8,7 +8,7 @@
 require_once 'core.inc.php';
 if(loggedin()) {
 	require_once 'header.php';
-
+	unset($_SESSION["id"]);
 	$bookname = $author = $subject = $edition = $sellprice = $origprice = $image = "";
 	$booknameErr = $authorErr = $subjectErr = $editionErr = $sellpriceErr = $origpriceErr = $imageErr = "";
 	$flag1 = $flag2 = $flag3 = $flag4 = $flag5 = $flag6 = true;
@@ -167,22 +167,22 @@ if(loggedin()) {
 <tr>
 <td>EDITION : </td>
 <td><select name="edition">
-<option value = "0">Select edition</option>
-<option value = "1">first edition</option>
-<option value = "2">second edition</option>
-<option value = "3">third edition</option>
-<option value = "4">fourth edition</option>
-<option value = "5">5th edition</option>
-<option value = "6">6th edition</option>
-<option value = "7">7th edition</option>
-<option value = "8">8th edition</option>
-<option value = "9">9th edition</option>
-<option value = "10">10th edition</option>
-<option value = "11">11th edition</option>
-<option value = "12">12th edition</option>
-<option value = "13">13th edition</option>
-<option value = "14">14th edition</option>
-<option value = "15">15th edition</option>
+<option value = "0" <?php if($edition == 0) {echo "selected = selected";}?>>Select edition</option>
+<option value = "1" <?php if($edition == 1) {echo "selected = selected";}?>>first edition</option>
+<option value = "2" <?php if($edition == 2) {echo "selected = selected";}?>>second edition</option>
+<option value = "3" <?php if($edition == 3) {echo "selected = selected";}?>>third edition</option>
+<option value = "4" <?php if($edition == 4) {echo "selected = selected";}?>>fourth edition</option>
+<option value = "5" <?php if($edition == 5) {echo "selected = selected";}?>>5th edition</option>
+<option value = "6" <?php if($edition == 6) {echo "selected = selected";}?>>6th edition</option>
+<option value = "7" <?php if($edition == 7) {echo "selected = selected";}?>>7th edition</option>
+<option value = "8" <?php if($edition == 8) {echo "selected = selected";}?>>8th edition</option>
+<option value = "9" <?php if($edition == 9) {echo "selected = selected";}?>>9th edition</option>
+<option value = "10" <?php if($edition == 10) {echo "selected = selected";}?>>10th edition</option>
+<option value = "11" <?php if($edition == 11) {echo "selected = selected";}?>>11th edition</option>
+<option value = "12" <?php if($edition == 12) {echo "selected = selected";}?>>12th edition</option>
+<option value = "13" <?php if($edition == 13) {echo "selected = selected";}?>>13th edition</option>
+<option value = "14" <?php if($edition == 14) {echo "selected = selected";}?>>14th edition</option>
+<option value = "15" <?php if($edition == 15) {echo "selected = selected";}?>>15th edition</option>
 </select>
 </td>
 <td><span class = "error" >* <?php echo $editionErr; ?></span></td>
