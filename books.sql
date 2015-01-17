@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 02, 2015 at 03:39 PM
+-- Generation Time: Jan 17, 2015 at 01:33 PM
 -- Server version: 5.6.11
 -- PHP Version: 5.5.1
 
@@ -44,8 +44,8 @@ CREATE TABLE IF NOT EXISTS `confirmation` (
 
 CREATE TABLE IF NOT EXISTS `login` (
   `Username` varchar(30) DEFAULT NULL,
-  `Password` varchar(32) DEFAULT NULL,
-  KEY `fk_Username` (`Username`)
+  `Password` varchar(32) NOT NULL,
+  UNIQUE KEY `Username` (`Username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -53,8 +53,7 @@ CREATE TABLE IF NOT EXISTS `login` (
 --
 
 INSERT INTO `login` (`Username`, `Password`) VALUES
-('bhavyamehra', 'e90c6647830e603b4e761311d05238db'),
-('sahibpreetsingh94', 'e90c6647830e603b4e761311d05238db');
+('sahib12', 'e90c6647830e603b4e761311d05238db');
 
 -- --------------------------------------------------------
 
@@ -80,8 +79,7 @@ CREATE TABLE IF NOT EXISTS `master` (
 --
 
 INSERT INTO `master` (`Username`, `Name`, `Email`, `ContactNo`, `Qualification`, `Profession`, `Link_Photo`) VALUES
-('bhavyamehra', 'Bhavya Mehra', 'buddymehra@yahoo.com', '8789544650', NULL, NULL, NULL),
-('sahibpreetsingh94', 'Sahibpreet Singh', 'sahibpreetsingh94@gmail.com', '9888518432', 'BTech', 'Student', 1);
+('sahib12', 'Sahibpreet Singh', 'sahibpreetsingh94@gmail.com', '9888518432', 'BTech', 'Stu', 1);
 
 -- --------------------------------------------------------
 
@@ -91,15 +89,16 @@ INSERT INTO `master` (`Username`, `Name`, `Email`, `ContactNo`, `Qualification`,
 
 CREATE TABLE IF NOT EXISTS `posts` (
   `ID` int(10) NOT NULL,
-  `Title` varchar(50) DEFAULT NULL,
-  `Subject` varchar(30) DEFAULT NULL,
+  `Title` varchar(75) DEFAULT NULL,
+  `Subject` varchar(40) DEFAULT NULL,
   `Author` varchar(50) DEFAULT NULL,
-  `Edition` varchar(2) DEFAULT NULL,
+  `Edition` varchar(3) DEFAULT NULL,
   `Original_Price` int(4) DEFAULT NULL,
   `Selling_Price` int(4) DEFAULT NULL,
   `Photo` tinyint(1) DEFAULT NULL,
   `Username` varchar(30) DEFAULT NULL,
   `dateofpost` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `sold` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`),
   KEY `fk_Usename` (`Username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -108,8 +107,8 @@ CREATE TABLE IF NOT EXISTS `posts` (
 -- Dumping data for table `posts`
 --
 
-INSERT INTO `posts` (`ID`, `Title`, `Subject`, `Author`, `Edition`, `Original_Price`, `Selling_Price`, `Photo`, `Username`, `dateofpost`) VALUES
-(0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2014-12-31 00:14:39');
+INSERT INTO `posts` (`ID`, `Title`, `Subject`, `Author`, `Edition`, `Original_Price`, `Selling_Price`, `Photo`, `Username`, `dateofpost`, `sold`) VALUES
+(0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2015-01-05 13:02:57', 0);
 
 -- --------------------------------------------------------
 
@@ -134,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `temp` (
 -- Constraints for table `login`
 --
 ALTER TABLE `login`
-  ADD CONSTRAINT `fk_Username` FOREIGN KEY (`Username`) REFERENCES `master` (`Username`) ON DELETE CASCADE;
+  ADD CONSTRAINT `fk_Username` FOREIGN KEY (`Username`) REFERENCES `master` (`Username`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `posts`

@@ -52,6 +52,10 @@ if(loggedin()) {
 			$flag4 = false;
 		} else {
 			$edition = test_input($_POST["edition"]);
+			if($edition < 1 || $edition > 50) {
+				$editionErr = "Edition of book not valid";
+				$flag4 = false;
+			}
 		}
 		
 		if(empty($_POST["origprice"])) {
@@ -151,50 +155,57 @@ if(loggedin()) {
 </tr>
 <tr>
 <td>BOOK NAME : </td>
-<td><input type = "text" name = "bookname" value = "<?php echo $bookname; ?>"></td>
+<td><input type = "text" name = "bookname" value = "<?php echo $bookname; ?>" size = "32"></td>
 <td><span class = "error" >* <?php echo $booknameErr; ?> </span></td>
 </tr>
 <tr>
 <td>SUBJECT : </td>
-<td><input type = "text" name = "subject" value = "<?php echo $subject; ?>"></td>
+<td><select name = "subject">
+<option value = "0" <?php if($subject == "0") { echo "selected = selected";}?>>Select Subject</option>
+<option value = "Agriculture" <?php if($subject == "Agriculture") { echo "selected = selected";}?>>Agriculture</option>
+<option value = "Architecture" <?php if($subject == "Architecture") { echo "selected = selected";}?>>Architecture</option>
+<option value = "Arts" <?php if($subject == "Arts") { echo "selected = selected";}?>>Arts</option>
+<option value = "Chemistry" <?php if($subject == "Chemistry") { echo "selected = selected";}?>>Chemistry</option>
+<option value = "Commerce" <?php if($subject == "Commerce") { echo "selected = selected";}?>>Commerce</option>
+<option value = "Computer Science" <?php if($subject == "Computer Science") { echo "selected = selected";}?>>Computer Science</option>
+<option value = "Physics" <?php if($subject == "Physics") { echo "selected = selected";}?>>Engineering</option>
+<option value = "Economics" <?php if($subject == "Economics") { echo "selected = selected";}?>>Economics</option>
+<option value = "History" <?php if($subject == "History") { echo "selected = selected";}?>>History</option>
+<option value = "Language" <?php if($subject == "Language") { echo "selected = selected";}?>>Language</option>
+<option value = "Law" <?php if($subject == "Law") { echo "selected = selected";}?>>Law</option>
+<option value = "Library Science" <?php if($subject == "Library Science") { echo "selected = selected";}?>>Library Science</option>
+<option value = "Life Sciences" <?php if($subject == "Life Sciences") { echo "selected = selected";}?>>Life Sciences</option>
+<option value = "Literature" <?php if($subject == "Literature") { echo "selected = selected";}?>>Literature</option>
+<option value = "Management and public relation" <?php if($subject == "Management and public relation") { echo "selected = selected";}?>>Management</option>
+<option value = "Mathematics" <?php if($subject == "Mathematics") { echo "selected = selected";}?>>Mathematics</option>
+<option value = "Medicine and Health" <?php if($subject == "Medicine and Health") { echo "selected = selected";}?>>Medicine and Health</option>
+<option value = "Philosophy and Pscychology" <?php if($subject == "Philosophy and Pscychology") { echo "selected = selected";}?>>Philosophy and Pscychology</option>
+<option value = "Physics" <?php if($subject == "Physics") { echo "selected = selected";}?>>Physics</option>
+<option value = "Political Science" <?php if($subject == "Political Science") { echo "selected = selected";}?>>Political Science</option>
+<option value = "Religion" <?php if($subject == "Religion") { echo "selected = selected";}?>>Religion</option>
+<option value = "Science" <?php if($subject == "Science") { echo "selected = selected";}?>>Science</option>
+<option value = "Social Sciences and Sociology" <?php if($subject == "Social Sciences and Socialogy") { echo "selected = selected";}?>>Social Sciences and Socialogy</option>
+</td>
 <td><span class ="error" >* <?php echo $subjectErr; ?> </span></td>
 </tr>
 <tr>
 <td>AUTHOR NAME : </td>
-<td><input type = "text" name = "author" value = "<?php echo $author; ?>"></td>
+<td><input type = "text" name = "author" value = "<?php echo $author; ?>" size = "32"></td>
 <td><span class = "error" >* <?php echo $authorErr; ?></span></td>
 </tr>
 <tr>
 <td>EDITION : </td>
-<td><select name="edition">
-<option value = "0" <?php if($edition == 0) {echo "selected = selected";}?>>Select edition</option>
-<option value = "1" <?php if($edition == 1) {echo "selected = selected";}?>>first edition</option>
-<option value = "2" <?php if($edition == 2) {echo "selected = selected";}?>>second edition</option>
-<option value = "3" <?php if($edition == 3) {echo "selected = selected";}?>>third edition</option>
-<option value = "4" <?php if($edition == 4) {echo "selected = selected";}?>>fourth edition</option>
-<option value = "5" <?php if($edition == 5) {echo "selected = selected";}?>>5th edition</option>
-<option value = "6" <?php if($edition == 6) {echo "selected = selected";}?>>6th edition</option>
-<option value = "7" <?php if($edition == 7) {echo "selected = selected";}?>>7th edition</option>
-<option value = "8" <?php if($edition == 8) {echo "selected = selected";}?>>8th edition</option>
-<option value = "9" <?php if($edition == 9) {echo "selected = selected";}?>>9th edition</option>
-<option value = "10" <?php if($edition == 10) {echo "selected = selected";}?>>10th edition</option>
-<option value = "11" <?php if($edition == 11) {echo "selected = selected";}?>>11th edition</option>
-<option value = "12" <?php if($edition == 12) {echo "selected = selected";}?>>12th edition</option>
-<option value = "13" <?php if($edition == 13) {echo "selected = selected";}?>>13th edition</option>
-<option value = "14" <?php if($edition == 14) {echo "selected = selected";}?>>14th edition</option>
-<option value = "15" <?php if($edition == 15) {echo "selected = selected";}?>>15th edition</option>
-</select>
-</td>
+<td><input type = "number" name = "edition" value = "<?php echo $edition; ?>" size = "32"></td>
 <td><span class = "error" >* <?php echo $editionErr; ?></span></td>
 </tr>
 <tr>
 <td>ORIGINAL PRICE : </td>
-<td><input type = "text" name = "origprice" value = "<?php echo $origprice; ?>"></td>
+<td><input type = "text" name = "origprice" value = "<?php echo $origprice; ?>" size = "32"></td>
 <td><span class = "error" >* <?php echo $origpriceErr; ?></span></td>
 </tr>
 <tr>
 <td>SELLING PRICE : </td>
-<td><input type = "text" name = "sellprice" value = "<?php echo $sellprice; ?>"> </td>
+<td><input type = "text" name = "sellprice" value = "<?php echo $sellprice; ?>" size = "32"> </td>
 <td><span class = "error" >* <?php echo $sellpriceErr; ?></span></td>
 </tr>
 <tr><td>Select image of book to upload: </td>
