@@ -1,4 +1,4 @@
-<!DOCTYPE>
+<!DOCTYPE html>
 <html>
 <head>
 <title>ADD POST</title>
@@ -176,7 +176,7 @@ if(loggedin()) {
 <option value = "Library Science" <?php if($subject == "Library Science") { echo "selected = selected";}?>>Library Science</option>
 <option value = "Life Sciences" <?php if($subject == "Life Sciences") { echo "selected = selected";}?>>Life Sciences</option>
 <option value = "Literature" <?php if($subject == "Literature") { echo "selected = selected";}?>>Literature</option>
-<option value = "Management and public relation" <?php if($subject == "Management and public relation") { echo "selected = selected";}?>>Management</option>
+<option value = "Management" <?php if($subject == "Management") { echo "selected = selected";}?>>Management</option>
 <option value = "Mathematics" <?php if($subject == "Mathematics") { echo "selected = selected";}?>>Mathematics</option>
 <option value = "Medicine and Health" <?php if($subject == "Medicine and Health") { echo "selected = selected";}?>>Medicine and Health</option>
 <option value = "Philosophy and Pscychology" <?php if($subject == "Philosophy and Pscychology") { echo "selected = selected";}?>>Philosophy and Pscychology</option>

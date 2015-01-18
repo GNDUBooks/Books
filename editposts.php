@@ -8,7 +8,7 @@ if(loggedin()) {
 	if(isset($_POST['save']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
 		$string = "";
 		foreach($_SESSION["id"] as $x){
-			if (empty($_POST["title"]["$x"]) || empty($_POST["subject"][$x]) || empty($_POST["author"][$x]) || empty($_POST["origprice"][$x]) || empty($_POST["sellprice"][$x])) {
+			if (empty($_POST["title"]["$x"]) || empty($_POST["subject"]["$x"]) || empty($_POST["author"]["$x"]) || empty($_POST["origprice"]["$x"]) || empty($_POST["sellprice"]["$x"])) {
 				echo "All fields are required in postid $x";
 				$flag = false;
 				break;
@@ -91,32 +91,40 @@ while($query_row = mysql_fetch_assoc($query_run)) {
 		$d = $query_row['dateofpost'];
 		//  header("Content-type: image/jpeg");
 		$photo = $query_row['Photo'];
-		$titleerr = $subjecterr = $authorerr = $editionerr = $sellerr = $origerr = array("$i"=>"");
 		echo "<tr><td align = \"center\">$i</td>
 		<td align = \"center\"><input type = \"text\" name = \"title[$i]\" value = \"$t\"></td>
-		<td align = \"center\"><input type = \"text\" name = \"subject[$i]\" value = \"$s\"></td>
+		<td align = \"center\"><select name = \"subject[$i]\">
+								<option value = \"0\""; if($s == "0") { echo "selected = selected";} echo ">Select Subject</option>
+								<option value = \"Agriculture\""; if($s == "Agriculture") { echo "selected = selected";} echo ">Agriculture</option>
+								<option value = \"Architecture\""; if($s == "Architecture") { echo "selected = selected";} echo ">Architecture</option>
+								<option value = \"Arts\""; if($s == "Arts") { echo "selected = selected";} echo ">Arts</option>
+								<option value = \"Chemistry\""; if($s == "Chemistry") { echo "selected = selected";} echo ">Chemistry</option>
+								<option value = \"Commerce\""; if($s == "Commerce") { echo "selected = selected";} echo ">Commerce</option>
+								<option value = \"Computer Science\""; if($s == "Computer Science") { echo "selected = selected";} echo ">Computer Science</option>
+								<option value = \"Physics\""; if($s == "Physics") { echo "selected = selected";}echo ">Engineering</option>
+								<option value = \"Economics\""; if($s == "Economics") { echo "selected = selected";} echo ">Economics</option>
+								<option value = \"History\""; if($s == "History") { echo "selected = selected";} echo ">History</option>
+								<option value = \"Language\""; if($s == "Language") { echo "selected = selected";} echo ">Language</option>
+								<option value = \"Law\""; if($s == "Law") { echo "selected = selected";} echo ">Law</option>
+								<option value = \"Library Science\""; if($s == "Library Science") { echo "selected = selected";} echo ">Library Science</option>
+								<option value = \"Life Sciences\""; if($s == "Life Sciences") { echo "selected = selected";} echo ">Life Sciences</option>
+								<option value = \"Literature\""; if($s == "Literature") { echo "selected = selected";} echo ">Literature</option>
+								<option value = \"Management\""; if($s == "Management") { echo "selected = selected";} echo ">Management</option>
+								<option value = \"Mathematics\""; if($s == "Mathematics") { echo "selected = selected";} echo ">Mathematics</option>
+								<option value = \"Medicine and Health\""; if($s == "Medicine and Health") { echo "selected = selected";} echo ">Medicine and Health</option>
+								<option value = \"Philosophy and Pscychology\""; if($s == "Philosophy and Pscychology") { echo "selected = selected";} echo ">Philosophy and Pscychology</option>
+								<option value = \"Physics\""; if($s == "Physics") { echo "selected = selected";} echo ">Physics</option>
+								<option value = \"Political Science\""; if($s == "Political Science") { echo "selected = selected";} echo ">Political Science</option>
+								<option value = \"Religion\""; if($s == "Religion") { echo "selected = selected";} echo ">Religion</option>
+								<option value = \"Science\""; if($s == "Science") { echo "selected = selected";} echo ">Science</option>
+								<option value = \"Social Sciences and Sociology\""; if($s == "Social Sciences and Socialogy") { echo "selected = selected";} echo ">Social Sciences and Socialogy</option>
+								</td>
 		<td align = \"center\"><input type = \"text\" name = \"author[$i]\" value = \"$a\"></td>
-		<td align = \"center\"><select name = \"edition[$i]\">
-		<option value = \"1\""; if($e == 1) {echo "selected = selected";} echo ">first edition</option>
-		<option value = \"2\""; if($e == 2) {echo "selected = selected";} echo ">second edition</option>
-		<option value = \"3\""; if($e == 3) {echo "selected = selected";} echo ">third edition</option>
-		<option value = \"4\""; if($e == 4) {echo "selected = selected";} echo ">fourth edition</option>
-		<option value = \"5\""; if($e == 5) {echo "selected = selected";} echo ">5th edition</option>
-		<option value = \"6\""; if($e == 6) {echo "selected = selected";} echo ">6th edition</option>
-		<option value = \"7\""; if($e == 7) {echo "selected = selected";} echo ">7th edition</option>
-		<option value = \"8\""; if($e == 8) {echo "selected = selected";} echo ">8th edition</option>
-		<option value = \"9\""; if($e == 9) {echo "selected = selected";} echo ">9th edition</option>
-		<option value = \"10\"";if($e == 10) {echo "selected = selected";}echo ">10th edition</option>
-		<option value = \"11\"";if($e == 11) {echo "selected = selected";}echo ">11th edition</option>
-		<option value = \"12\"";if($e == 12) {echo "selected = selected";}echo ">12th edition</option>
-		<option value = \"13\"";if($e == 13) {echo "selected = selected";}echo ">13th edition</option>
-		<option value = \"14\"";if($e == 14) {echo "selected = selected";}echo ">14th edition</option>
-		<option value = \"15\"";if($e == 15) {echo "selected = selected";}echo ">15th edition</option>
-		</select>
+		<td align = \"center\"><input type = \"number\" name = \"edition[$i]\" value = \"$e\"></td>
 		<td align = \"center\"><input type = \"text\" name = \"origprice[$i]\" value = \"$o\">
 		<td align = \"center\"><input type = \"text\" name = \"sellprice[$i]\" value = \"$se\">
-		<td align = \"center\">".$d."</td>
-		<td align = \"center\"><img src = \"posts/".$i.".jpg\" style = \"width:125px;height:150px\"></td>
+		<td align = \"center\">$d</td>
+		<td align = \"center\"><img src = \"posts/$i.jpg\" style = \"width:125px;height:150px\"></td>
 		</td></tr>";
 	} else {
 		unset($_SESSION["id"][$i]);
