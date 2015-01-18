@@ -26,12 +26,17 @@ if(loggedin()){
 <head>
 <title>Profile</title>
 </head>
-<body>
-<table cellpadding =10 >
+<body><center>
+<div id='ontainer'>
+<div id='ox'></div>
+<div id='ext'>
+<table cellpadding =20 >
+
 <tr>
 <td colspan = 3 align = "center"><h1><?php echo $_SESSION['user']."'s" ;?> Profile</h1></td>
 </tr>
 <tr>
+
 <td>Name: </td>
 <td><?php echo $name; ?></td>
 <td rowspan=5 valign = "top">
@@ -55,20 +60,21 @@ if(loggedin()){
 <td><?php echo $prof; ?></td>
 </tr>
 </table>
+
+</div>
+</div>
+
 <table cellspacing = 10 cellpadding = 10>
 <tr>
 <td align = "center"><a href = "search.php">Search</a></td>
 <td align = "center"><a href = "postadd.php">Post Ads</a></td>
-<td align = "center"><a href = "history.php">History</a></td>
-</tr>
+<td align = "center"><a href = "history.php">History</a></td></tr>
 <tr>
 <td align = "center"><a href = "editprofile.php">Edit Profile</a></td>
 <td align = "center"><a href = "changemail.php">Change Email</a></td>
-<td align = "center"><a href = "changepass.php">Change Password</a></td>
-</tr>
-<tr><td></td>
-<td align = "center"><a href = "logout.php">Log out</a></td>
-<td></td></tr>
+<td align = "center"><a href = "changepass.php">Change Password</a></td></tr>
+<tr align = "center"><a href = "logout.php">Log out</a></tr>
 </table>
+</center>
 </body>
 </html>

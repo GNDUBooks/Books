@@ -16,7 +16,7 @@ if(mail($to, $subject, $message, $headers)) {
 	while($flag){
 		if(mysql_query($query)){	
 			$flag = false;
-			die('Failure: Varification Mail was not sent to your email address as there may be some problem!!!!');
+			die('Failure: Verification Mail was not sent to your email address as there may be some problem!!!!');
 		}
 	}
 }
