@@ -11,10 +11,10 @@ if(loggedin()) {
 	$qual = $query_run['Qualification'];
 	$prof = $query_run['Profession'];
 
-	if($query_run['Link_Photo'] && is_file(GW_UPLOADPATH.$_SESSION['user'].".jpg") && filesize(GW_UPLOADPATH.$_SESSION['user'].".jpg") > 0) {
-		$link = GW_UPLOADPATH.$_SESSION['user'].".jpg";
+	if($query_run['Link_Photo'] && is_file("pro_photos/".$_SESSION['user'].".jpg") && filesize("pro_photos/".$_SESSION['user'].".jpg") > 0) {
+		$link = "pro_photos/".$_SESSION['user'].".jpg";
 	} else {
-		$link = GW_UPLOADPATH."edit.jpg";
+		$link = "pro_photos/"."edit.jpg";
 	}
 	
 	if( isset($_POST['edit']) && !empty($_POST['edit'] ) && empty($_POST['done'])) {
@@ -55,8 +55,8 @@ if(loggedin()) {
 			if(!empty($picname)) {
 				$pictype = $_FILES['files']['type'];
 				$picsize = $_FILES['files']['size'];
-				if(($pictype == 'image/jpg' || $pictype == 'image/jpeg' || $pictype == 'image/png') && $picsize < GW_MAXFILESIZE) {
-					$link = GW_UPLOADPATH.$_SESSION['user'].'.jpg';
+				if(($pictype == 'image/jpg' || $pictype == 'image/jpeg' || $pictype == 'image/png') && $picsize < 204800) {
+					$link = "pro_photos/".$_SESSION['user'].'.jpg';
 					if(move_uploaded_file($_FILES['files']['tmp_name'], $link)) {
 						$link = 1;					
 					} else {
@@ -79,6 +79,7 @@ if(loggedin()) {
 } else {
 	header('Location: index.php');
 }
+nocaching();
 echo $error;
 ?>
 

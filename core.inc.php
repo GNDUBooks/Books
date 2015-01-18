@@ -2,15 +2,14 @@
 ob_start();
 session_start();
 $current_file = $_SERVER['SCRIPT_NAME'];
-define('GW_UPLOADPATH','pro_photos/');
-define('GW_MAXFILESIZE',204800);
 if(isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])){
 	$http_referer = $_SERVER['HTTP_REFERER'];
 }
 
-
-
-
+/**
+ * checks for user login
+ * @return boolean true if logged in
+ */
 function loggedin() {
 	if(isset($_SESSION['user']) && !empty($_SESSION['user'])){
 		return true;
@@ -19,6 +18,14 @@ function loggedin() {
 	}
 }
 
+/**
+ * executes query to fetch required data from database
+ * @param String $field field or list of fields to be fetched separated by commas
+ * @param String $table tablename from where data is to be fetched
+ * @param String $column fieldname to identify row of table to be fetched
+ * @param depends_$column value to be used to identify row 
+ * @return String $query_run
+ */
 function getuserdata($field,$table,$column,$key){
 	$query = "select ".$field." from ".$table." where ".$column." = '".$key."'";
 	if($query_run = mysql_query($query)){
@@ -26,13 +33,23 @@ function getuserdata($field,$table,$column,$key){
 	}
 }
 
-
+/**
+ * Sanitizes user inputs
+ * @param string $data Something entered by user in text box
+ * @return string $data sanitized data
+ */
 function test_input($data) {
 	$data = trim($data);	
 	$data = stripslashes($data);
 	$data = htmlspecialchars($data);
 	return $data;
 }
+
+/**
+ * validates username for required pattern and ensures its uniqueness in database
+ * @param String $username Username entered by user
+ * @return array assoiciative array of validated username, error if any and a flag
+ */
 function checkusername($username) {
 	$value = array('username' => "",'usernameErr' => "",'flag' => true);
 	if (empty($username)) {
@@ -63,6 +80,11 @@ function checkusername($username) {
 	return $value;
 }
 
+/**
+ * validates name according to required pattern
+ * @param String $name name entered by user
+ * @return array associative array of name, error message if any and a flag
+ */
 function checkname($name){
 	$value1 = array('name' => "",'nameErr' => "",'flag' => true);
 	if (empty($name)) {
@@ -79,6 +101,11 @@ function checkname($name){
 	return $value1;
 }
 
+/**
+ * validates password for required pattern
+ * @param String $pass password entered by user
+ * @return array associative array of validated password, error message if any and a flag
+ */
 function checkpass($pass) {
 	$value2 = array('pass' => "",'passErr' => "",'flag' => true);
 	if (empty($pass)) {
@@ -95,6 +122,11 @@ function checkpass($pass) {
 	return $value2;
 }
 
+/**
+ * validates email for required pattern and ensures its uniqueness in database
+ * @param String $email email entered by user
+ * @return array associative array of validated email, error message if any and a flag
+ */
 function checkemail($email){
 	$value3 = array('email' => "",'emailErr' => "",'flag' => true);
 	if (empty($email)) {
@@ -125,6 +157,11 @@ function checkemail($email){
 	return $value3;
 }
 
+/**
+ * validates contact according to required pattern and ensures its uniqueness in database
+ * @param String $contact contact no entered by user
+ * @return array associative array of validated contact, error message if any and a flag
+ */
 function checkcontact($contact){
 	$value4 = array('contact' => "",'contactErr' => "",'flag' => true);
 	if(!empty($contact)) {
@@ -152,6 +189,14 @@ function checkcontact($contact){
 	return $value4;
 }
 
+/**
+ * avoids caching of webpages
+ */
+function nocaching(){
+	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+	header("Cache-control: post-check=0,pre-check=0",false);
+	header("Pragma: no-cache");
+}
+
 ob_end_flush();
 ?>
-

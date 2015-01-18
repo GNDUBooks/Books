@@ -1,7 +1,8 @@
 <?php
 require_once 'core.inc.php';
 if(loggedin()){
-	require_once 'header.php';
+	nocaching();
+        require_once 'header.php';
 	require_once 'dbconnect.inc.php';
 	$photoErr = '';
 	$query_result = mysql_fetch_assoc(getuserdata('*','master','Username',$_SESSION['user']));
@@ -11,10 +12,10 @@ if(loggedin()){
 	$qual = $query_result['Qualification'];
 	$prof = $query_result['Profession'];	
 	
-	if($query_result['Link_Photo'] && is_file(GW_UPLOADPATH.$_SESSION['user'].'.jpg') && filesize(GW_UPLOADPATH.$_SESSION['user'].'.jpg') > 0) {
-		$link = GW_UPLOADPATH.$_SESSION['user'].'.jpg';
+	if($query_result['Link_Photo'] && is_file("pro_photos/".$_SESSION['user'].'.jpg') && filesize("pro_photos/".$_SESSION['user'].'.jpg') > 0) {
+		$link = "pro_photos/".$_SESSION['user'].'.jpg';
 	} else {
-		$link = GW_UPLOADPATH."edit.jpg";
+		$link = "pro_photos/"."edit.jpg";
 	}
 } else {
 	header('Location: index.php');
