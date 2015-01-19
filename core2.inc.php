@@ -141,7 +141,11 @@ function result($t,$s,$a,$sort,$results_per_page,$skip)
  
  if($tot>0){
   while ($result_set= mysql_fetch_array($st)){
-  $idd=$result_set['ID'];
+	$idd = $result_set['ID'];
+	if(!isset($_SESSION["search"][$idd])){
+		$_SESSION["search"][$idd]['value'] = $idd;
+		$_SESSION["search"][$idd]['flag'] = true;
+	}
    $title=$result_set['Title']; 
    $subject=$result_set['Subject'];
    $author=$result_set['Author'];
@@ -151,8 +155,8 @@ function result($t,$s,$a,$sort,$results_per_page,$skip)
    $username=$result_set['Username'];
    $link='posts/'.$result_set['ID'].'.jpg';
    $date=$result_set['dateofpost'];
-
-   
+    
+  
    echo "<tr>
    <td>
        <table>
@@ -176,9 +180,9 @@ function result($t,$s,$a,$sort,$results_per_page,$skip)
       </td>
 	<td><b>Rs.".$sellprice."</b></td>
     <td>".substr($date,0,10)."</td>
-	<td>
-	<input type = ".'submit'." name = ".'add'.$idd." value = ".'Yes'.">
-	  </td>
+	<td><form method = 'POST' action = 'report.php'>
+	<input type = ".'submit'." name = \"reportadd[$idd]\" value = \"Report\">
+	  </form></td>
 	  </tr>";
  
    }

@@ -1,7 +1,7 @@
 <?php
 include ('header.php');
 require_once('dbconnect.inc.php');
-require ('core2.inc.php');
+require_once ('core2.inc.php');
 $sort=1;
 if(!empty($_GET['sort']))
 {
@@ -13,6 +13,7 @@ $cur_page = isset($_GET['page']) ? $_GET['page'] : 1;
 $_GET['page']=$cur_page;
 $skip = (($cur_page - 1) * $results_per_page);
 $subject = "";
+$_SESSION['search'] = array();
 function generate_page_links($t,$s,$a, $sort, $cur_page, $num_pages) {
     $page_links = '';
 
@@ -80,7 +81,7 @@ function gen_sortlinks($t,$s,$a,$sort)
 Search Books</title>
 <body>
 <p align="left">
-   <a href = "profile.inc.php" ><b>Back to Profile</b></center></a>
+   <a href = "index.php" ><b>Back to Profile</b></center></a>
 </p>
 
 <center>  
@@ -126,7 +127,6 @@ Search Books</title>
 </form>
 
 <?php
-
 if(!empty($_GET['search']) && (!empty($_GET['title']) || !empty($_GET['subject']) || !empty($_GET['author']) )  && !empty($_GET['page']) )
 {  
   {
@@ -139,11 +139,12 @@ if(!empty($_GET['search']) && (!empty($_GET['title']) || !empty($_GET['subject']
       <td><b>Details</b></td>";
  
   echo gen_sortlinks($_GET['title'],$_GET['subject'],$_GET['author'],$sort);
-  echo "<td><b>Add to Cart</b></td></tr>";
+  echo "</tr>";
   $num_pages=result($_GET['title'],$_GET['subject'],$_GET['author'],$sort,$results_per_page,$skip);
   }
   
 }
+
 ?>
 
 </table>
@@ -151,6 +152,7 @@ if(!empty($_GET['search']) && (!empty($_GET['title']) || !empty($_GET['subject']
 if ($num_pages > 1) {
 echo generate_page_links($_GET['title'],$_GET['subject'],$_GET['author'], $sort, $_GET['page'], $num_pages);
 }
+
 ?>
 </div>
 </div>
