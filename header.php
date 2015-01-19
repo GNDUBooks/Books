@@ -3,7 +3,7 @@
 #container {
     position: relative;
 	top:0;
-    width: 93%; height: 100%;
+    width: 75%; height: 120%;
 }
 
 #box{

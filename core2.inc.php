@@ -8,7 +8,6 @@ if(isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])){
 	$http_referer = $_SERVER['HTTP_REFERER'];
 }
 
-
 function build_query($t,$s,$a,$sort)
 {  
    $search_query="select * from posts";
@@ -128,13 +127,21 @@ function build_query($t,$s,$a,$sort)
 	 
 	return $search_query;
 }
-
-function result($t,$s,$a,$sort)
+  
+function result($t,$s,$a,$sort,$results_per_page,$skip)
 {
  $query=build_query($t,$s,$a,$sort);
  $set=mysql_query($query);
- if(mysql_num_rows($set)>0){
-  while ($result_set= mysql_fetch_array($set)){
+ $total=mysql_num_rows($set);
+ $num_pages=ceil($total/$results_per_page);
+ 
+ $query.=" limit ".$skip.', ' . $results_per_page;
+  $st=mysql_query($query);
+ $tot=mysql_num_rows(mysql_query($query));
+ 
+ if($tot>0){
+  while ($result_set= mysql_fetch_array($st)){
+  $idd=$result_set['ID'];
    $title=$result_set['Title']; 
    $subject=$result_set['Subject'];
    $author=$result_set['Author'];
@@ -145,23 +152,47 @@ function result($t,$s,$a,$sort)
    $link='posts/'.$result_set['ID'].'.jpg';
    $date=$result_set['dateofpost'];
 
-   echo '<tr>';
-   echo '<td><img src = '.$link.' style =  width:120px;height:120px  ></img></td>';
-   echo '<td>'.$title.'</td>';
-   echo '<td>'. $subject.'</td>';
-   echo '<td>'.$author.'</td>';
-   echo '<td>'. $edition.'</td>';
-   echo '<td>'.$username.'</td>';
-   echo '<td>'.$oriprice.'</td>';
-   echo '<td>'.$sellprice.'</td>';
-   echo '<td>'.substr($date,0,10).'</td>';
-   echo '</tr>';
+   
+   echo "<tr>
+   <td>
+       <table>
+        <tr>
+          <td> " .$title. " </td><br>
+        </tr>
+        <tr>
+          <td><img src = ".$link." style =  width:120px;height:120px  ></img></td>
+        </tr>
+      </table>
+   </td>";	  
+  echo " <td><br>
+        <ul>
+         <li>Subject:".$subject."</li>
+         <li>Author:".$author."</li>
+         <li>Edition:".$edition."</li>
+		 <li>From:".$username."</li>
+		 <li>Original Price:Rs.".$oriprice."</li>
+		 
+        </ul>
+      </td>
+	<td><b>Rs.".$sellprice."</b></td>
+    <td>".substr($date,0,10)."</td>
+	<td>
+	<input type = ".'submit'." name = ".'add'.$idd." value = ".'Yes'.">
+	  </td>
+	  </tr>";
+ 
    }
  }
  else{
    echo "<b>Sorry... No results Found!</b>";
 	 }
-}	 
+	 return $num_pages;
 	 
-
+for($i=1; $i<=$total;$i+=1)
+	if(!empty($_GET["'add".$i."'"])) 
+	{
+	  header('Location:profile.inc.php');
+	}
+	 
+}
 ?> 
