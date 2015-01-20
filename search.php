@@ -13,7 +13,6 @@ $cur_page = isset($_GET['page']) ? $_GET['page'] : 1;
 $_GET['page']=$cur_page;
 $skip = (($cur_page - 1) * $results_per_page);
 $subject = "";
-$_SESSION['search'] = array();
 function generate_page_links($t,$s,$a, $sort, $cur_page, $num_pages) {
     $page_links = '';
 
@@ -161,10 +160,3 @@ echo generate_page_links($_GET['title'],$_GET['subject'],$_GET['author'], $sort,
 
 </body>
 </html>
-
-
-
-
-
-
-
