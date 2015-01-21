@@ -170,8 +170,7 @@ function result($t,$s,$a,$sort,$results_per_page,$skip)
          <li>Author:".$author."</li>
          <li>Edition:".$edition."</li>
 		 <li>From:".$username."</li>
-		 <li>Original Price:Rs.".$oriprice."</li>
-		 
+		 <li>Original Price:Rs.".$oriprice."</li>		 
         </ul>
       </td>
 	<td><b>Rs.".$sellprice."</b></td>
@@ -179,8 +178,7 @@ function result($t,$s,$a,$sort,$results_per_page,$skip)
 	<td>
 	<input type = ".'submit'." name = ".'add'.$idd." value = ".'Yes'.">
 	  </td>
-	  </tr>";
- 
+	  </tr>"; 
    }
  }
  else{
