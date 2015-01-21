@@ -1,8 +1,10 @@
 <?php
 require_once 'core.inc.php';
+nocaching();
 if(loggedin()){
-	nocaching();
-        require_once 'header.php';
+	unset($_SESSION["search"]);
+	
+    require_once 'header.php';
 	require_once 'dbconnect.inc.php';
 	$photoErr = '';
 	$query_result = mysql_fetch_assoc(getuserdata('*','master','Username',$_SESSION['user']));
