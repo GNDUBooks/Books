@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2015 at 01:33 PM
+-- Generation Time: Jan 24, 2015 at 01:15 AM
 -- Server version: 5.6.11
 -- PHP Version: 5.5.1
 
@@ -109,6 +109,19 @@ CREATE TABLE IF NOT EXISTS `posts` (
 
 INSERT INTO `posts` (`ID`, `Title`, `Subject`, `Author`, `Edition`, `Original_Price`, `Selling_Price`, `Photo`, `Username`, `dateofpost`, `sold`) VALUES
 (0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2015-01-05 13:02:57', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `report`
+--
+
+CREATE TABLE IF NOT EXISTS `report` (
+  `BookId` int(10) DEFAULT NULL,
+  `Username` varchar(30) DEFAULT NULL,
+  `DateOfReport` datetime DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY `BookId` (`BookId`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 

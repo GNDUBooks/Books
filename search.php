@@ -134,6 +134,7 @@ if(!empty($_GET['search']) && (!empty($_GET['title']) || !empty($_GET['subject']
 <div id='text'>";
   echo "<table cellpadding =15>";
   echo "<tr>
+	  <td></td>
       <td><b>Book</b></td>
       <td><b>Details</b></td>";
  

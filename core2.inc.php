@@ -140,13 +140,9 @@ function result($t,$s,$a,$sort,$results_per_page,$skip)
  $tot=mysql_num_rows(mysql_query($query));
  
  if($tot>0){
+ echo "<form method = 'POST' action = 'report.php'>";
   while ($result_set= mysql_fetch_array($st)){
 	$idd = $result_set['ID'];
-	if(!isset($_SESSION["search"][$idd])){
-		echo "hello";
-		$_SESSION["search"][$idd]['value'] = $idd;
-		$_SESSION["search"][$idd]['flag'] = true;
-	}
    $title=$result_set['Title']; 
    $subject=$result_set['Subject'];
    $author=$result_set['Author'];
@@ -157,7 +153,7 @@ function result($t,$s,$a,$sort,$results_per_page,$skip)
    $link='posts/'.$result_set['ID'].'.jpg';
    $date=$result_set['dateofpost'];
   
-   echo "<tr>
+   echo "<tr><td><input type = \"checkbox\" name = \"checklist[]\" value = \"$idd\"></td>
    <td>
        <table>
         <tr>
@@ -174,25 +170,17 @@ function result($t,$s,$a,$sort,$results_per_page,$skip)
          <li>Author:".$author."</li>
          <li>Edition:".$edition."</li>
 		 <li>From:".$username."</li>
-		 <li>Original Price:Rs.".$oriprice."</li>		 
+		 <li>Original Price:Rs.".$oriprice."</li>
+		 
         </ul>
       </td>
 	<td><b>Rs.".$sellprice."</b></td>
     <td>".substr($date,0,10)."</td>
-<<<<<<< HEAD
-	<td>
-	<input type = ".'submit'." name = ".'add'.$idd." value = ".'Yes'.">
-	  </td>
-	  </tr>"; 
-=======
-	<td><form method = 'POST' action = 'report.php'>";
-	if($_SESSION['search'][$idd]['flag']) {
-		echo "<input type = ".'submit'." name = \"reportadd[$idd]\" value = \"Report\">";
-	}
-	echo "</form></td></tr>";
+	<td><input type = ".'submit'." name = \"reportadd[$idd]\" value = \"Report\">";
+	echo "</td></tr>";
  
->>>>>>> origin/master
    }
+   echo "<input type = \"submit\" name = \"sendmail\" value = \"Send Buy Request to selected\"></form>";
  }
  else{
    echo "<b>Sorry... No results Found!</b>";
@@ -202,7 +190,7 @@ function result($t,$s,$a,$sort,$results_per_page,$skip)
 for($i=1; $i<=$total;$i+=1)
 	if(!empty($_GET["'add".$i."'"])) 
 	{
-	  header('Location:profile.inc.php');
+	  header('Location: index.php');
 	}
 }
 ?> 
