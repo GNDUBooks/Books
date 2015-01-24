@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 24, 2015 at 01:15 AM
+-- Generation Time: Jan 24, 2015 at 05:42 PM
 -- Server version: 5.6.11
 -- PHP Version: 5.5.1
 
@@ -21,6 +21,27 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `books` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `books`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `buyrequest`
+--
+
+CREATE TABLE IF NOT EXISTS `buyrequest` (
+  `BookId` int(10) NOT NULL DEFAULT '0',
+  `BuyerUser` varchar(30) NOT NULL DEFAULT '',
+  `OfferedPrice` int(4) DEFAULT NULL,
+  `DateOfOffer` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`BookId`,`BuyerUser`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `buyrequest`
+--
+
+INSERT INTO `buyrequest` (`BookId`, `BuyerUser`, `OfferedPrice`, `DateOfOffer`) VALUES
+(1, 'sahib12', 190, '2015-01-24 15:12:45');
 
 -- --------------------------------------------------------
 
@@ -108,7 +129,9 @@ CREATE TABLE IF NOT EXISTS `posts` (
 --
 
 INSERT INTO `posts` (`ID`, `Title`, `Subject`, `Author`, `Edition`, `Original_Price`, `Selling_Price`, `Photo`, `Username`, `dateofpost`, `sold`) VALUES
-(0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2015-01-05 13:02:57', 0);
+(0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2015-01-05 13:02:57', 0),
+(1, 'Sahibpreet Singh', 'Computer Science', 'Sahbi', '2', 452, 200, 1, 'sahib12', '2015-01-24 01:55:43', 0),
+(2, 'Computer Architecture', 'Computer Science', 'Morris Mano', '50', 400, 195, 1, 'sahib12', '2015-01-24 15:45:56', 0);
 
 -- --------------------------------------------------------
 

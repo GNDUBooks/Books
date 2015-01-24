@@ -76,8 +76,18 @@ function gen_sortlinks($t,$s,$a,$sort)
 
 <!DOCTYPE>
 <html>
+<head>
 <title>
 Search Books</title>
+<script type="text/javascript">
+    function updateTextInput(val) {
+      document.getElementById('textInput').value=val; 
+    }
+	function updateSliderInput(val) {
+		document.getElementById('rangeInput').value=val;
+	}
+</script>
+</head>
 <body>
 <p align="left">
    <a href = "index.php" ><b>Back to Profile</b></center></a>
@@ -132,14 +142,13 @@ if(!empty($_GET['search']) && (!empty($_GET['title']) || !empty($_GET['subject']
   echo "<div id='container'>
 <div id='box'></div>
 <div id='text'>";
-  echo "<table cellpadding =15>";
+  echo "<table cellpadding=10>";
   echo "<tr>
-	  <td></td>
-      <td><b>Book</b></td>
-      <td><b>Details</b></td>";
+	  <td align=\"center\"><b>Book</b></td>
+      <td align=\"center\"><b>Details</b></td>";
  
   echo gen_sortlinks($_GET['title'],$_GET['subject'],$_GET['author'],$sort);
-  echo "</tr>";
+  echo "<td align=\"center\">Offered Price</td></tr>";
   $num_pages=result($_GET['title'],$_GET['subject'],$_GET['author'],$sort,$results_per_page,$skip);
   }
   

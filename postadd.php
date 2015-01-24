@@ -8,7 +8,8 @@
 require_once 'core.inc.php';
 if(loggedin()) {
 	require_once 'header.php';
-	$bookname = $author = $subject = $edition = $sellprice = $origprice = $image = "";
+	$bookname = $author = $subject = $sellprice = $origprice = $image = "";
+	$edition = 1;
 	$booknameErr = $authorErr = $subjectErr = $editionErr = $sellpriceErr = $origpriceErr = $imageErr = "";
 	$flag1 = $flag2 = $flag3 = $flag4 = $flag5 = $flag6 = true;
 	require_once 'dbconnect.inc.php';
@@ -48,16 +49,6 @@ if(loggedin()) {
 					if (!preg_match("/^[a-zA-Z ]{2,30}$/", $subject)) {
 						$subjectErr = "Only letters allowed and length between 2 and 30";
 						$flag3 = false;
-					}
-				}
-				if($_POST['edition'] == "0") {
-					$editionErr= "edition of book is required";
-					$flag4 = false;
-				} else {
-					$edition = test_input($_POST["edition"]);
-					if($edition < 1 || $edition > 50) {
-						$editionErr = "Edition of book not valid";
-						$flag4 = false;
 					}
 				}
 				
@@ -205,7 +196,7 @@ if(loggedin()) {
 </tr>
 <tr>
 <td>EDITION : </td>
-<td><input type = "number" name = "edition" value = "<?php echo $edition; ?>" size = "32"></td>
+<td><input type = "number" name = "edition" value = "<?php echo $edition; ?>" min="1" max="50" size = "32"></td>
 <td><span class = "error" >* <?php echo $editionErr; ?></span></td>
 </tr>
 <tr>

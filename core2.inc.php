@@ -140,7 +140,6 @@ function result($t,$s,$a,$sort,$results_per_page,$skip)
  $tot=mysql_num_rows(mysql_query($query));
  
  if($tot>0){
- echo "<form method = 'POST' action = 'report.php'>";
   while ($result_set= mysql_fetch_array($st)){
 	$idd = $result_set['ID'];
    $title=$result_set['Title']; 
@@ -153,7 +152,7 @@ function result($t,$s,$a,$sort,$results_per_page,$skip)
    $link='posts/'.$result_set['ID'].'.jpg';
    $date=$result_set['dateofpost'];
   
-   echo "<tr><td><input type = \"checkbox\" name = \"checklist[]\" value = \"$idd\"></td>
+   echo "<tr>
    <td>
        <table>
         <tr>
@@ -173,15 +172,30 @@ function result($t,$s,$a,$sort,$results_per_page,$skip)
 		 <li>Original Price:Rs.".$oriprice."</li>
 		 
         </ul>
-      </td>
-	<td><b>Rs.".$sellprice."</b></td>
+      </td>";
+	$min = round(($oriprice / 3),-1);
+	$max = round(($oriprice / 2),-1);
+	echo "<td>Minimum : <b>Rs.".$min."</b><br>
+	Maximum : <b> Rs.".$max."</td>
     <td>".substr($date,0,10)."</td>
-	<td><input type = ".'submit'." name = \"reportadd[$idd]\" value = \"Report\">";
-	echo "</td></tr>";
+	<td>
+	<table>
+	<tr>
+	<td align=\"left\">".$min."</td>
+	<td align=\"right\">".$max."</td>
+	</tr>
+	<tr>
+	<td colspan=\"2\"><input type = \"range\" id=\"rangeInput\" name=\"offerrange\" min = ".$min." max=".$max." step = \"10\" onchange=\"updateTextInput(this.value);\"></td>
+	</tr><form method=\"POST\" action=\"sendoffer.php\">
+	<tr><td align=\"center\" colspan=\"2\"><input type=\"number\" id=\"textInput\" name=\"offer[$idd]\" min=".$min." max=".$max." value=\"".($min + $max) / 2 ."\" step=\"10\" onchange=\"updateSliderInput(this.value)\"></td><tr>
+	<tr><td align=\"center\" colspan=\"2\"><input type=\"submit\" name=\"sendoffer[$idd]\" value=\"Send Offer\"></td></tr>
+	</form></table>
+	<td><form method = 'POST' action = 'report.php'>
+	<input type = ".'submit'." name = \"reportadd[$idd]\" value = \"Report\"></form>
+	</td></tr>";
  
    }
-   echo "<input type = \"submit\" name = \"sendmail\" value = \"Send Buy Request to selected\"></form>";
- }
+}
  else{
    echo "<b>Sorry... No results Found!</b>";
 	 }
