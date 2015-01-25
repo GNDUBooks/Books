@@ -104,30 +104,20 @@ Search Books</title>
 <td><b>Subject:</td>
 <td><select name = "subject">
 <option value = "0" <?php if($subject == "0") { echo "selected = selected";}?>>Select Subject</option>
-<option value = "Agriculture" <?php if($subject == "Agriculture") { echo "selected = selected";}?>>Agriculture</option>
-<option value = "Architecture" <?php if($subject == "Architecture") { echo "selected = selected";}?>>Architecture</option>
-<option value = "Arts" <?php if($subject == "Arts") { echo "selected = selected";}?>>Arts</option>
-<option value = "Chemistry" <?php if($subject == "Chemistry") { echo "selected = selected";}?>>Chemistry</option>
-<option value = "Commerce" <?php if($subject == "Commerce") { echo "selected = selected";}?>>Commerce</option>
-<option value = "Computer Science" <?php if($subject == "Computer Science") { echo "selected = selected";}?>>Computer Science</option>
-<option value = "Physics" <?php if($subject == "Physics") { echo "selected = selected";}?>>Engineering</option>
-<option value = "Economics" <?php if($subject == "Economics") { echo "selected = selected";}?>>Economics</option>
-<option value = "History" <?php if($subject == "History") { echo "selected = selected";}?>>History</option>
-<option value = "Language" <?php if($subject == "Language") { echo "selected = selected";}?>>Language</option>
-<option value = "Law" <?php if($subject == "Law") { echo "selected = selected";}?>>Law</option>
-<option value = "Library Science" <?php if($subject == "Library Science") { echo "selected = selected";}?>>Library Science</option>
-<option value = "Life Sciences" <?php if($subject == "Life Sciences") { echo "selected = selected";}?>>Life Sciences</option>
-<option value = "Literature" <?php if($subject == "Literature") { echo "selected = selected";}?>>Literature</option>
-<option value = "Management" <?php if($subject == "Management") { echo "selected = selected";}?>>Management</option>
-<option value = "Mathematics" <?php if($subject == "Mathematics") { echo "selected = selected";}?>>Mathematics</option>
-<option value = "Medicine and Health" <?php if($subject == "Medicine and Health") { echo "selected = selected";}?>>Medicine and Health</option>
-<option value = "Philosophy and Pscychology" <?php if($subject == "Philosophy and Pscychology") { echo "selected = selected";}?>>Philosophy and Pscychology</option>
-<option value = "Physics" <?php if($subject == "Physics") { echo "selected = selected";}?>>Physics</option>
-<option value = "Political Science" <?php if($subject == "Political Science") { echo "selected = selected";}?>>Political Science</option>
-<option value = "Religion" <?php if($subject == "Religion") { echo "selected = selected";}?>>Religion</option>
-<option value = "Science" <?php if($subject == "Science") { echo "selected = selected";}?>>Science</option>
-<option value = "Social Sciences and Sociology" <?php if($subject == "Social Sciences and Socialogy") { echo "selected = selected";}?>>Social Sciences and Socialogy</option>
-</td>
+<?php
+$query = "select SubjectName from subject";
+if($queryrun = mysql_query($query)) {
+	while($result = mysql_fetch_assoc($queryrun)){
+		echo "<option value = \"".$result['SubjectName']."\"";
+		if($subject == $result['SubjectName']){ echo "selected=selected"; } 
+		echo ">".$result['SubjectName']."</option>";
+	}
+} else {
+	die(mysql_error());
+}
+?>
+<option value = "Other" <?php if($subject == "Other") { echo "selected = selected";}?> >Other</option>
+</select></td>
 <td><b>Author:</td><td><input type='text' name='author' ></b></td>
 <td><input type="submit" name="search" value="Search"></td>
 </tr>

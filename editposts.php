@@ -93,32 +93,19 @@ while($query_row = mysql_fetch_assoc($query_run)) {
 		$photo = $query_row['Photo'];
 		echo "<tr><td align = \"center\">$i</td>
 		<td align = \"center\"><input type = \"text\" name = \"title[$i]\" value = \"$t\"></td>
-		<td align = \"center\"><select name = \"subject[$i]\">
-								<option value = \"0\""; if($s == "0") { echo "selected = selected";} echo ">Select Subject</option>
-								<option value = \"Agriculture\""; if($s == "Agriculture") { echo "selected = selected";} echo ">Agriculture</option>
-								<option value = \"Architecture\""; if($s == "Architecture") { echo "selected = selected";} echo ">Architecture</option>
-								<option value = \"Arts\""; if($s == "Arts") { echo "selected = selected";} echo ">Arts</option>
-								<option value = \"Chemistry\""; if($s == "Chemistry") { echo "selected = selected";} echo ">Chemistry</option>
-								<option value = \"Commerce\""; if($s == "Commerce") { echo "selected = selected";} echo ">Commerce</option>
-								<option value = \"Computer Science\""; if($s == "Computer Science") { echo "selected = selected";} echo ">Computer Science</option>
-								<option value = \"Physics\""; if($s == "Physics") { echo "selected = selected";}echo ">Engineering</option>
-								<option value = \"Economics\""; if($s == "Economics") { echo "selected = selected";} echo ">Economics</option>
-								<option value = \"History\""; if($s == "History") { echo "selected = selected";} echo ">History</option>
-								<option value = \"Language\""; if($s == "Language") { echo "selected = selected";} echo ">Language</option>
-								<option value = \"Law\""; if($s == "Law") { echo "selected = selected";} echo ">Law</option>
-								<option value = \"Library Science\""; if($s == "Library Science") { echo "selected = selected";} echo ">Library Science</option>
-								<option value = \"Life Sciences\""; if($s == "Life Sciences") { echo "selected = selected";} echo ">Life Sciences</option>
-								<option value = \"Literature\""; if($s == "Literature") { echo "selected = selected";} echo ">Literature</option>
-								<option value = \"Management\""; if($s == "Management") { echo "selected = selected";} echo ">Management</option>
-								<option value = \"Mathematics\""; if($s == "Mathematics") { echo "selected = selected";} echo ">Mathematics</option>
-								<option value = \"Medicine and Health\""; if($s == "Medicine and Health") { echo "selected = selected";} echo ">Medicine and Health</option>
-								<option value = \"Philosophy and Pscychology\""; if($s == "Philosophy and Pscychology") { echo "selected = selected";} echo ">Philosophy and Pscychology</option>
-								<option value = \"Physics\""; if($s == "Physics") { echo "selected = selected";} echo ">Physics</option>
-								<option value = \"Political Science\""; if($s == "Political Science") { echo "selected = selected";} echo ">Political Science</option>
-								<option value = \"Religion\""; if($s == "Religion") { echo "selected = selected";} echo ">Religion</option>
-								<option value = \"Science\""; if($s == "Science") { echo "selected = selected";} echo ">Science</option>
-								<option value = \"Social Sciences and Sociology\""; if($s == "Social Sciences and Socialogy") { echo "selected = selected";} echo ">Social Sciences and Socialogy</option>
-								</td>
+		<td align = \"center\"><select name = \"subject[$i]\">";
+		$query = "select SubjectName from subject";
+		if($queryrun = mysql_query($query)) {
+			while($result = mysql_fetch_assoc($queryrun)){
+				echo "<option value = \"".$result['SubjectName']."\"";
+				if($s == $result['SubjectName']){ echo "selected=selected"; } 
+				echo ">".$result['SubjectName']."</option>";
+			}
+		} else {
+			die(mysql_error());
+		}
+		echo "<option value = \"Other\""; if($s == "Other") { echo "selected = selected";} echo "\">Other</option>
+		</select></td>
 		<td align = \"center\"><input type = \"text\" name = \"author[$i]\" value = \"$a\"></td>
 		<td align = \"center\"><input type = \"number\" name = \"edition[$i]\" value = \"$e\"></td>
 		<td align = \"center\"><input type = \"text\" name = \"origprice[$i]\" value = \"$o\">

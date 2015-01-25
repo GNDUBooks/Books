@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 24, 2015 at 05:42 PM
+-- Generation Time: Jan 25, 2015 at 02:30 PM
 -- Server version: 5.6.11
 -- PHP Version: 5.5.1
 
@@ -36,13 +36,6 @@ CREATE TABLE IF NOT EXISTS `buyrequest` (
   PRIMARY KEY (`BookId`,`BuyerUser`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `buyrequest`
---
-
-INSERT INTO `buyrequest` (`BookId`, `BuyerUser`, `OfferedPrice`, `DateOfOffer`) VALUES
-(1, 'sahib12', 190, '2015-01-24 15:12:45');
-
 -- --------------------------------------------------------
 
 --
@@ -74,7 +67,8 @@ CREATE TABLE IF NOT EXISTS `login` (
 --
 
 INSERT INTO `login` (`Username`, `Password`) VALUES
-('sahib12', 'e90c6647830e603b4e761311d05238db');
+('sahib12', 'e90c6647830e603b4e761311d05238db'),
+('harman', 'e90c6647830e603b4e761311d05238db');
 
 -- --------------------------------------------------------
 
@@ -100,6 +94,7 @@ CREATE TABLE IF NOT EXISTS `master` (
 --
 
 INSERT INTO `master` (`Username`, `Name`, `Email`, `ContactNo`, `Qualification`, `Profession`, `Link_Photo`) VALUES
+('harman', 'Harmandeep Singh Kalsi', 'jsbhalla52@gmail.com', '9888518454', NULL, NULL, 0),
 ('sahib12', 'Sahibpreet Singh', 'sahibpreetsingh94@gmail.com', '9888518432', 'BTech', 'Stu', 1);
 
 -- --------------------------------------------------------
@@ -129,9 +124,7 @@ CREATE TABLE IF NOT EXISTS `posts` (
 --
 
 INSERT INTO `posts` (`ID`, `Title`, `Subject`, `Author`, `Edition`, `Original_Price`, `Selling_Price`, `Photo`, `Username`, `dateofpost`, `sold`) VALUES
-(0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2015-01-05 13:02:57', 0),
-(1, 'Sahibpreet Singh', 'Computer Science', 'Sahbi', '2', 452, 200, 1, 'sahib12', '2015-01-24 01:55:43', 0),
-(2, 'Computer Architecture', 'Computer Science', 'Morris Mano', '50', 400, 195, 1, 'sahib12', '2015-01-24 15:45:56', 0);
+(0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2015-01-05 13:02:57', 0);
 
 -- --------------------------------------------------------
 
@@ -145,6 +138,46 @@ CREATE TABLE IF NOT EXISTS `report` (
   `DateOfReport` datetime DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY `BookId` (`BookId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subject`
+--
+
+CREATE TABLE IF NOT EXISTS `subject` (
+  `SubjectName` varchar(40) NOT NULL,
+  PRIMARY KEY (`SubjectName`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `subject`
+--
+
+INSERT INTO `subject` (`SubjectName`) VALUES
+('Agriculture'),
+('Architecture'),
+('Arts'),
+('Chemistry'),
+('Commerce'),
+('Computer Science'),
+('Economics'),
+('Engineering'),
+('History'),
+('Language'),
+('Law'),
+('Library Science'),
+('Life Sciences'),
+('Literature'),
+('Management'),
+('Mathematics'),
+('Medicine and Health'),
+('Philosophyand Psychology'),
+('Physics'),
+('Political Science'),
+('Religion'),
+('Science'),
+('Social Sciences and Sociology');
 
 -- --------------------------------------------------------
 

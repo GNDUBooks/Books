@@ -4,15 +4,6 @@ session_start();
 if(isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])){
 	$http_referer = $_SERVER['HTTP_REFERER'];
 	require_once 'dbconnect.inc.php';
-	foreach($_POST["sendoffer"] as $x => $x_value) {
-		$date = date("Y-m-d");
-		$query = "select count(ID) as no from buyrequest where Username = '".$_SESSION['user']."' and DateOfOffer like '".$date."_________'";
-		if($query_run = mysql_query($query)) {
-		
-		} else {
-			echo "Unable to process your request";
-		}
-	}
 	foreach($_POST["reportadd"] as $x => $x_value) {
 		$date = date("Y-m-d");
 		$query = "select count(BookId) as no from report where Username = '".$_SESSION['user']."' and DateOfReport like '".$date."_________'";
