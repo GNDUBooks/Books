@@ -19,7 +19,7 @@ if(isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])){
 							$to = mysql_result($query_run2,0,'Email');
 							$price = mysql_result($query_run2,0,'Selling_Price');
 							$title = mysql_result($query_run2,0,'Title');
-							echo $subject = "Offer for ".$title;
+							echo $subject = "Offer for ".$title." book";
 							echo $message = $_SESSION['user']." wants to buy your book named ".$title." posted against id ".$x.
 							" for Rs. ".$_POST["offer"][$x]." which you wanted to sell at Rs. ".$price.
 							". You can further contact buyer through mail. Email of buyer is ".$email.".";
