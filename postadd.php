@@ -2,14 +2,28 @@
 <html>
 <head>
 <title>ADD POST</title>
+<script type="text/javascript">
+    function updateMinMax(val) {
+		var a = val;
+		var min = Math.round(a / 3);
+		min = min - (min % 10);
+		var max = Math.round(a / 2);
+		max = max - (max % 10);
+		document.getElementById('sellprice').min= min;
+		document.getElementById('sellprice').max= max;
+		document.getElementById('sellprice').value= min;
+	}
+</script>
 </head>
 <body>
 <?php
 require_once 'core.inc.php';
 if(loggedin()) {
 	require_once 'header.php';
-	$bookname = $author = $subject = $sellprice = $origprice = $image = "";
+	$bookname = $author = $subject = $image = "";
 	$edition = 1;
+	$sellprice = 50;
+	$origprice = 50;
 	$booknameErr = $authorErr = $subjectErr = $editionErr = $sellpriceErr = $origpriceErr = $imageErr = "";
 	$flag1 = $flag2 = $flag3 = $flag4 = $flag5 = $flag6 = true;
 	require_once 'dbconnect.inc.php';
@@ -34,10 +48,21 @@ if(loggedin()) {
 					$authorErr = "name of the author of book is required";
 					$flag2 = false;
 				} else {
-					$author= test_input($_POST["author"]);
+					$author = test_input($_POST["author"]);
 					if (!preg_match("/^[a-zA-Z ]{2,30}$/", $author)) {
 						$authorErr = "Only letters allowed and length between 2 and 30";
 						$flag2 = false;
+					}
+				}
+				
+				if(empty($_POST["edition"])){
+					$editionErr = "Edition Of Book is required";
+					$flag4 = false;
+				} else {
+					$edition = test_input($_POST["edition"]);
+					if(!preg_match("/^[1-9][0-9]{0,3}$/",$edition)) {
+						$editionErr = "Only digits are allowed";
+						$flag4 = false;
 					}
 				}
 				
@@ -71,7 +96,7 @@ if(loggedin()) {
 					if (!preg_match("/^[0-9]{2,4}$/", $sellprice)) {
 						$sellpriceErr = "Only numbers are allowed.";
 						$flag5 = false;
-					} else if($sellprice >= ($origprice / 2) || $sellprice <= ($origprice / 3)) {
+					} else if($sellprice >= (($origprice / 2) + 10) || $sellprice <= (($origprice / 3) - 10)) {
 						$sellpriceErr = "selling price must lie between one third of original and half of original price";
 						$flag5 = false;
 					}
@@ -191,12 +216,12 @@ if($queryrun = mysql_query($query)) {
 </tr>
 <tr>
 <td>ORIGINAL PRICE : </td>
-<td><input type = "text" name = "origprice" value = "<?php echo $origprice; ?>" size = "32"></td>
+<td><input type = "number" id="origprice" name = "origprice" value = "<?php echo $origprice; ?>" size = "32" min="50" max="9999" step="10" onchange="updateMinMax(this.value);"></td>
 <td><span class = "error" >* <?php echo $origpriceErr; ?></span></td>
 </tr>
 <tr>
 <td>SELLING PRICE : </td>
-<td><input type = "text" name = "sellprice" value = "<?php echo $sellprice; ?>" size = "32"> </td>
+<td><input type = "number" id="sellprice" name = "sellprice" size = "32" min="<?php $min=50; echo $v = round(($min/3),-1);?>" max="<?php $max=50; echo round(($max/2),-1);?>" value="<?php echo $v; ?>" step="10"> </td>
 <td><span class = "error" >* <?php echo $sellpriceErr; ?></span></td>
 </tr>
 <tr><td>Select image of book to upload: </td>
