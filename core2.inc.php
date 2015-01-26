@@ -94,7 +94,6 @@ function build_query($t,$s,$a,$sort)
     }
  
  $where=array();
- $where[]="sold = '0'";
     if(!empty($wt))
     $where[]=$wt ;
 	if(!empty($ws))
@@ -103,10 +102,8 @@ function build_query($t,$s,$a,$sort)
     $where[]=$wa;
 	if(!empty($where))
 	$where_clause=implode(' and ',$where);
-	
     if(!empty($where_clause))
-    $search_query.=" where $where_clause";
-	
+    $search_query.=" where " .$where_clause;
 	switch($sort)
 	{
 	  case 1:
@@ -124,7 +121,7 @@ function build_query($t,$s,$a,$sort)
 	    break;}
 	  default:{}
     }	  
-	 
+	 echo $search_query;
 	return $search_query;
 }
   
@@ -142,11 +139,6 @@ function result($t,$s,$a,$sort,$results_per_page,$skip)
  if($tot>0){
   while ($result_set= mysql_fetch_array($st)){
 	$idd = $result_set['ID'];
-	if(!isset($_SESSION["search"][$idd])){
-		echo "hello";
-		$_SESSION["search"][$idd]['value'] = $idd;
-		$_SESSION["search"][$idd]['flag'] = true;
-	}
    $title=$result_set['Title']; 
    $subject=$result_set['Subject'];
    $author=$result_set['Author'];
@@ -174,20 +166,24 @@ function result($t,$s,$a,$sort,$results_per_page,$skip)
          <li>Author:".$author."</li>
          <li>Edition:".$edition."</li>
 		 <li>From:".$username."</li>
-		 <li>Original Price:Rs.".$oriprice."</li>		 
+		 <li>Original Price:".$oriprice."</li>
+		 
         </ul>
-      </td>
-	<td><b>Rs.".$sellprice."</b></td>
-    <td>".substr($date,0,10)."</td>
+      </td>";
+//	$min = round(($oriprice / 3),-1);
+	//$max = round(($oriprice / 2),-1);
+	echo "<td>".substr($date,0,10)."</td>";
 
-	<td><form method = 'POST' action = 'report.php'>";
-	if($_SESSION['search'][$idd]['flag']) {
-		echo "<input type = ".'submit'." name = \"reportadd[$idd]\" value = \"Report\">";
-	}
-	echo "</form></td></tr>";
+
+	//<td><form method = 'POST' action = 'report.php'>";
+	//if($_SESSION['search'][$idd]['flag']) {
+		//echo "<input type = ".'submit'." name = \"reportadd[$idd]\" value = \"Report\">";
+	//}
+	//echo "</form></td></tr>";
+
  
    }
- }
+}
  else{
    echo "<b>Sorry... No results Found!</b>";
 	 }
@@ -196,7 +192,7 @@ function result($t,$s,$a,$sort,$results_per_page,$skip)
 for($i=1; $i<=$total;$i+=1)
 	if(!empty($_GET["'add".$i."'"])) 
 	{
-	  header('Location:profile.inc.php');
+	  header('Location: index.php');
 	}
 }
 ?> 
