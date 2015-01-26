@@ -8,6 +8,7 @@ if(loggedin()) {
 	if(isset($_POST['save']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
 		$string = "";
 		foreach($_SESSION["id"] as $x){
+			$flag = $flag1 = $flag2 = $flag3 = $flag4 = $flag5 = $flag6 = $flag7 = $flag8 = $flag9 = true;
 			if (empty($_POST["title"]["$x"]) || empty($_POST["subject"]["$x"]) || empty($_POST["author"]["$x"]) || empty($_POST["origprice"]["$x"]) || empty($_POST["sellprice"]["$x"])) {
 				echo "All fields are required in postid $x";
 				$flag = false;
@@ -19,25 +20,54 @@ if(loggedin()) {
 				$e = test_input($_POST["edition"][$x]);
 				$se = test_input($_POST["sellprice"][$x]);
 				$o = test_input($_POST["origprice"][$x]);
-				// check if name only contains letters and whitespace
-				if (!preg_match("/^[a-zA-Z0-9 ]{1,75}$/",$t) || !preg_match("/^[a-zA-Z ]{2,30}$/",$s) || !preg_match("/^[a-zA-Z, ]{2,50}$/",$a) || !preg_match("/^[0-9]{1,3}$/",$e) || !preg_match("/^[0-9]{2,4}$/",$o) || !preg_match("/^[0-9]{2,4}$/",$se)) {
-					echo "Format Violation in fields of $x<br>
-					Only characters,whitespaces and digits are required in Title and length upto 75<br>
-					Only characters and whitespaces are required in Subject and length upto 30<br>
-					Only characters and whitespaces are required in Author and length upto 50<br>
-					Only digits are required in Selling Price and length upto 4<br>
-					Only digits are required in Original Price and length upto 4<br>";
-					$flag = false;
-				} else {
+				if (!preg_match("/^[a-zA-Z0-9 ]{1,75}$/",$t)){
+					echo "Only characters,whitespaces and digits are required in Title and length upto 75 in id ".$x."<br>";
+					$flag1 = false;
+				} 
+				if (!preg_match("/^[a-zA-Z ]{2,40}$/",$s)){
+					echo "Only characters and whitespaces are required in Subject and length upto 40 in id ".$x."<br>";
+					$flag2 = false;
+				} 
+				if (!preg_match("/^[a-zA-Z, ]{2,50}$/",$a)){
+					echo "Only characters and whitespaces are required in Author and length upto 50 in id ".$x."<br>";
+					$flag3 = false;
+				}
+				if (!preg_match("/^[1-9][0-9]{0,1}$/",$e)){
+					echo "Only numbers are required between 1 to 50 in edition in id ".$x."<br>";
+					$flag4 = false;
+				}
+				if (($e > 50)){
+					echo "edition of book should be less than 50 in id ".$x."<br>";
+					$flag5 = false;
+				}
+				if (!preg_match("/^[1-9][0-9]{1,3}$/",$o)){
+					echo "Only digits are required in Original Price and length upto 4 in id ".$x."	<br>";
+					$flag6 = false;
+				}
+				if (!preg_match("/^[1-9][0-9]{1,3}$/",$se)){
+					echo "Only digits are required in Selling Price and length upto 4 in id ".$x."<br>";
+					$flag7 = false;
+				}
+				if ((($o < 50) || ($o > 9999))){
+					echo "original price should be in range of 50 to 9999 in id ".$x."<br>";
+					$flag8 = false;
+				}
+				if (($se > (($o/2) + 10)) || ($se < (($o/3) - 10))) {
+					echo "Selling price should in range one third to one half of original price in id ".$x."<br>";
+					$flag9 = false;
+				}
+				if($flag && $flag1 && $flag2 && $flag3 && $flag4 && $flag5 && $flag6 && $flag7 && $flag8 && $flag9){
 					$string = "update posts set Title = '".$t."',Subject = '".$s."', Author = '".$a."', Edition = ".$e.", Original_Price = ".$o.", Selling_Price = ".$se." where ID = ".$x.";";
 					if(!mysql_query($string)) {
 						die(mysql_error());
 					}
 					unset($_SESSION["id"][$x]);
+				} else {
+					break;
 				}
 			}
 		}
-		if($flag) {
+		if($flag && $flag1 && $flag2 && $flag3 && $flag4 && $flag5 && $flag6 && $flag7 && $flag8 && $flag9) {
 			header('Location: history.php');
 		}
 	}
@@ -62,6 +92,19 @@ if(loggedin()) {
 <html>
 <head>
 <title>Edit Posts</title>
+<script type="text/javascript">
+    function updateMinMax(val,i) {
+		var a = val;
+		var min = Math.round(a / 3);
+		min = min - (min % 10);
+		var max = Math.round(a / 2);
+		max = max - (max % 10);
+		document.getElementById('sellprice'+i).min= min;
+		document.getElementById('sellprice'+i).max= max;
+		document.getElementById('sellprice'+i).value= min;
+
+	}
+</script>
 </head>
 <body>
 <h2>EDITING POSTS ADDED BY <?php echo $username; ?></h2>
@@ -93,36 +136,23 @@ while($query_row = mysql_fetch_assoc($query_run)) {
 		$photo = $query_row['Photo'];
 		echo "<tr><td align = \"center\">$i</td>
 		<td align = \"center\"><input type = \"text\" name = \"title[$i]\" value = \"$t\"></td>
-		<td align = \"center\"><select name = \"subject[$i]\">
-								<option value = \"0\""; if($s == "0") { echo "selected = selected";} echo ">Select Subject</option>
-								<option value = \"Agriculture\""; if($s == "Agriculture") { echo "selected = selected";} echo ">Agriculture</option>
-								<option value = \"Architecture\""; if($s == "Architecture") { echo "selected = selected";} echo ">Architecture</option>
-								<option value = \"Arts\""; if($s == "Arts") { echo "selected = selected";} echo ">Arts</option>
-								<option value = \"Chemistry\""; if($s == "Chemistry") { echo "selected = selected";} echo ">Chemistry</option>
-								<option value = \"Commerce\""; if($s == "Commerce") { echo "selected = selected";} echo ">Commerce</option>
-								<option value = \"Computer Science\""; if($s == "Computer Science") { echo "selected = selected";} echo ">Computer Science</option>
-								<option value = \"Physics\""; if($s == "Physics") { echo "selected = selected";}echo ">Engineering</option>
-								<option value = \"Economics\""; if($s == "Economics") { echo "selected = selected";} echo ">Economics</option>
-								<option value = \"History\""; if($s == "History") { echo "selected = selected";} echo ">History</option>
-								<option value = \"Language\""; if($s == "Language") { echo "selected = selected";} echo ">Language</option>
-								<option value = \"Law\""; if($s == "Law") { echo "selected = selected";} echo ">Law</option>
-								<option value = \"Library Science\""; if($s == "Library Science") { echo "selected = selected";} echo ">Library Science</option>
-								<option value = \"Life Sciences\""; if($s == "Life Sciences") { echo "selected = selected";} echo ">Life Sciences</option>
-								<option value = \"Literature\""; if($s == "Literature") { echo "selected = selected";} echo ">Literature</option>
-								<option value = \"Management\""; if($s == "Management") { echo "selected = selected";} echo ">Management</option>
-								<option value = \"Mathematics\""; if($s == "Mathematics") { echo "selected = selected";} echo ">Mathematics</option>
-								<option value = \"Medicine and Health\""; if($s == "Medicine and Health") { echo "selected = selected";} echo ">Medicine and Health</option>
-								<option value = \"Philosophy and Pscychology\""; if($s == "Philosophy and Pscychology") { echo "selected = selected";} echo ">Philosophy and Pscychology</option>
-								<option value = \"Physics\""; if($s == "Physics") { echo "selected = selected";} echo ">Physics</option>
-								<option value = \"Political Science\""; if($s == "Political Science") { echo "selected = selected";} echo ">Political Science</option>
-								<option value = \"Religion\""; if($s == "Religion") { echo "selected = selected";} echo ">Religion</option>
-								<option value = \"Science\""; if($s == "Science") { echo "selected = selected";} echo ">Science</option>
-								<option value = \"Social Sciences and Sociology\""; if($s == "Social Sciences and Socialogy") { echo "selected = selected";} echo ">Social Sciences and Socialogy</option>
-								</td>
+		<td align = \"center\"><select name = \"subject[$i]\">";
+		$query = "select SubjectName from subject";
+		if($queryrun = mysql_query($query)) {
+			while($result = mysql_fetch_assoc($queryrun)){
+				echo "<option value = \"".$result['SubjectName']."\"";
+				if($s == $result['SubjectName']){ echo "selected=selected"; } 
+				echo ">".$result['SubjectName']."</option>";
+			}
+		} else {
+			die(mysql_error());
+		}
+		echo "<option value = \"Other\""; if($s == "Other") { echo "selected = selected";} echo "\">Other</option>
+		</select></td>
 		<td align = \"center\"><input type = \"text\" name = \"author[$i]\" value = \"$a\"></td>
-		<td align = \"center\"><input type = \"number\" name = \"edition[$i]\" value = \"$e\"></td>
-		<td align = \"center\"><input type = \"text\" name = \"origprice[$i]\" value = \"$o\">
-		<td align = \"center\"><input type = \"text\" name = \"sellprice[$i]\" value = \"$se\">
+		<td align = \"center\"><input type = \"number\" name = \"edition[$i]\" value = \"$e\" min=\"1\" max=\"50\"></td>
+		<td align = \"center\"><input type = \"number\" id=\"origprice$i\" name = \"origprice[$i]\" value = \"$o\" min=\"50\" max=\"9999\" step=\"10\" onchange=\"updateMinMax(this.value,$i);\">
+		<td align = \"center\"><input type = \"number\" id=\"sellprice$i\" name = \"sellprice[$i]\" value = \"$se\" min=\"".round(($o/3),-1)."\" max=\"".round(($o/2),-1)."\" step=\"10\">
 		<td align = \"center\">$d</td>
 		<td align = \"center\"><img src = \"posts/$i.jpg\" style = \"width:125px;height:150px\"></td>
 		</td></tr>";

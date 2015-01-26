@@ -3,6 +3,7 @@ require_once 'core.inc.php';
 if(loggedin()) {
 	require_once 'header.php';
 	require_once 'dbconnect.inc.php';
+	unset($_SESSION['id']);
 	$idd = "";
 	$username = $_SESSION['user'];
 	
