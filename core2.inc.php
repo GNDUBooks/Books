@@ -179,19 +179,13 @@ function result($t,$s,$a,$sort,$results_per_page,$skip)
       </td>
 	<td><b>Rs.".$sellprice."</b></td>
     <td>".substr($date,0,10)."</td>
-<<<<<<< HEAD
-	<td>
-	<input type = ".'submit'." name = ".'add'.$idd." value = ".'Yes'.">
-	  </td>
-	  </tr>"; 
-=======
+
 	<td><form method = 'POST' action = 'report.php'>";
 	if($_SESSION['search'][$idd]['flag']) {
 		echo "<input type = ".'submit'." name = \"reportadd[$idd]\" value = \"Report\">";
 	}
 	echo "</form></td></tr>";
  
->>>>>>> origin/master
    }
  }
  else{
