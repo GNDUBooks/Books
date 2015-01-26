@@ -94,6 +94,7 @@ function build_query($t,$s,$a,$sort)
     }
  
  $where=array();
+ $where[]="sold = '0' and Username != '".$_SESSION['user']."' AND ID NOT IN (select BookID from buyrequest where BuyerUser = '".$_SESSION['user']."') and (";
     if(!empty($wt))
     $where[]=$wt ;
 	if(!empty($ws))
@@ -101,9 +102,9 @@ function build_query($t,$s,$a,$sort)
 	if(!empty($wa))
     $where[]=$wa;
 	if(!empty($where))
-	$where_clause=implode(' and ',$where);
+	$where_clause=implode(' ',$where);
     if(!empty($where_clause))
-    $search_query.=" where " .$where_clause;
+    $search_query.=" where $where_clause)";
 	switch($sort)
 	{
 	  case 1:
@@ -121,7 +122,7 @@ function build_query($t,$s,$a,$sort)
 	    break;}
 	  default:{}
     }	  
-	 echo $search_query;
+	 
 	return $search_query;
 }
   
@@ -166,21 +167,30 @@ function result($t,$s,$a,$sort,$results_per_page,$skip)
          <li>Author:".$author."</li>
          <li>Edition:".$edition."</li>
 		 <li>From:".$username."</li>
-		 <li>Original Price:".$oriprice."</li>
+		 <li>Original Price:Rs.".$oriprice."</li>
 		 
         </ul>
       </td>";
-//	$min = round(($oriprice / 3),-1);
-	//$max = round(($oriprice / 2),-1);
-	echo "<td>".substr($date,0,10)."</td>";
-
-
-	//<td><form method = 'POST' action = 'report.php'>";
-	//if($_SESSION['search'][$idd]['flag']) {
-		//echo "<input type = ".'submit'." name = \"reportadd[$idd]\" value = \"Report\">";
-	//}
-	//echo "</form></td></tr>";
-
+	$min = round(($oriprice / 3),-1);
+	$max = round(($oriprice / 2),-1);
+	echo "<td>Minimum : <b>Rs.".$min."</b><br>
+	Maximum : <b> Rs.".$max."</td>
+    <td>".substr($date,0,10)."</td>
+	<td>
+	<table>
+	<tr>
+	<td align=\"left\">".$min."</td>
+	<td align=\"right\">".$max."</td>
+	</tr>
+	<tr>
+	<td colspan=\"2\"><input type = \"range\" id=\"rangeInput\" name=\"offerrange\" min = ".$min." max=".$max." step = \"10\" onchange=\"updateTextInput(this.value);\"></td>
+	</tr><form method=\"POST\" action=\"sendoffer.php\">
+	<tr><td align=\"center\" colspan=\"2\"><input type=\"number\" id=\"textInput\" name=\"offer[$idd]\" min=".$min." max=".$max." value=\"".round((($min + $max) / 2),-1) ."\" step=\"10\" onchange=\"updateSliderInput(this.value)\"></td><tr>
+	<tr><td align=\"center\" colspan=\"2\"><input type=\"submit\" name=\"sendoffer[$idd]\" value=\"Send Offer\"></td></tr>
+	</form></table>
+	<td><form method = 'POST' action = 'report.php'>
+	<input type = ".'submit'." name = \"reportadd[$idd]\" value = \"Report\"></form>
+	</td></tr>";
  
    }
 }
