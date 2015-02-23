@@ -131,8 +131,7 @@ if(!empty($_GET['search']) && (!empty($_GET['title']) || !empty($_GET['subject']
       <td><b>Details</b></td>";
  
   echo gen_sortlinks($_GET['title'],$_GET['subject'],$_GET['author'],$sort);
-  echo "<td><b>Add to Cart<b></td></tr>";
-  //echo "<td align=\"center\">Offered Price</td></tr>";
+    echo "<td align=\"center\">Offered Price</td></tr>";
   $num_pages=result($_GET['title'],$_GET['subject'],$_GET['author'],$sort,$results_per_page,$skip);
   }
   
