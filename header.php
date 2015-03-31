@@ -1,9 +1,13 @@
 <head>
 <style type="text/css">
+body {
+	background-size:cover;
+	background-image: url(t.jpg);
+}
 #container {
     position: relative;
 	top:0;
-    width: 75%; height: 120%;
+    width: 80%; height: 100%;
 }
 
 #box{
@@ -24,11 +28,11 @@ background-color:rgba(255,255,255, 0.75);
 #ontainer {
     position: relative;
 	top:0;
-    width: 100%; height: 75%;
+    width: 100%; height: 120%;
 }
 
 #ox{
-background-color:rgba(255,255,255, 0.75);
+	background-color:rgba(255,255,255, 0.75);
     filter:alpha(opacity=60); /* IE */
     -moz-opacity:0.6; /* Mozilla */
     opacity: 0.6; /* CSS3 */
@@ -44,6 +48,6 @@ background-color:rgba(255,255,255, 0.75);
 }
 </style>
 </head>
-<body background = "t.png" ></body>
+<body></body>
 <center><h1><b>GURU NANAK DEV UNIVERSITY</b></h1>
 </center>

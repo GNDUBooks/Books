@@ -1,11 +1,11 @@
 <?php
 require_once 'header.php';
-$email = $pass = $otp = $username = $emailErr = $passErr = $otpErr = $usernameErr = $error = '';
-$flag1 = $flag2 = $flag3 = $flag4 = true;
+$email = $otp = $emailErr = $otpErr = $error = '';
+$flag1 = $flag2 = true;
 require_once 'core.inc.php';
-if(loggedin()){
-	header('Location: index.php');
-} else {
+//if(loggedin()){
+//	header('Location: index.php');
+//} else {
 	if(isset($_POST['submit']) && $_SERVER['REQUEST_METHOD'] == "POST"){
 		if (empty($_POST['email'])) {
 			$emailErr = "Email is required";
@@ -19,18 +19,6 @@ if(loggedin()){
 			}
 		}
 		
-		if (empty($_POST['pass'])) {
-			$passErr = "Password is required";
-			$flag2 = false;
-		} else {
-			$pass = test_input($_POST['pass']);
-			// check if password only contains letters and numbers
-			if (!preg_match("/^[a-zA-Z0-9]{6,20}$/",$pass)) {
-				$passErr = "Only letters and numbers are allowed and length between 6 and 20";
-				$flag2 = false;
-			}
-		}
-		
 		if (empty($_POST["otp"])) {
 			$otpErr = "One Time Password is required";
 			$flag3 = false;
@@ -39,106 +27,101 @@ if(loggedin()){
 			// check if password only contains letters and numbers
 			if (!preg_match("/^[0-9]{5}$/",$otp)) {
 				$otpErr = "Only numbers are allowed and upto length 5";
-				$flag3 = false;
+				$flag2 = false;
 			}
 		}
 		
 		require_once 'dbconnect.inc.php';
-		$value = array('username' => "", 'usernameErr' => "", 'flag' => true);
-		echo $_POST['username'];
-		$value = checkusername($_POST['username']);
-		$username = $value['username'];
-		$usernameErr = $value['usernameErr'];
-		$flag4 = !$value['flag'];
-				
-		if($flag1 && $flag2 && $flag3 && $flag4 && $usernameErr == 'Username already exists') {
-			require_once 'dbconnect.inc.php';
+		if($flag1 && $flag2) {
 			$otp_hash = md5($otp);
-			$pass_hash = md5($pass);
 			if($otp >= 10000 && $otp <= 50000){
-				$query = "select c.*, t.* from confirmation as c,temp as t where c.Email = '".$email."' AND c.OTP = '".$otp_hash."' AND c.Password='".$pass_hash."' AND t.username = '".$username."' AND c.OTP = t.OTP";
+				$query = "select c.*, t.* from confirmation as c,temp as t where c.Email = '".$email."' AND c.OTP = '".$otp_hash."' AND c.OTP = t.OTP";
 				if($query_run = mysql_query($query)) {
 					if(mysql_num_rows($query_run) == 1) {
 						$q_r = mysql_fetch_assoc($query_run);
-						$query1 = "insert into master (Username,Name,Email,ContactNo) values('".$username."','".$q_r['Name']."','".$email."','".$q_r['ContactNo']."')";
+						$contact = (empty($q_r['ContactNo']) ? 'NULL' : $q_r['ContactNo']);
+						$query1 = "insert into master (Username,Name,Email,ContactNo) values('".$q_r['Username']."','".$q_r['Name']."','".$email."', ".$contact.")";
 						$query2 = "insert into login values ('".$q_r['Username']."','".$q_r['Password']."')";
 						$query3 = "delete from confirmation where OTP = '".$otp_hash."'";
 						if(mysql_query($query1) && mysql_query($query2) && mysql_query($query3)){
-							header('Location: index.php');
+							header('Location: index.php#registrationcomplete');
 						} else {
-							$error = 'Error in processing your request... Try after some time';
-						}
-					}
-				} else {
-					echo 'Please enter correct information.';
-				}
-			} else if($otp > 50000 && $otp <= 99999) {
-				$pass_hash = md5($pass);
-				$otp_hash = md5($otp);
-				$query = "select Username from login where Username = '".$username."' AND Password = '".$pass_hash."'";
-				$query1 = "select Email,Password from confirmation where OTP = '".$otp_hash."' AND Password = '".$pass_hash."'";
-				if($query_run = mysql_query($query)) {
-					if($query_run1 = mysql_query($query1)) {
-						if(mysql_num_rows($query_run) == 1) {
-							if(mysql_num_rows($query_run1) == 1) {
-								$query = "update master set Email = '".$email."' where Username = '".$username."'";
-								$query1 = "delete from confirmation where OTP = '".$otp_hash."'";
-								if(mysql_query($query) && mysql_query($query1)) {
-									header('Location: index.php');
-								} else {
-									echo 'Unable to process your request';
-								}
-							} else {
-								$otpErr = 'invalid OTP for given Email';
-							}
-						} else {
-							$passErr = 'invalid username/password combination';
+							$error = 'Error in processing your request... Try again after some time';
 						}
 					} else {
-						echo 'Unable to process your request';
+						$error = 'Please enter correct OTP.';
 					}
 				} else {
-					echo 'Unable to process your request';
+					$error = 'Please enter correct information.';
+				}
+			} else if($otp > 50000 && $otp <= 99999) {
+				$otp_hash = md5($otp);
+				$query = "select Username from confirmation where OTP = '".$otp_hash."' AND Email = '".$email."'";
+				if($query_run = mysql_query($query)) {
+					if(mysql_num_rows($query_run) == 1) {
+						$query_result = mysql_fetch_assoc($query_run);
+						$username = $query_result['Username'];
+						$query = "update master set Email = '".$email."' where Username = '".$username."'";
+						$query1 = "delete from confirmation where OTP = '".$otp_hash."'";
+						if(mysql_query($query) && mysql_query($query1)) {
+							header('Location: index.php#emailchanged');
+						} else {
+							$error = 'Unable to process your request';
+						}
+					} else {
+						$otpErr = 'invalid OTP for given Email';
+					}
+				} else {
+					$error = 'Unable to process your request';
 				}
 			}
 		}
 	}	
-}
-
-
+//}
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
 <title>CONFIRMATION PAGE</title>
-</head>
-<body> 
-<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?>" method="POST">
-<table cellspacing=20 >
-<tr><td colspan=2 align="center"><h1>CONFIRMATION PAGE</h1></td></tr>
-<tr><td>EMail: </td>
-<td align = "right"><input type = "email" name="email" size = 40 value = "<?php echo $email?>" /></td>
-<td><span class = "error">* <?php echo $emailErr; ?></td>
-</tr>
-<tr>
-<td>Username: </td>
-<td><input type = "text" name = "username" value = "<?php echo $username; ?>" size = 40></td>
-<td><span class = "error">* 
-<?php
-if($usernameErr != 'Username already exists') {
-	echo $usernameErr;
+<script type="text/javascript" src="js/message.js"></script>
+<script type="text/javascript" src="js/confirm-hash.js"></script>
+<style>
+.message {
+	padding: 20px;
+	color:white;
+	background-color:black;
+	margin: 10px auto;
+	width: 50%;
+	border-radius: 5px;
+	box-shadow: 0px 0px 10px #783535;
+	display:none;
+	text-align:center;
 }
-?></span></td>
+.message.error {
+	background-color: rgba(255,0,0,0.7);
+}
+.message.success {
+	background-color: rgba(0,255,0,0.7);
+}
+</style>
+</head>
+<body>
+<form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'])?>" method="POST">
+<div id="alert-message" class="message"></div>
+<table align="center" cellpadding="10" style="background-color:rgba(255,255,255,0.75); width:40%">
+<tr><td colspan=2 align="center"><h2>CONFIRMATION PAGE</h1></td></tr>
+<tr><td>EMail: </td>
+<td align = "right" style="color:red"><input type = "email" name="email" size = 40 value = "<?php echo $email?>" /> *<br>
+<?php echo $emailErr; ?></td></tr>
+<tr><td>OTP: </td>
+<td align = "right" style="color:red"><input type = "text" name = "otp" size = 40/> *<br>
+<?php echo $otpErr; ?></td>
 </tr>
-<tr><td>Password: </td>
-<td align = "right"><input type = "password" name = "pass" size = 40 /></td>
-<td><span class = "error">* <?php echo $passErr; ?></td>
-</tr>
-<tr><td>One Time Password: </td>
-<td align = "right"><input type = "text" name = "otp" size = 40/></td>
-<td><span class = "error">* <?php echo $otpErr; ?></td>
-</tr>
+<tr><td colspan=2 style="color:red">
+<?php
+echo $error;
+?></td></tr>
 <tr><td colspan=2 align="center"><input type="submit" name="submit" value="CONFIRM" /></td></tr>
 </table>
 </form>

@@ -2,7 +2,7 @@
 require_once 'header.php';
 $error = '';
 if(isset($_POST['username']) && isset($_POST['pass'])){
-	$username = test_input($_POST['username']);
+	$username = strtolower(test_input($_POST['username']));
 	$pass = test_input($_POST['pass']);
 	
 	if(!empty($username) && !empty($pass)){
@@ -27,27 +27,48 @@ if(isset($_POST['username']) && isset($_POST['pass'])){
 <html>
 <head>
 <title>Log In</title>
+<script type="text/javascript" src="js/message.js"></script>
+<script type="text/javascript" src="js/login-hash.js"></script>
+<style>
+.message {
+	padding: 20px;
+	color:white;
+	background-color:black;
+	margin: 10px auto;
+	width: 40%;
+	border-radius: 5px;
+	box-shadow: 0px 0px 10px #783535;
+	display:none;
+	text-align:center;
+}
+.message.error {
+	background-color: rgba(255,0,0,0.7);
+}
+.message.success {
+	background-color: rgba(0,255,0,0.7);
+}
+</style>
 </head>
 <body>
 <form action = "<?php echo $current_file; ?>" method = "POST">
-<table>
+<div id="alert-message" class="message"></div>
+<table align="center" cellpadding="10" style="background-color:rgba(255,255,255,0.75); width:30%">
 <tr>
-<td colspan = 2><h1 align = "center">LOG IN</h1></td>
+<td  align = "center"><h2>LOG IN</h1></td>
+</tr>
+<td align="center"><input type = "text" name = "username" size="30" placeholder="Username"/></td>
 </tr>
 <tr>
-<td>Username</td>
-<td><input type = "text" name = "username" /></td>
+<td align="center"><input type = "password" name = "pass" size="30" placeholder="Password"/></td>
 </tr>
+<tr><td align="center" style="color:red">
+<?php echo $error; ?></td></tr>
 <tr>
-<td>Password</td>
-<td><input type = "password" name = "pass" /></td>
-</tr>
 <tr>
-<td colspan = 2 align = "center"><input type = "submit" value = "LogIn" /> / <a href = "SignUp.php">SignUp</a><br/>
+<td align = "center"><input type = "submit" value = "LogIn" /> / <a href = "SignUp.php">SignUp</a><br/>
 <a href = "recover.php">Forgot Password?</a>
 </td>
 </tr>
-<?php echo $error; ?>
 </table>
 </body>
 </form>
