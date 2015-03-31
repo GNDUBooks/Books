@@ -79,14 +79,7 @@ function gen_sortlinks($t,$s,$a,$sort)
 <head>
 <title>
 Search Books</title>
-<script type="text/javascript">
-    function updateTextInput(val) {
-      document.getElementById('textInput').value=val; 
-    }
-	function updateSliderInput(val) {
-		document.getElementById('rangeInput').value=val;
-	}
-</script>
+
 </head>
 <body>
 <p align="left">
@@ -103,7 +96,7 @@ Search Books</title>
 <td><b>Title:</td><td><input type="text" name="title"></b></td>
 <td><b>Subject:</td>
 <td><select name = "subject">
-<option value = "0" <?php if($subject == "0") { echo "selected = selected";}?>>Select Subject</option>
+<option value = "0" <?php if($subject == "0") { echo "selected = selected";}?>>Subject</option>
 <?php
 $query = "select SubjectName from subject";
 if($queryrun = mysql_query($query)) {
@@ -134,11 +127,11 @@ if(!empty($_GET['search']) && (!empty($_GET['title']) || !empty($_GET['subject']
 <div id='text'>";
   echo "<table cellpadding=10>";
   echo "<tr>
-	  <td align=\"center\"><b>Book</b></td>
-      <td align=\"center\"><b>Details</b></td>";
+	  <td ><b>Book</b></td>
+      <td><b>Details</b></td>";
  
   echo gen_sortlinks($_GET['title'],$_GET['subject'],$_GET['author'],$sort);
-  echo "<td align=\"center\">Offered Price</td></tr>";
+    echo "<td align=\"center\">Offered Price</td></tr>";
   $num_pages=result($_GET['title'],$_GET['subject'],$_GET['author'],$sort,$results_per_page,$skip);
   }
   

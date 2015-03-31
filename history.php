@@ -7,6 +7,46 @@ if(loggedin()) {
 	$idd = "";
 	$username = $_SESSION['user'];
 	
+	
+	$num_pages=0;
+    $results_per_page=3;
+    $cur_page = isset($_POST['page']) ? $_POST['page'] : 1;
+    $_POST['page']=$cur_page;
+    $skip = (($cur_page - 1) * $results_per_page);
+	
+	function generate_page_links($cur_page, $num_pages) {
+   
+   $page_links = '';
+
+   
+    if ($cur_page > 1) {
+      $page_links .= '<a href="' . $_SERVER['PHP_SELF'] . '?page=' . ($cur_page - 1).' "><b><-</b></a>';
+    }
+    else {
+      $page_links .= '<- ';
+    }
+
+       for ($i = 1; $i <= $num_pages; $i++) {
+      if ($cur_page == $i) {
+        $page_links .= ' ' . $i;
+      }
+      else {
+        $page_links .= ' <a href="' . $_SERVER['PHP_SELF'] .  '?page=' . $i . '"> <b>' . $i . '</b></a>';
+      }
+    }
+
+   
+    if ($cur_page < $num_pages) {
+      $page_links .= ' <a href="' . $_SERVER['PHP_SELF'] . '?page=' . ($cur_page + 1).'" ><b>-></b></a>';
+    }
+    else {
+      $page_links .= ' ->';
+    }
+
+    return $page_links;
+  }
+	
+	
 	if((isset($_POST['sold']) || isset($_POST['delete'])) && $_SERVER['REQUEST_METHOD'] == 'POST') {
 		if(isset($_POST["check_list"])) {
 			$string = "";
@@ -44,6 +84,8 @@ if(loggedin()) {
 } else {
 	header('Location: index.php');
 }
+
+
 ?>
 
 <!DOCTYPE html>
@@ -55,7 +97,7 @@ if(loggedin()) {
 
 <h2>HISTORY OF POSTS ADDED BY <?php echo $username; ?></h2>
 No. of books posted by <?php echo $username;?> =  <?php echo $count;?>
-<form method = "POST" action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+<form method = "POST" action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>?page=<?php echo $_POST['page']; ?>">
 <table border = '1' style = 'width:100%'>
 <tr>
 <th>ID</th>
@@ -70,8 +112,17 @@ No. of books posted by <?php echo $username;?> =  <?php echo $count;?>
 <th>Status(sold/unsold)</th>
 </tr>
 <?php
-if($count != 0) {
-	while($query_row = mysql_fetch_assoc($query_run)) {
+
+
+$num_pages=ceil($count/$results_per_page);
+$query="select * from posts where Username='".$username."' limit ".$skip.', ' . $results_per_page;
+echo $query;
+ $st=mysql_query($query);
+ $tot=mysql_num_rows($st);
+echo $tot;
+if($tot>0)
+ {
+	while($query_row = mysql_fetch_assoc($st)) {
 		$id = $query_row['ID'];
 		$title = $query_row['Title'];
 		$subject = $query_row['Subject'];
@@ -106,6 +157,7 @@ if($count != 0) {
 	<input type = \"submit\" name = \"delete\" value = \"Delete Selected\">
 	<input type = \"submit\" name = \"edit\" value = \"Edit Selected\">";
 }
+echo generate_page_links($_POST['page'],$num_pages);
 ?>
 
 </form>
