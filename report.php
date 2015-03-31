@@ -10,7 +10,8 @@ if(isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])){
 		if($query_run = mysql_query($query)){
 			if(mysql_result($query_run,0,'no') < 5){
 				$query1 = "insert into report (BookId,Username) values ('".$x."','".$_SESSION['user']."')";
-				if(mysql_query($query1)) {
+				$query2 = "update posts set NoReport = NoReport + 1 where ID = '".$x."'";
+				if(mysql_query($query1) && mysql_query($query2)) {
 					$to = "agndubooks@gmail.com";
 					$subject = "report add $x";
 					$message = "Add $x is reported by ".$_SESSION['user'];
@@ -18,19 +19,19 @@ if(isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])){
 					   'Reply-To: agndubooks@gmail.com' . "\r\n" .
 					   'X-Mailer: PHP/' . phpversion();
 					if(mail($to, $subject, $message, $headers)){
-						header('Location: '.$http_referer);
+						header('Location: '.$http_referer.'#reported');
 					} else {
-						while(!mysql_query("delete from report where BookId = '".$x."'")){}
-						die('Unable to send report');
+						while(!mysql_query("delete from report where BookId = '".$x."'") && !mysql_query("update posts set NoRepor = NoReport - 1 where ID = '".$x."'")){}
+						header('Location: '.$http_referer.'#notreported');
 					}
 				} else {
-					echo "This post has already been reported";
+					header('Location: '.$http_referer.'#alreadyreported');
 				}
 			} else {
-				echo "Your limit of reporting 5 posts has been reached";
+				header('Location: '.$http_referer.'#reportlimitreached');
 			}
 		} else {
-			echo "Unable to process your request";
+			header('Location: '.$http_referer.'#dbproblem');
 		}
 	}
 } else {

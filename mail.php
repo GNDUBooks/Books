@@ -9,15 +9,12 @@ $headers = 'From: GNDUBooks <agndubooks@gmail.com>' . "\r\n" .
 
 if(mail($to, $subject, $message, $headers)) {
 	$redirect_page = "confirm.php";
-	header('Location: '.$redirect_page);
+	header('Location: '.$redirect_page.'#temporaryaccountcreated');
 } else {
 	$query = "delete from confirmation where OTP = '".$otp_hash."'";
-	$flag = true;
-	while($flag){
-		if(mysql_query($query)){	
-			$flag = false;
-			die('Failure: Verification Mail was not sent to your email address as there may be some problem!!!!');
-		}
+	if(mysql_query($query)){	
+		$flag = false;
+		header('Location: index.php#temporaryaccountnotcreated');
 	}
 }
 ?>

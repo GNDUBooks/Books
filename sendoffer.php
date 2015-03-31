@@ -19,31 +19,31 @@ if(isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])){
 							$to = mysql_result($query_run2,0,'Email');
 							$price = mysql_result($query_run2,0,'Selling_Price');
 							$title = mysql_result($query_run2,0,'Title');
-							echo $subject = "Offer for ".$title." book";
-							echo $message = $_SESSION['user']." wants to buy your book named ".$title." posted against id ".$x.
+							$subject = "Offer for ".$title." book";
+							$message = $_SESSION['user']." wants to buy your book named ".$title." posted against id ".$x.
 							" for Rs. ".$_POST["offer"][$x]." which you wanted to sell at Rs. ".$price.
 							". You can further contact buyer through mail. Email of buyer is ".$email.".";
-							echo $headers = 'From: GNDUBooks <agndubooks@gmail.com>' . '\r\n' .
+							$headers = 'From: GNDUBooks <agndubooks@gmail.com>' . '\r\n' .
 							   'Reply-To:  agndubooks@gmail.com'. '\r\n' .
 							   'X-Mailer: PHP/' . phpversion();
 							if(mail($to, $subject, $message, $headers)){
-								header('Location: '.$http_referer);
+								header('Location: '.$http_referer.'#sent');
 							} else {
-								while(!mysql_query("delete from buyrequest where BookId = '".$x."'")){}
-								die('Unable to send offer');
+								mysql_query("delete from buyrequest where BookId = '".$x."'");
+								header('Location: '.$http_referer.'#notsent');
 							}
 						}
 					} else {
-						echo "Unable to process your request";
+						header('Location: '.$http_referer.'#dbproblem');
 					}
 				} else {
-					echo "You have already sent offer for this add.";
+					header('Location: '.$http_referer.'#alreadysent');
 				}
 			} else {
-				echo "Your limit of sending 5 offers per day has been reached";
+				header('Location: '.$http_referer.'#offerlimitreached');
 			}
 		} else {
-			echo "Unable to process your request";
+			header('Location: '.$http_referer.'#dbproblem');
 		}
 	}
 } else {
