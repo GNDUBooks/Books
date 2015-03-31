@@ -63,7 +63,7 @@ function checkusername($username) {
 			$value['flag'] = false;
 		} else {
 			$query = "select Username from master where Username = '".$value['username']."'";
-			$query1 = "select Username from confirmation where Username = '".$value['username']."'";
+			$query1 = "select Username from temp where Username = '".$value['username']."'";
 			if($query_run = mysql_query($query)) {
 				if($query_run1 = mysql_query($query1)) {
 					if(mysql_num_rows($query_run) != 0 || mysql_num_rows($query_run1) != 0) {

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>AD POST</title>
+<title>ADD POST</title>
 <script type="text/javascript">
     function updateMinMax(val) {
 		var a = val;
@@ -22,7 +22,8 @@ if(loggedin()) {
 	require_once 'header.php';
 	$bookname = $author = $subject = $image = "";
 	$edition = 1;
-	//$sellprice = 50;
+	$sellprice = 50;
+	$origprice = 50;
 	$booknameErr = $authorErr = $subjectErr = $editionErr = $sellpriceErr = $origpriceErr = $imageErr = "";
 	$flag1 = $flag2 = $flag3 = $flag4 = $flag5 = $flag6 = true;
 	require_once 'dbconnect.inc.php';
@@ -109,14 +110,14 @@ if(loggedin()) {
 						$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 
 						// Check if image file is a actual image or fake image
-					/*	$check = getimagesize($_FILES["image"]["tmp_name"]);
+						$check = getimagesize($_FILES["image"]["tmp_name"]);
 						if($check !== false) {
 							$imageErr = "File is an image - " . $check["mime"];
 							$uploadOk = 1;
 						} else {
 							$imageErr = "File is not an image.";
 							$uploadOk = 0;
-						}*/
+						}
 						
 						// Check if file already exists
 						/*if (file_exists($target_file)) {
@@ -125,11 +126,11 @@ if(loggedin()) {
 						}*/
 						
 						// Check file size
-						/*if ($_FILES["image"]["size"] > 524288) {
+						if ($_FILES["image"]["size"] > 524288) {
 							$imageErr = "Sorry, your file is too large.";
 							$uploadOk = 0;
-						}*/
-						
+						}
+
 						// Allow certain file formats
 						if(!($imageFileType != "jpg" || $imageFileType != "png" || $imageFileType != "jpeg" || $imageFileType != "gif" )) {
 							$imageErr = "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
@@ -142,29 +143,25 @@ if(loggedin()) {
 							$query1 = "select max(id)+1 as id from posts"; 
 							if($query_run = mysql_query($query1)){
 								echo $id = mysql_result($query_run,0,'id');
-								$query = "insert into posts (ID,Title,Subject,Author,Edition,Original_Price,Selling_Price,Username) values (".$id.",'".$bookname."','".$subject."','".$author."','".$edition."',".$origprice.",".$sellprice.",'".$_SESSION['user']."')";
+								$query = "insert into posts (ID,Title,Subject,Author,Edition,Original_Price,Selling_Price,Photo,Username) values (".$id.",'".$bookname."','".$subject."','".$author."','".$edition."',".$origprice.",".$sellprice.",0,'".$_SESSION['user']."')";
 								if($query_run = mysql_query($query)) {
-									require_once 'upload.inc.php';
-									$source_img = $_FILES['image']['tmp_name'];
-									$destination_img = 'posts/'.$id.'.jpg';
-
-									$d = compress($source_img, $destination_img, 50);
-									
-									header('Location: index.php'.'#adposted');
+									if (move_uploaded_file($_FILES["image"]["tmp_name"], 'posts/'.$id.'.jpg')) {
+										mysql_query("update posts set Photo = 1 where ID = '".$id."'");
+										header('Location: index.php');
+									} else {
+										echo 'Photo cannot be saved. But your book has been added to our database';
+									}
 								} else {
-									echo mysql_error();
+									echo 'not posted';
 								}
 							} else {
-								header('Location: index.php'.'#notposted');
+								echo 'Unable to post your ad.';
 							}
 						}
 					} else {
 						$imageErr = 'No photo selected';
 					}
 				}
-			} else {
-				$origprice = 50;
-				$sellprice = 20;
 			}
 		} else {
 			echo "Your today's limit of posting 5 adds is over";
@@ -178,30 +175,25 @@ if(loggedin()) {
 }
 ?>
 <form input = "name" method = "post" action= "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype = "multipart/form-data" >
-<table align="center" cellpadding=10 style="background-color:rgba(255,255,255,0.75); width:40%">
+<table>
 <tr>
-<td colspan = 2 align = "center"><h2>POST AD</h2></td>
+<td colspan = 2><h1 align = "center">ADD POST</h1></td>
 </tr>
 <tr>
 <td>BOOK NAME : </td>
-<td align="center" style="color:red;"><input type = "text" name = "bookname" value = "<?php echo $bookname; ?>" size=32><br>
-<?php echo $booknameErr; ?></td>
-</tr>
-<tr>
-<td>AUTHOR NAME : </td>
-<td align="center" style="color:red"><input type = "text" name = "author" value = "<?php echo $author; ?>" size=32><br>
-<?php echo $authorErr; ?></td>
+<td><input type = "text" name = "bookname" value = "<?php echo $bookname; ?>" size = "32"></td>
+<td><span class = "error" >* <?php echo $booknameErr; ?> </span></td>
 </tr>
 <tr>
 <td>SUBJECT : </td>
-<td align="center" style="color:red"><select name = "subject">
+<td><select name = "subject">
 <option value = "0" <?php if($subject == "0") { echo "selected = selected";}?> >Select Subject</option>
 <?php
-$query = "select SubjectName from subject where SubjectName!='Other'";
+$query = "select SubjectName from subject";
 if($queryrun = mysql_query($query)) {
 	while($result = mysql_fetch_assoc($queryrun)){
 		echo "<option value = \"".$result['SubjectName']."\"";
-		if($subject == $result['SubjectName']){ echo "selected=selected"; }
+		if($subject == $result['SubjectName']){ echo "selected=selected"; } 
 		echo ">".$result['SubjectName']."</option>";
 	}
 } else {
@@ -209,27 +201,32 @@ if($queryrun = mysql_query($query)) {
 }
 ?>
 <option value = "Other" <?php if($subject == "Other") { echo "selected = selected";}?> >Other</option>
-</select><br>
-<?php echo $subjectErr; ?></td>
+</select></td>
+<td><span class ="error" >* <?php echo $subjectErr; ?> </span></td>
+</tr>
+<tr>
+<td>AUTHOR NAME : </td>
+<td><input type = "text" name = "author" value = "<?php echo $author; ?>" size = "32"></td>
+<td><span class = "error" >* <?php echo $authorErr; ?></span></td>
 </tr>
 <tr>
 <td>EDITION : </td>
-<td align="center" style="color:red"><input type = "number" name = "edition" value = "<?php echo $edition; ?>" min="1" max="50" size=32><br>
-<?php echo $editionErr; ?></td>
+<td><input type = "number" name = "edition" value = "<?php echo $edition; ?>" min="1" max="50" size = "32"></td>
+<td><span class = "error" >* <?php echo $editionErr; ?></span></td>
 </tr>
 <tr>
 <td>ORIGINAL PRICE : </td>
-<td align="center" style="color:red"><input type = "number" id="origprice" name = "origprice" value = "<?php echo $origprice; ?>" size = "32" min="50" max="9999" step="10" onchange="updateMinMax(this.value);"><br>
-<?php echo $origpriceErr; ?></td>
+<td><input type = "number" id="origprice" name = "origprice" value = "<?php echo $origprice; ?>" size = "32" min="50" max="9999" step="10" onchange="updateMinMax(this.value);"></td>
+<td><span class = "error" >* <?php echo $origpriceErr; ?></span></td>
 </tr>
 <tr>
 <td>SELLING PRICE : </td>
-<td align="center" style="color:red"><input type = "number" id="sellprice" name = "sellprice" size = "32" min="<?php $min=50; echo $v = round(($min/3),-1);?>" max="<?php $max=50; echo round(($max/2),-1);?>" value="<?php echo $sellprice; ?>" step="10"><br>
-<?php echo $sellpriceErr; ?></td>
+<td><input type = "number" id="sellprice" name = "sellprice" size = "32" min="<?php $min=50; echo $v = round(($min/3),-1);?>" max="<?php $max=50; echo round(($max/2),-1);?>" value="<?php echo $v; ?>" step="10"> </td>
+<td><span class = "error" >* <?php echo $sellpriceErr; ?></span></td>
 </tr>
-<tr><td>Image : </td>
-<td align="center" style="color:red"><input type = "file" name = "image" id = "fileToUpload"><br>
-<?php echo $imageErr;?></td>
+<tr><td>Select image of book to upload: </td>
+<td><input type = "file" name = "image" id = "fileToUpload"></td>
+<td><span class = "error">* <?php echo $imageErr;?></span></td>
 </tr>
 <tr>
 <td colspan = 2 align = "center">

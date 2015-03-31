@@ -1,8 +1,7 @@
 <?php
 $email = $username = '';
-$msg = $usernamemsg = $emailmsg = '';
+$usernamemsg = $emailmsg = ''; 
 $flag1 = $flag2 = true;
-$redirect_page = "index.php";
 require_once 'core.inc.php';
 require_once 'dbconnect.inc.php';
 require_once 'header.php';
@@ -35,21 +34,23 @@ if(loggedin()){
 						$headers = 'From: GNDUBooks <agndubooks@gndu.ac.in>' . "\r\n" .
 								   'X-Mailer: PHP/' . phpversion();
 						if(mail($to,$subject,$message,$headers)){
-							header('Location: '.$redirect_page.'#passchanged');
+							$redirect_page = "index.php";
+							header('Location: '.$redirect_page);
 						} else {
-							header('Location: '.$redirect_page.'#mailnotsent');
+							die('Failure: Password Recovery mail was not sent to your email address as there may be some problem!!!!');
 						}
 					} else {
-						header('Location: '.$redirect_page.'#recoverErr');
+						echo 'Unable to process your request';
 					}
 				} else {
-					$msg = 'Invalid Email/Username combination';
+					echo 'Invalid Email/Username combination';
 				}
 			} else {
-				header('Location: '.$redirect_page.'#recoverErr');
+				echo 'Unable to process your request';
 			}
 		} else {
-			$msg = 'Invalid Email/Username combination';
+			$emailmsg = 'Username/Email doesn\'t match';
+			$usernamemsg = '';
 		}
 	}
 }
@@ -62,17 +63,19 @@ if(loggedin()){
 </head>
 <body>
 <form method = "POST" action = "<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-<table align="center" cellpadding="10" style="background-color:rgba(255,255,255,0.75); width:30%">
+<table>
 <tr>
-<td align="center"><h2>RECOVER PASSWORD</h1></td>
+<td colspan = 2 align = "center"><h1>RECOVER PASSWORD</h1></td>
 </tr>
 <tr>
-<td align="center"><input type = "text" name = "username" size="30" value = "<?php echo $username; ?>" placeholder="Username"></td>
+<td>Username: </td><td><input type = "text" name = "username" value = "<?php echo $username; ?>"></td>
+<td><span class = "error">* <?php echo $usernamemsg; ?></span></td>
 </tr>
 <tr>
-<td align="center"><input type = "email" name = "email" size="30" value = "<?php echo $email; ?>" placeholder="Email"></td>
+<td>Email: </td><td><input type = "email" name = "email" value = "<?php echo $email; ?>"></td>
+<td><span class = "error">* <?php echo $emailmsg; ?></span></td>
 </tr>
-<tr><td align="center" style="color:red"><?php echo $msg; ?></td></tr>
+<tr>
 <td colspan = 2 align = "center">
 <input type = "submit" name = "submit" value = "Send new password to email" />
 </td>

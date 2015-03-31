@@ -15,7 +15,7 @@ if(loggedin()){
 		$value = array('username' => "",'usernameErr' => "",'flag' => true);
 
 		$value = checkusername($_POST['username']);
-		$username = strtolower($value['username']);
+		$username = $value['username'];
 		$usernameErr = $value['usernameErr'];
 		$flag = $value['flag'];
 		
@@ -70,9 +70,8 @@ if(loggedin()){
 				}
 			}
 			$pass_hash = md5($pass);
-			$contact1 = empty($contact) ? 'NULL' : $contact;
-			$query1 = "insert into confirmation values ('$otp_hash','$email','$username')";
-			$query2 = "insert into temp values ('$pass_hash','$name','$email',$contact1,'$otp_hash')";
+			$query1 = "insert into confirmation values ('$otp_hash','$email','$pass_hash')";
+			$query2 = "insert into temp values ('$username','$name','$email','$contact','$otp_hash')";
 			if($query_run1 = mysql_query($query1) && $query_run2 = mysql_query($query2)){
 				require_once 'mail.php';
 			} else {
@@ -90,42 +89,42 @@ Sign Up
 </head>
 <body>
 <form method = "POST" action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-<table align="center" cellpadding="10" cellspacing="10" style="background-color:rgba(255,255,255,0.75); width:50%">
+<table>
 <tr>
-<td colspan=2><h2 align = "center">SignUp</h1></td>
+<td colspan = 2><h1 align = "center">SignUp</h1></td>
 </tr>
 <tr>
 <td>Username</td>
-<td align="center" style="color:red"><input type = "text" name = "username" size="35" value = "<?php echo $username;?>" />
-*<br/> <?php echo $usernameErr;?></td>
+<td><input type = "text" name = "username" value = "<?php echo $username;?>" /></td>
+<td><span class="error">* <?php echo $usernameErr;?></span></td>
 </tr>
 <tr>
 <td>Name</td>
-<td align="center" style="color:red"><input type = "text" name = "name" size="35" value = "<?php echo $name;?>" />
-*<br/><?php echo $nameErr;?></td>
+<td><input type = "text" name = "name" value = "<?php echo $name;?>" /></td>
+<td><span class="error">* <?php echo $nameErr;?></span></td>
 </tr>
 <tr>
 <td>Password</td>
-<td align="center" style="color:red"><input type = "password" name = "pass" size="35" value = "<?php echo $pass;?>"/>
-*<br/><?php echo $passErr;?></td>
+<td><input type = "password" name = "pass" value = "<?php echo $pass;?>"/></td>
+<td><span class="error">* <?php echo $passErr;?></span></td>
 </tr>
 <tr>
 <td>Confirm Password</td>
-<td align="center" style="color:red"><input type = "password" name = "cpass" size="35" value = "<?php echo $cpass;?>"/>
-*<br/><?php echo $cpassErr;?></td>
+<td><input type = "password" name = "cpass" value = "<?php echo $cpass;?>"/></td>
+<td><span class="error">* <?php echo $cpassErr;?></span></td>
 </tr>
 <tr>
 <td>Email</td>
-<td align="center" style="color:red"><input type = "email" name = "email" size="35" value = "<?php echo $email;?>"/>
-*<br/><?php echo $emailErr;?></td>
+<td><input type = "email" name = "email" value = "<?php echo $email;?>"/></td>
+<td><span class="error">* <?php echo $emailErr;?></span></td>
 </tr>
 <tr>
 <td>Contact No</td>
-<td align="center" style="color:red"><input type = "text" name = "contact" size="35"value = "<?php echo $contact;?>"/><br>
-<?php echo $contactErr;?></td>
+<td><input type = "text" name = "contact" value = "<?php echo $contact;?>"/></td>
+<td><span class="error"><?php echo $contactErr;?></span></td>
 </tr>
 <tr>
-<td colspan = 3 align = "center"><input type = "submit" name = "submit" value = "Register" />/ <a href = "index.php">Already Member?</a></td>
+<td colspan = 2 align = "center"><input type = "submit" name = "submit" value = "Register" />/ <a href = "index.php">Already Member?</a></td>
 </tr>
 </table>
 </form>
