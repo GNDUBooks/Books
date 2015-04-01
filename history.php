@@ -153,14 +153,14 @@ if($rec_count != 0) {
 		echo "<a href=\"?page=".$next."\">Next</a> |";
 	}
 
-	echo "";
+	echo "<input type = \"submit\" name = \"sold\" value = \"Marked have been Sold\">
+	<input type = \"submit\" name = \"delete\" value = \"Delete Selected\">
+	<input type = \"submit\" name = \"edit\" value = \"Edit Selected\">
+	</td></tr>
+	</table>
+	</form>";
 }
 ?>
-<input type = "submit" name = "sold" value = "Marked have been Sold">
-<input type = "submit" name = "delete" value = "Delete Selected">
-<input type = "submit" name = "edit" value = "Edit Selected">
-</td></tr>
-</table>
-</form>
+
 </body>
 </html>

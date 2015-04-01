@@ -2,9 +2,9 @@
 require_once 'core.inc.php';
 $to      = $email;
 $subject = 'Verification Mail';
-$message = 'One time password for verification of your account is '.$otp;
-$headers = 'From: GNDUBooks <agndubooks@gmail.com>' . "\r\n" .
-           'Reply-To: agndubooks@gmail.com' . "\r\n" .
+$message = 'One time password for verification of your account is '.$otp.'. To verify your account, submit this OTP here: http://'.$_SERVER['SERVER_ADDR'].'/confirm.php';
+$headers = 'From: GNDUBooks <localserver@tss-gndu.com>' . "\r\n" .
+           'Reply-To: localserver@tss-gndu.com' . "\r\n" .
            'X-Mailer: PHP/' . phpversion();
 
 if(mail($to, $subject, $message, $headers)) {

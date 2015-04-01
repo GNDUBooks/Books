@@ -1,7 +1,7 @@
 <?php
 $mysql_host = 'localhost';
-$mysql_user = 'root';
-$mysql_pass = 'baskin';
+$mysql_user = 'books';
+$mysql_pass = 'access0288splendor';
 
 $mysql_db = 'books';
 

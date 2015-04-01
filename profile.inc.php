@@ -86,7 +86,7 @@ if(loggedin()){
 <tr>
 <td align = "center"><a href = "search.php">Search</a></td>
 <td align = "center"><a href = "postadd.php">Post Ads</a></td>
-<td align = "center"><a href = "history.php?page=1">History</a></td></tr>
+<td align = "center"><a href = "history.php">History</a></td></tr>
 <tr>
 <td align = "center"><a href = "editprofile.php">Edit Profile</a></td>
 <td align = "center"><a href = "changemail.php">Change Email</a></td>
