@@ -1,5 +1,5 @@
 <?php
-require_once 'header.php';
+require_once '../header.php';
 session_start();
 if(isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])){
 	$http_referer = $_SERVER['HTTP_REFERER'];
@@ -35,6 +35,6 @@ if(isset($_SERVER['HTTP_REFERER']) && !empty($_SERVER['HTTP_REFERER'])){
 		}
 	}
 } else {
-	header("Location: index.php");
+	header("Location: ../index.php");
 }
 ?>

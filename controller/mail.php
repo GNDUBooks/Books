@@ -8,13 +8,13 @@ $headers = 'From: GNDUBooks <localserver@tss-gndu.com>' . "\r\n" .
            'X-Mailer: PHP/' . phpversion();
 
 if(mail($to, $subject, $message, $headers)) {
-	$redirect_page = "confirm.php";
+	$redirect_page = "../confirm.php";
 	header('Location: '.$redirect_page.'#temporaryaccountcreated');
 } else {
 	$query = "delete from confirmation where OTP = '".$otp_hash."'";
 	if(mysql_query($query)){	
 		$flag = false;
-		header('Location: index.php#temporaryaccountnotcreated');
+		header('Location: ../index.php#temporaryaccountnotcreated');
 	}
 }
 ?>

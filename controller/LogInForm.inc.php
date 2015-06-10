@@ -1,7 +1,7 @@
 <?php
 //require_once 'header.php';
-require_once '../core.inc.php';
-require_once '../dbconnect.inc.php';
+require_once 'core.inc.php';
+require_once 'dbconnect.inc.php';
 $error = '';
 if(isset($_POST['username']) && isset($_POST['pass'])){
 	$username = strtolower(test_input($_POST['username']));
@@ -19,7 +19,7 @@ if(isset($_POST['username']) && isset($_POST['pass'])){
 			} else if($query_num_rows == 1) {
 				$user = mysql_result($query_run,0,'Username');
 				$_SESSION['user'] = $user;
-				header('Location: index.php');
+				header('Location: ../index.php');
 			}
 		}	
 	} else {

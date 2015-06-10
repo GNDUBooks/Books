@@ -1,66 +1,3 @@
-<?php
-require_once 'core.inc.php';
-if(loggedin()) {
-	require_once 'header.php';
-	require_once 'dbconnect.inc.php';
-	unset($_SESSION['id']);
-	$idd = "";
-	$username = $_SESSION['user'];
-	$rec_limit = 5;
-	$offset = 0;
-	
-	if((isset($_POST['sold']) || isset($_POST['delete'])) && $_SERVER['REQUEST_METHOD'] == 'POST') {
-		if(isset($_POST["check_list"])) {
-			$string = "";
-			foreach($_POST["check_list"] as $x) {
-				$string = $string.$x." OR ID = ";
-			}
-			$string = substr($string, 0, strlen($string) - 9);
-			if(isset($_POST['sold'])) {
-				$query = "update posts set sold = 1 where ID = $string";
-			} else if(isset($_POST['delete'])) {
-				foreach($_POST["check_list"] as $x) {
-					unlink('posts/'.$x.'.jpg');
-				}
-				$query = "delete from posts where ID = $string";
-			}
-			if(!mysql_query($query)) {
-				header('Location: '.$_SERVER['PHP_SELF'].'#failure');
-			} else {
-				header('Location: '.$_SERVER['PHP_SELF'].'#success');
-			}
-		}
-	}
-	
-	if(isset($_POST['edit']) && $_SERVER['REQUEST_METHOD'] == 'POST') {
-		if(isset($_POST["check_list"])) {
-			foreach($_POST["check_list"] as $x) {
-				$_SESSION["id"][$x] = $x;
-				header('Location: editposts.php');
-			}
-		}
-	}
-	
-	$query_run = getuserdata('*','posts','Username',$username);
-	if($query_run != 0) {
-		$rec_count = mysql_num_rows($query_run);
-	} else {
-		echo 'Unable to process your request';
-	}
-	
-	if(isset($_GET['page'])) {
-		$page = $_GET['page'];
-		$offset = ($page - 1) * $rec_limit;
-	} else {
-		$page = 1;
-		$offset = 0;
-	}
-	$left_rec = $rec_count - ($page * $rec_limit);
-} else {
-	header('Location: index.php');
-}
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,14 +24,37 @@ if(loggedin()) {
 }
 </style>
 </head>
-<body>
+<?php
+require_once "header.php";
+require_once "controller/core.inc.php";
+require_once "controller/dbconnect.inc.php";
+$username = $_SESSION['user'];
+	
+	$rec_limit = 5;
+	$offset = 0;
+	$query_run = getuserdata('*','posts','Username',$username);
+	if($query_run != 0) {
+		$rec_count = mysql_num_rows($query_run);
+	} else {
+		echo 'Unable to process your request';
+	}
+	
+	if(isset($_GET['page'])) {
+		$page = $_GET['page'];
+		$offset = ($page - 1) * $rec_limit;
+	} else {
+		$page = 1;
+		$offset = 0;
+	}
+	$left_rec = $rec_count - ($page * $rec_limit);
+?>
 <h2 align="center">HISTORY OF POSTS ADDED BY <?php echo $username; ?></h2>
 <div id="alert-message" class="message"></div>
 No. of books posted by <?php echo $username;?> =  <?php echo $rec_count;?>
 <a style="float:right" href = "index.php"><i> Go to your profile</i> </center></a>
 <?php
 if($rec_count != 0) {
-	echo "<form method = \"POST\" action = \"" . htmlspecialchars($_SERVER["PHP_SELF"]) . "?>\">
+	echo "<form method = \"POST\" action = \"controller/history.php\">
 	<table align=\"center\" style='width:80%;background-color:rgba(255, 255, 255, 0.75);' cellpadding=\"10\">
 	<tr>
 	<th>ID</th>
@@ -154,13 +114,12 @@ if($rec_count != 0) {
 	}
 
 	echo "<input type = \"submit\" name = \"sold\" value = \"Marked have been Sold\">
-	<input type = \"submit\" name = \"delete\" value = \"Delete Selected\">
-	<input type = \"submit\" name = \"edit\" value = \"Edit Selected\">
-	</td></tr>
-	</table>
-	</form>";
+		<input type = \"submit\" name = \"delete\" value = \"Delete Selected\">
+		<input type = \"submit\" name = \"edit\" value = \"Edit Selected\">";
 }
 ?>
-
+</td></tr>
+</table>
+</form>
 </body>
 </html>

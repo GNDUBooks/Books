@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 31, 2015 at 09:45 PM
+-- Generation Time: May 21, 2015 at 09:50 AM
 -- Server version: 5.6.11
 -- PHP Version: 5.5.1
 
@@ -48,8 +48,7 @@ CREATE TABLE IF NOT EXISTS `confirmation` (
   `Email` varchar(40) DEFAULT NULL,
   `Username` varchar(30) NOT NULL,
   PRIMARY KEY (`OTP`),
-  UNIQUE KEY `Username` (`Username`),
-  UNIQUE KEY `Email` (`Email`)
+  UNIQUE KEY `Username` (`Username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -63,6 +62,14 @@ CREATE TABLE IF NOT EXISTS `login` (
   `Password` varchar(32) NOT NULL,
   UNIQUE KEY `Username` (`Username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `login`
+--
+
+INSERT INTO `login` (`Username`, `Password`) VALUES
+('sahib12', 'e90c6647830e603b4e761311d05238db'),
+('harman', 'e90c6647830e603b4e761311d05238db');
 
 -- --------------------------------------------------------
 
@@ -82,6 +89,14 @@ CREATE TABLE IF NOT EXISTS `master` (
   UNIQUE KEY `u_EMail` (`Email`),
   UNIQUE KEY `u_ContactNo` (`ContactNo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `master`
+--
+
+INSERT INTO `master` (`Username`, `Name`, `Email`, `ContactNo`, `Qualification`, `Profession`, `Link_Photo`) VALUES
+('harman', 'Harmandeep', 'jsbhalla52@gmail.com', 9888518454, 'BTech123', 'engineer', 1),
+('sahib12', 'Sahibpreet Singh', 'sahibpreetsingh94@gmail.com', 9888518432, 'BTech123', 'Engineer', 1);
 
 -- --------------------------------------------------------
 
@@ -111,7 +126,15 @@ CREATE TABLE IF NOT EXISTS `posts` (
 --
 
 INSERT INTO `posts` (`ID`, `Title`, `Subject`, `Author`, `Edition`, `Original_Price`, `Selling_Price`, `Username`, `dateofpost`, `sold`, `NoReport`) VALUES
-(0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2015-01-05 07:32:57', 0, 0);
+(0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2015-01-05 07:32:57', 0, 0),
+(1, 'Computer Architecture', 'Computer Science', 'Morris Mano', '4', 360, 120, 'sahib12', '2015-05-15 15:54:49', 0, 0),
+(2, 'Computer Architecture', 'Computer Science', 'Morris Mano', '6', 90, 30, 'sahib12', '2015-05-15 15:55:46', 0, 0),
+(3, 'Computer Architecture', 'Computer Science', 'Morris Mano', '6', 110, 30, 'sahib12', '2015-05-17 04:22:30', 0, 1),
+(4, 'koi v', 'Computer Science', 'asd', '5', 310, 100, 'sahib12', '2015-05-15 15:56:25', 0, 0),
+(6, 'cskacd', 'Computer Science', 'sad', '5', 500, 200, 'sahib12', '2015-05-15 15:57:55', 0, 0),
+(7, 'cskacd', 'Computer Science', 'sad', '5', 500, 200, 'sahib12', '2015-05-15 15:58:24', 0, 0),
+(9, 'cskacd', 'Computer Science', 'sad', '5', 500, 200, 'sahib12', '2015-05-15 15:58:24', 0, 0),
+(10, 'cskacd', 'Computer Science', 'sad', '5', 500, 200, 'sahib12', '2015-05-15 15:58:24', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -126,6 +149,13 @@ CREATE TABLE IF NOT EXISTS `report` (
   PRIMARY KEY (`BookId`,`Username`),
   KEY `Username` (`Username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `report`
+--
+
+INSERT INTO `report` (`BookId`, `Username`, `DateOfReport`) VALUES
+(3, 'harman', '2015-05-17 04:22:30');
 
 -- --------------------------------------------------------
 
@@ -177,13 +207,10 @@ INSERT INTO `subject` (`SubjectName`) VALUES
 CREATE TABLE IF NOT EXISTS `temp` (
   `Password` varchar(32) NOT NULL,
   `Name` varchar(30) NOT NULL,
-  `Email` varchar(40) NOT NULL,
   `ContactNo` bigint(12) DEFAULT NULL,
   `OTP` varchar(32) DEFAULT NULL,
-  UNIQUE KEY `Email_2` (`Email`),
   UNIQUE KEY `ContactNo` (`ContactNo`),
-  UNIQUE KEY `OTP` (`OTP`),
-  KEY `Email` (`Email`)
+  UNIQUE KEY `OTP` (`OTP`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -216,12 +243,6 @@ ALTER TABLE `posts`
 ALTER TABLE `report`
   ADD CONSTRAINT `report_ibfk_1` FOREIGN KEY (`BookId`) REFERENCES `posts` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `report_ibfk_2` FOREIGN KEY (`Username`) REFERENCES `master` (`Username`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `temp`
---
-ALTER TABLE `temp`
-  ADD CONSTRAINT `fk_Email` FOREIGN KEY (`Email`) REFERENCES `confirmation` (`Email`) ON DELETE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

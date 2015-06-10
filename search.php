@@ -1,6 +1,6 @@
 <?php
 include ('header.php');
-require_once('dbconnect.inc.php');
+require_once('controller/dbconnect.inc.php');
 require_once ('core2.inc.php');
 $sort=1;
 if(!empty($_GET['sort']))
@@ -74,7 +74,7 @@ function gen_sortlinks($t,$s,$a,$sort)
 
 ?>
 
-<!DOCTYPE>
+<!DOCTYPE html>
 <html>
 <head>
 <title>

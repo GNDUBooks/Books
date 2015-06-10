@@ -1,10 +1,9 @@
 <?php
-require_once 'core.inc.php';
+require_once 'controller/core.inc.php';
 nocaching();
 if(loggedin()){
 	unset($_SESSION["search"]);
-    require_once 'header.php';
-	require_once 'dbconnect.inc.php';
+	require_once 'controller/dbconnect.inc.php';
 	$photoErr = '';
 	$query_result = mysql_fetch_assoc(getuserdata('*','master','Username',$_SESSION['user']));
 	$name = $query_result['Name'];
@@ -49,7 +48,10 @@ if(loggedin()){
 }
 </style>
 </head>
-<body><center>
+<?php
+require_once 'header.php';
+?>
+<center>
 <div id="alert-message" class="message"></div>
 <table cellpadding =20 style="background-color:rgba(255,255,255,0.75); width:55%">
 
@@ -91,7 +93,7 @@ if(loggedin()){
 <td align = "center"><a href = "editprofile.php">Edit Profile</a></td>
 <td align = "center"><a href = "changemail.php">Change Email</a></td>
 <td align = "center"><a href = "changepass.php">Change Password</a></td></tr>
-<tr><td></td><td align = "center"><a href = "logout.php">Log out</a></td></tr>
+<tr><td></td><td align = "center"><a href = "controller/logout.php">Log out</a></td></tr>
 </table>
 </center>
 </body>

@@ -163,7 +163,7 @@ function result($t,$s,$a,$sort,$results_per_page,$skip) {
 				</tr>";
 				if($_SESSION['user'] != $username) {
 				//	echo "<form method=\"POST\" action=\"sendoffer.php\">
-					echo "<form action=\"sendoffer.php\" method=\"POST\" onsubmit=\"return confirm('Do you want to send this offer?');\">
+					echo "<form action=\"controller/sendoffer.php\" method=\"POST\" onsubmit=\"return confirm('Do you want to send this offer?');\">
 					<tr>
 						<td align=\"center\" colspan=\"2\"><input type=\"number\" id=\"textInput".$idd."\" name=\"offer[$idd]\" min=".$min." max=".$max." value=\"".round((($min + $max) / 2),-1) ."\" step=\"10\" onchange=\"updateSliderInput(this.value,$idd)\" >
 						</td>
@@ -182,7 +182,7 @@ function result($t,$s,$a,$sort,$results_per_page,$skip) {
 			echo "</table>
 			<td>";
 			if($_SESSION['user'] != $username) {
-				echo "<form method = 'POST' action = 'report.php' onsubmit=\"return confirm('If reported advertisement is genuine then your account may be suspended. Are you sure you want to report advertisement?');\">
+				echo "<form method = 'POST' action = 'controller/report.php' onsubmit=\"return confirm('If reported advertisement is genuine then your account may be suspended. Are you sure you want to report advertisement?');\">
 				<button type = ".'submit'." name = \"reportadd[$idd]\" "; 
 				if(!$reported) {
 					echo ">Report";

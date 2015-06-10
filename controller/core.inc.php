@@ -140,7 +140,7 @@ function checkemail($email){
 			$value3['flag'] = false;
 		} else {
 			$query = "select Email from master where Email = '".$value3['email']."'";
-			$query1 = "select Email from temp where Email = '".$value3['email']."'";
+			$query1 = "select Email from confirmation where Email = '".$value3['email']."'";
 			if($query_run = mysql_query($query)) {
 				if($query_run1 = mysql_query($query1)) {
 					if(mysql_num_rows($query_run) != 0 || mysql_num_rows($query_run1) != 0){
